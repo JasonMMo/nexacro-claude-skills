@@ -1,0 +1,54 @@
+{
+  "config_version": "1.0",
+  "description": "nexacro-build skill 설정 파일. 최초 실행 시 사용자 입력을 받아 저장합니다.",
+  "fields": [
+    {
+      "key": "nexacrodeploy_exe",
+      "label": "nexacrodeploy.exe 경로",
+      "question": "nexacrodeploy.exe 파일의 전체 경로를 입력해 주세요.",
+      "default": "C:\\Program Files\\TOBESOFT\\Nexacro N\\Tools\\nexacrodeploy.exe",
+      "required": true,
+      "hint": "Nexacro Studio 설치 시 함께 설치됩니다. 기본 설치 경로를 확인하세요."
+    },
+    {
+      "key": "project_xprj",
+      "label": "프로젝트 .xprj 파일 경로",
+      "question": "빌드할 프로젝트의 .xprj 파일 전체 경로를 입력해 주세요.",
+      "default": "C:\\dev\\MyProject\\src\\main\\nxui\\packageN\\packageN.xprj",
+      "required": true,
+      "hint": "Nexacro Studio 프로젝트 루트에 위치한 .xprj 파일입니다."
+    },
+    {
+      "key": "output_path",
+      "label": "Generate 출력 경로 (-O)",
+      "question": "Generate된 .xjs 파일이 저장될 출력 경로를 입력해 주세요.",
+      "default": "C:\\dev\\MyProject\\src\\main\\resources\\static\\packageN\\",
+      "required": true,
+      "hint": "Spring 프로젝트의 resources/static 하위 경로를 주로 사용합니다."
+    },
+    {
+      "key": "baselib_path",
+      "label": "nexacrolib 경로 (-B)",
+      "question": "nexacrolib(라이브러리) 폴더 경로를 입력해 주세요.",
+      "default": "C:\\dev\\MyProject\\src\\main\\nxui\\packageN\\nexacrolib",
+      "required": true,
+      "hint": "프로젝트 내 nexacrolib 폴더 경로입니다."
+    },
+    {
+      "key": "generaterule_path",
+      "label": "Generate Rule 경로 (-GENERATERULE)",
+      "question": "Generate Rule 파일이 있는 폴더 경로를 입력해 주세요.",
+      "default": "C:\\Program Files\\TOBESOFT\\Nexacro N\\SDK\\24.0.0\\generate",
+      "required": true,
+      "hint": "Nexacro SDK 설치 경로 하위 generate 폴더입니다. 버전 번호(24.0.0)는 설치된 버전에 맞게 확인하세요."
+    },
+    {
+      "key": "deploy_path",
+      "label": "Deploy 경로 (-D, 선택)",
+      "question": "Generate 후 바로 배포할 경로를 입력해 주세요. Generate만 수행한다면 엔터를 눌러 건너뛰세요.",
+      "default": "",
+      "required": false,
+      "hint": "지정 시 output_path와 반드시 달라야 합니다. 생략하면 Generate만 수행합니다."
+    }
+  ]
+}
