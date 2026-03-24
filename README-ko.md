@@ -2,12 +2,22 @@
 
 이 저장소는 넥사크로 플랫폼 개발을 위해 특별히 제작된 Claude Code 스킬들을 포함하고 있습니다.
 
-## 📦 플러그인 마켓플레이스
+## 📦 설치 방법
 
-이 플러그인은 Claude Code 플러그인 마켓플레이스에서 사용 가능합니다. 다음 명령으로 설치할 수 있습니다:
-
+### 방법 1: 레포 전체를 플러그인으로 등록
 ```bash
-claude plugin install nexacro-claude-skills
+/plugin marketplace add JasonMMo/nexacro-claude-skills
+```
+
+### 방법 2: 특정 스킬만 설치
+```bash
+/plugin install nexacro-build@JasonMMo/nexacro-claude-skills
+```
+
+### 방법 3: 직접 Clone 방식
+```bash
+git clone https://github.com/JasonMMo/nexacro-claude-skills.git
+cp -r nexacro-claude-skills/skills/nexacro-build ~/.claude/skills/
 ```
 
 ### 요구사항
@@ -16,23 +26,6 @@ claude plugin install nexacro-claude-skills
 - **Claude Code**: >= 1.0.0
 - **넥사크로 플랫폼**: 시스템에 설치
 - **Java 런타임**: Java 기반 배포 시 필요 (선택 사항)
-
-### 설치 방법
-
-1. **마켓플레이스에서 설치**:
-   ```bash
-   claude plugin install nexacro-claude-skills
-   ```
-
-2. **수동 설치**:
-   ```bash
-   npm install -g nexacro-claude-skills
-   ```
-
-3. **설치 확인**:
-   ```bash
-   claude plugin list | grep nexacro-claude-skills
-   ```
 
 ## 📁 프로젝트 구조
 
@@ -62,7 +55,7 @@ nexacro-claude-skills/
 
 ## 🚀 빠른 시작
 
-1. 위 명령으로 플러그인 설치
+1. 위 설치 방법 중 하나를 선택
 2. 자연어 명령 사용:
    - "nexacro 빌드해줘"
    - "xfdl 파일 generate 해줘"
