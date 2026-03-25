@@ -1,0 +1,29 @@
+# Ignore common build and cache directories
+node_modules/
+.git/
+dist/
+build/
+coverage/
+.nyc_output/
+.claude/
+.env/
+.env.local
+.env.production
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*.swo
+
+# Ignore editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+desktop.ini
