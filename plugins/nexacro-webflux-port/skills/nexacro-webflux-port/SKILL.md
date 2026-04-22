@@ -158,4 +158,4 @@ cd tobe/webflux-example && ../mvnw spring-boot:run
 
 - `nexacro-build` — xfdl → xjs 빌드 (샘플 앱 프론트 검증 시 병용).
 - `nexacro-data-format` — XML / SSV / JSON 통신 포맷 레퍼런스 (E2E 테스트 payload 작성 시 병용).
-- `nexacro-xfdl-author` — 샘플 xfdl 작성 (E2E 검증용 신규 페이지 필요 시).
+- `nexacro-form-maker` — 샘플 xfdl 폼 작성 (E2E 검증용 신규 페이지 필요 시).
