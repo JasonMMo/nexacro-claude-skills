@@ -90,6 +90,15 @@ nexacro-claude-skills/
   - Handles Korean and English commands
   - Automated build and deployment workflows
 
+### nexacro-webflux-port
+- **Description**: End-to-end playbook for porting Spring Boot / Spring MVC Nexacro modules (xapi / xeni / uiadapter) to Spring WebFlux
+- **Triggers**: webflux 전환, reactive 로 바꿔, 서블릿 제거, nexacro webflux, xapi 포팅, xeni 포팅, uiadapter 포팅, HttpServletRequest 제거
+- **Features**:
+  - Phase-by-phase checklist (module skeleton → xapi → uiadapter → xeni → sample app)
+  - 8 reference docs covering classpath shim, ServletProvider, multipart by type, paramOf equivalence, WebFilter content-type bypass, ResultHandler ordering, stub shim with LIMITATION, base-path and static resources
+  - `jdeps | grep jakarta.servlet` = 0 CI gate pattern
+  - Traps and regressions table (multipart 500 error, ReadOnlyHttpHeaders.set, filenamelist null, POI NoClassDefFoundError, base-path 404)
+
 ## 🔧 Configuration
 
 The plugin automatically detects your environment:
