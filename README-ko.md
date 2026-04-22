@@ -57,8 +57,8 @@ nexacro-claude-skills/
 │   │   └── skills/
 │   │       ├── nexacro-build/          # xfdl 빌드/배포 자동화
 │   │       ├── nexacro-data-format/    # XML / SSV / JSON 레퍼런스
-│   │       ├── nexacro-project-init/   # 프로젝트 스캐폴드 생성기
-│   │       └── nexacro-xfdl-author/    # xfdl 폼 작성 헬퍼
+│   │       ├── nexacro-project-maker/  # 프로젝트 스캐폴드 생성기
+│   │       └── nexacro-form-maker/     # xfdl 폼 작성 헬퍼
 │   └── nexacro-webflux-port/         # 플러그인 ② WebFlux 포팅 플레이북
 │       ├── .claude-plugin/
 │       │   └── plugin.json
@@ -92,9 +92,9 @@ nexacro-claude-skills/
   - SSV 구분자 레퍼런스 (`▼` 레코드 · `•` 필드 · `:` 메타 · `,` 나열)
   - 포맷 선택 가이드 (전송 효율 vs 디버깅 편의 트레이드오프)
 
-#### nexacro-project-init
+#### nexacro-project-maker
 - **설명**: 빈 디렉터리에 Nexacro N v24 flat-layout 프로젝트를 스캐폴드 (`.xprj` / `.xadl` / `typedefinition.xml` / `environment.xml` / `appvariables.xml` / `bootstrap.xml` / `Base/main.xfdl`)
-- **트리거**: nexacro 프로젝트 생성, xprj 만들어, nexacro 스캐폴드, nexacro init, nexacro project scaffold
+- **트리거**: nexacro 프로젝트 만들어, nexacro 프로젝트 생성, xprj 만들어, nexacro 스캐폴드, nexacro project maker, nexacro project scaffold
 - **기능**:
   - 7개 파일 파라미터화 스켈레톤 (`{{PROJECT_NAME}}`, `{{APPLICATION_ID}}`, `{{FORM_PREFIX}}`, `{{THEME_ID}}`)
   - 핵심 13 컴포넌트가 `typedefinition.xml` 에 선등록
@@ -102,9 +102,9 @@ nexacro-claude-skills/
   - 서비스 prefix 레퍼런스 (`Base::`, `imagerc::`, `theme::`, `xcssrc::`, `font::`, 업무 prefix)
   - 라이선스 / 테마 자산 / `nexacrolib` 은 **의도적 제외** (사용자 배치 책임)
 
-#### nexacro-xfdl-author
+#### nexacro-form-maker
 - **설명**: Nexacro N v24 `.xfdl` 폼을 블록 조립 방식으로 작성 (Form 골격 + 43종 컴포넌트 + Dataset/BindItem 바인딩 패턴)
-- **트리거**: xfdl 만들어, nexacro 폼 작성, Grid 블록 만들어줘, Dataset 바인딩, nexacro component, xfdl form authoring
+- **트리거**: nexacro 폼 만들어, xfdl 만들어, nexacro form maker, Grid 블록 만들어줘, Dataset 바인딩, nexacro component, xfdl form authoring
 - **기능**:
   - 재사용 가능한 `assets/form-skeleton.xfdl`
   - **43개 컴포넌트 레퍼런스** — 코어 13 (자주 쓰임) + 확장 30 (틈새/특수)
