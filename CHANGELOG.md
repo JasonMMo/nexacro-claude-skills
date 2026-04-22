@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-04-22
+
+### Added
+- `nexacro-project-init` skill (nexacro-claude-skills 번들)
+  - SKILL.md — 7-파일 스캐폴드 플로우, 파라미터 수집 / 치환 / 검증 단계
+  - `assets/skeleton/` — `{{PROJECT_NAME}}.xprj`, `{{PROJECT_NAME}}.xadl`, `typedefinition.xml`, `environment.xml`, `appvariables.xml`, `bootstrap.xml`, `Base/main.xfdl` 파라미터화 템플릿
+  - `references/xprj-spec.md` — `.xprj` 엔트리 엘리먼트 레퍼런스
+  - `references/xadl-spec.md` — Application / MainFrame / ChildFrame 속성 + 다국어 screenid
+  - `references/typedefinition-spec.md` — Modules / Components / Services 3-섹션 구조
+  - `references/service-prefixes.md` — `Base::` / `imagerc::` / `theme::` 등 prefix 매핑 규칙
+- `nexacro-xfdl-author` skill (nexacro-claude-skills 번들)
+  - SKILL.md — Form 골격 + 13종 코어 컴포넌트 + Dataset 바인딩 플로우
+  - `assets/form-skeleton.xfdl` — 재사용 가능한 빈 Form 템플릿
+  - `references/form-structure.md` — `<Form>` / `<Layouts>` / `<Objects>` / `<Script>` 4-섹션 상세
+  - `references/binding-patterns.md` — BindItem / innerdataset / binddataset 3-패턴 비교
+  - `references/components/*.md` — 13개 컴포넌트 블록 (button, edit, maskedit, textarea, combo, radio, checkbox, calendar, datefield, static, div, grid, dataset)
+- README.md / README-ko.md 에 2개 신규 skill 섹션 추가 (planned → available)
+
+### Changed
+- `nexacro-claude-skills` plugin.json: version 1.0.0 → 1.4.0, description / keywords 확장
+
 ## [1.3.0] - 2026-04-22
 
 ### Added
