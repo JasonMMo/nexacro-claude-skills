@@ -1,0 +1,21 @@
+{
+  "name": "nexacro-webflux-port",
+  "version": "1.0.0",
+  "description": "Spring Boot / Spring MVC 기반 Nexacro 모듈(xapi / xeni / uiadapter)을 Spring WebFlux 로 포팅하는 전체 플레이북. Covers classpath shim, ServletProvider, multipart dispatch, paramOf equivalence, WebFilter bypass, ResultHandler ordering, stub shim limitations, base-path and static resource mapping.",
+  "author": {
+    "name": "JasonMMo",
+    "url": "https://github.com/JasonMMo"
+  },
+  "homepage": "https://github.com/JasonMMo/nexacro-claude-skills",
+  "repository": "https://github.com/JasonMMo/nexacro-claude-skills",
+  "license": "MIT",
+  "keywords": [
+    "nexacro",
+    "spring-webflux",
+    "spring-boot",
+    "reactive",
+    "migration",
+    "jakarta-servlet",
+    "porting"
+  ]
+}
