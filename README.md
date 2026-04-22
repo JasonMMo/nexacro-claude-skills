@@ -1,110 +1,106 @@
 # Nexacro Claude Skills
 
-This repository contains Claude Code skills specifically designed for Nexacro platform development.
+This repository is a **Claude Code plugin marketplace** that distributes skills for Nexacro platform development.
 
-## 📦 설치 방법
+It currently publishes **two plugins**:
 
-### 방법 1: 레포 전체를 플러그인으로 등록
+| Plugin | Purpose |
+|---|---|
+| `nexacro-claude-skills` | General-purpose Nexacro utility bundle (xfdl build/deploy, data format reference, xfdl authoring) |
+| `nexacro-webflux-port` | Standalone playbook for porting Spring Boot/MVC Nexacro modules to Spring WebFlux |
+
+## 📦 Installation
+
+### 1. Register the marketplace once
 ```bash
 /plugin marketplace add JasonMMo/nexacro-claude-skills
 ```
 
-### 방법 2: 특정 스킬만 설치
+### 2. Install the plugin(s) you need
 ```bash
-/plugin install nexacro-build@JasonMMo/nexacro-claude-skills
+# general-purpose utilities (build + data-format + xfdl-author)
+/plugin install nexacro-claude-skills@nexacro-claude-skills
+
+# Spring WebFlux porting playbook
+/plugin install nexacro-webflux-port@nexacro-claude-skills
 ```
 
-### 방법 3: 직접 Clone 방식
+> The syntax is `<plugin-name>@<marketplace-name>`. Both the marketplace and its general-purpose plugin share the name `nexacro-claude-skills`.
+
+### 3. Verify
+```bash
+/plugin list
+```
+
+### Manual installation (clone)
 ```bash
 git clone https://github.com/JasonMMo/nexacro-claude-skills.git
-cp -r nexacro-claude-skills/skills/nexacro-build ~/.claude/skills/
+# Copy the plugin of your choice into Claude Code's plugin directory
+cp -r nexacro-claude-skills/plugins/nexacro-webflux-port ~/.claude/plugins/
 ```
 
-### 요구사항
-
-- **Node.js**: >= 16.0.0
-- **Claude Code**: >= 1.0.0
-- **Nexacro Platform**: 시스템에 설치
-- **Java Runtime**: Java 기반 배포 시 필요 (선택 사항)
-
-### Installation
-
-1. **Install from Marketplace**:
-   ```bash
-   claude plugin install nexacro-claude-skills
-   ```
-
-2. **Manual Installation**:
-   ```bash
-   npm install -g nexacro-claude-skills
-   ```
-
-3. **Verify Installation**:
-   ```bash
-   claude plugin list | grep nexacro-claude-skills
-   ```
+### Requirements
+- **Claude Code**: >= 2.0
+- **Nexacro Platform**: installed on the developer machine (for `nexacro-build`)
+- **Java Runtime**: required if using Java-based Nexacro Deploy (optional)
 
 ## 📁 Project Structure
 
 ```
 nexacro-claude-skills/
-├── .claude/                # Plugin configuration
-│   └── plugin.json        # Plugin manifest for marketplace
-├── .github/                 # GitHub workflow configuration
-│   └── workflows/
-│       └── publish.yml     # Automated publishing workflow
-├── skills/                 # Existing skills directory
-│   └── nexacro-build/     # Main skill implementation
-├── docs/                   # Documentation
-│   ├── skills/             # Individual skill documentation
-│   └── API.md              # API reference
-├── examples/               # Usage examples
-│   ├── basic-usage/        # Basic skill usage examples
-│   └── advanced/           # Advanced use cases
-├── tests/                  # Test files
-│   └── skills/             # Skill tests
-├── package.json            # Project dependencies
-├── .npmrc                  # npm configuration
-├── .gitignore              # Git ignore rules
-├── CHANGELOG.md            # Version history
-└── CONTRIBUTING.md         # Contribution guidelines
+├── .claude-plugin/
+│   └── marketplace.json              # marketplace catalog (2 plugins)
+├── plugins/
+│   ├── nexacro-claude-skills/        # plugin ①: utility bundle
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   └── skills/
+│   │       ├── nexacro-build/        # xfdl build/deploy automation
+│   │       ├── nexacro-data-format/  # XML / SSV / JSON reference  (planned)
+│   │       └── nexacro-xfdl-author/  # xfdl authoring helper       (planned)
+│   └── nexacro-webflux-port/         # plugin ②: WebFlux porting playbook
+│       ├── .claude-plugin/
+│       │   └── plugin.json
+│       └── skills/
+│           └── nexacro-webflux-port/
+│               ├── SKILL.md
+│               └── references/       # 8 detailed reference docs
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+└── README.md
 ```
-
-## 🚀 Quick Start
-
-1. Choose one of the installation methods above
-2. Use natural language commands:
-   - "nexacro 빌드해줘"
-   - "xfdl 파일 generate 해줘"
-   - "nexacrodeploy 실행해줘"
-3. Run tests: `npm test`
-4. Publish: `npm publish`
 
 ## 📋 Available Skills
 
-### nexacro-build
+### Plugin ① — `nexacro-claude-skills`
+
+#### nexacro-build
 - **Description**: Automates Nexacro XFDL source build and deployment operations
 - **Triggers**: nexacro 빌드, xfdl 빌드, nexacrodeploy 실행, generate 해줘, deploy 해줘, 넥사크로 빌드
 - **Features**:
-  - Supports both nexacrodeploy.exe and Java-based deployments
+  - Supports both `nexacrodeploy.exe` (Windows) and Java-based Deploy (`start.bat`/`start.sh`)
   - Handles Korean and English commands
-  - Automated build and deployment workflows
+  - Persists `build-config.json` across sessions for zero-friction rebuilds
 
-### nexacro-webflux-port
+> `nexacro-data-format` and `nexacro-xfdl-author` skills are planned and will be added to this plugin as separate commits.
+
+### Plugin ② — `nexacro-webflux-port`
+
+#### nexacro-webflux-port
 - **Description**: End-to-end playbook for porting Spring Boot / Spring MVC Nexacro modules (xapi / xeni / uiadapter) to Spring WebFlux
 - **Triggers**: webflux 전환, reactive 로 바꿔, 서블릿 제거, nexacro webflux, xapi 포팅, xeni 포팅, uiadapter 포팅, HttpServletRequest 제거
 - **Features**:
   - Phase-by-phase checklist (module skeleton → xapi → uiadapter → xeni → sample app)
-  - 8 reference docs covering classpath shim, ServletProvider, multipart by type, paramOf equivalence, WebFilter content-type bypass, ResultHandler ordering, stub shim with LIMITATION, base-path and static resources
+  - 8 reference docs: classpath shim, ServletProvider, multipart by type, paramOf equivalence, WebFilter content-type bypass, ResultHandler ordering, stub shim with LIMITATION, base-path and static resources
   - `jdeps | grep jakarta.servlet` = 0 CI gate pattern
-  - Traps and regressions table (multipart 500 error, ReadOnlyHttpHeaders.set, filenamelist null, POI NoClassDefFoundError, base-path 404)
+  - Traps and regressions table (multipart 500, ReadOnlyHttpHeaders.set, filenamelist null, POI NoClassDefFoundError, base-path 404)
 
-## 🔧 Configuration
+## 🔧 Runtime Detection
 
-The plugin automatically detects your environment:
-- **Windows**: Uses nexacrodeploy.exe
-- **Linux/macOS**: Uses Java-based Nexacro Deploy
-- **Language**: Supports both Korean and English commands
+The `nexacro-build` skill auto-adapts to your environment:
+- **Windows** → uses `nexacrodeploy.exe`
+- **Linux / macOS** → uses Java-based Nexacro Deploy
+- **Language** → Korean and English commands both work
 
 ## 🤝 Contributing
 
@@ -112,4 +108,4 @@ Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for contribution guidelines.
 
 ## 📄 License
 
-MIT License - see LICENSE file for details
+MIT License — see [LICENSE](./LICENSE).
