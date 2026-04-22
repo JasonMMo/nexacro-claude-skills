@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-04-22
+
+### Added
+- `nexacro-data-format` skill (nexacro-claude-skills 번들에 추가)
+  - SKILL.md — XML/SSV/JSON 포맷 개요, `_RowType_` (`N`/`I`/`U`/`D`/`O`) 공통 의미 표, 포맷 선택 가이드
+  - `references/xml-format.md` — 전체 샘플 + 엘리먼트/타입/`_RowType_` 속성 레퍼런스
+  - `references/ssv-format.md` — 구분자(`▼`/`•`/`:`/`,`) 해설 + Dataset 2개 샘플 + 파싱 주의점
+  - `references/json-format.md` — 필드 레퍼런스 + trailing 콤마 이슈 + WebFlux 파싱 팁
+- README.md / README-ko.md 에 `nexacro-data-format` 섹션 추가 (planned → available)
+
 ## [1.2.0] - 2026-04-22
 
 ### Changed
