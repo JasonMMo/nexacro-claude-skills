@@ -81,12 +81,19 @@ description: Nexacro N v24 프로젝트 스캐폴드 생성기. 빈 디렉터리
 
 | 제외 항목 | 이유 |
 |---|---|
-| `_resource_/_theme_/<THEME_ID>/` 실제 테마 파일 | 라이선스 · 용량 문제. Nexacro SDK 설치본에서 복사해야 함 |
+| `_resource_/_theme_/<THEME_ID>/` 실제 테마 파일 | 라이선스 · 용량 문제. Nexacro SDK 설치본 또는 [공식 공개 샘플 저장소](https://github.com/TOBESOFT-DOCS/sample_Nexacro_N_V24) 의 `_resource_/` 디렉터리를 복사해서 사용 |
+| `_resource_/_images_` / `_resource_/_xcss_` / `_resource_/_font_` / `_resource_/_stringrc_` | 위와 동일. 공개 샘플 저장소의 동일 경로에서 필요한 자산만 선택 복사 |
 | `NexacroN_client_license.xml` | 고객사별 라이선스 파일. 배치는 사용자 책임 |
 | `nexacrolib/` 프레임워크 JS | v24 flat 레이아웃은 SDK 가 런타임에 주입 |
 | `*.xfont` 사용자 폰트 | 프로젝트별 결정 |
 | `macros.xml` | 초기엔 불필요. 매크로 추가 시 `nexacro-xfdl-author` 참조 |
 | 다국어 Screen (`Screen_ja` / `Screen_zh`) | 단일 desktop 로케일만 셋업. 다국어는 environment.xml 수동 추가 |
+
+### 공식 공개 샘플 프로젝트 (테마/리소스 소스)
+
+- **GitHub**: https://github.com/TOBESOFT-DOCS/sample_Nexacro_N_V24
+- 위 저장소의 `_resource_/_theme_/`, `_resource_/_images_/`, `_resource_/_xcss_/`, `_resource_/_font_/` 를 그대로 가져와 본 스캐폴드의 동일 경로에 배치하면 Studio 실행이 바로 가능.
+- 테마 ID 를 기본값 `default` 외 다른 값 (`blue`, `blue_ja`, `blue_zh` 등) 으로 바꾼 경우엔 해당 테마 폴더만 선택 복사.
 
 ## 자주 묻는 레퍼런스
 
@@ -103,3 +110,11 @@ description: Nexacro N v24 프로젝트 스캐폴드 생성기. 빈 디렉터리
 | xfdl → xjs 빌드/배포 | `nexacro-build` skill |
 | 서버 통신 포맷 (XML/SSV/JSON) | `nexacro-data-format` skill |
 | Spring WebFlux 백엔드 포팅 | `nexacro-webflux-port` plugin |
+
+## 외부 공식 참고자료
+
+| 자료 | URL |
+|---|---|
+| 공개 샘플 프로젝트 (테마/리소스 소스) | https://github.com/TOBESOFT-DOCS/sample_Nexacro_N_V24 |
+| Nexacro N v24 온라인 도움말 | https://docs.tobesoft.com/nexacro_n_v24_ko |
+| 컴포넌트 활용 워크북 (Developer Guide) | https://docs.tobesoft.com/developer_guide_nexacro_n_v24_ko |
