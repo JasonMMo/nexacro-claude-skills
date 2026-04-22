@@ -83,5 +83,11 @@ ehthumbs.db
 Thumbs.db
 
 # Claude Code specific
-.claude/
+# Ignore everything under .claude/ EXCEPT plugin.json (marketplace manifest must be committed)
+.claude/*
+!.claude/plugin.json
 memory/
+
+# Obsidian vault / transient editor files
+.obsidian/
+.tmp.*
