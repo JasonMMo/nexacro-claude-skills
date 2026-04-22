@@ -1,6 +1,6 @@
 {
   "name": "nexacro-claude-skills",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Nexacro utility skill bundle — xfdl build/deploy automation, data format references (XML/SSV/JSON), project scaffolding, and xfdl authoring helpers.",
   "author": {
     "name": "JasonMMo",
