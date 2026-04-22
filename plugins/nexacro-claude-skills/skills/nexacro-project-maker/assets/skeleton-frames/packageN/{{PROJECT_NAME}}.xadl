@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ADL version="2.0">
+  <Application id="{{APPLICATION_ID}}" screenid="Screen_D" onload="Application_onload" onerror="Application_onerror" version="21.0.0.102">
+    <Layout>
+      <MainFrame id="mainframe" showtitlebar="true" showstatusbar="false" width="1280" height="984" titletext="{{PROJECT_TITLE}}" showtitleicon="false" showcascadetitletext="false">
+        <VFrameSet id="VFrameSet" separatesize="44,0,*,0" showcascadetitletext="true">
+          <Frames>
+            <ChildFrame id="frameTop" showtitlebar="false" showstatusbar="false" formurl="frame::frameTop.xfdl" showtitleicon="false" dragmovetype="none"/>
+            <ChildFrame id="frameLogin" formurl="" showtitlebar="false" showtitleicon="false" dragmovetype="none"/>
+            <HFrameSet id="HFrameSet" separatesize="240,*">
+              <Frames>
+                <ChildFrame id="frameLeft" showtitlebar="false" showstatusbar="false" formurl="frame::frameLeft.xfdl" dragmovetype="none"/>
+                <VFrameSet id="VFrameSet1" separatesize="32,*,0">
+                  <Frames>
+                    <ChildFrame id="frameNavi" showtitlebar="false" showtitleicon="false" dragmovetype="none" formurl="frame::frameMDI.xfdl"/>
+                    <FrameSet id="framesetWork" showtitlebar="false" showtitleicon="false">
+                      <Frames/>
+                    </FrameSet>
+                    <ChildFrame id="frameMain" formurl="frame::frameMain.xfdl" showtitlebar="false"/>
+                  </Frames>
+                </VFrameSet>
+              </Frames>
+            </HFrameSet>
+            <ChildFrame id="frameBottom" showtitlebar="false" showstatusbar="false" formurl="frame::frameBottom.xfdl" showtitleicon="false" dragmovetype="none"/>
+          </Frames>
+        </VFrameSet>
+      </MainFrame>
+    </Layout>
+  </Application>
+  <Script type="xscript5.1"><![CDATA[/**
+*  {{PROJECT_NAME}} Application Script (packageN-style MDI frame)
+*  - nexacron packageN sample 기반 프레임 트리
+*  - frameTop / frameLogin / frameLeft / frameMDI / frameMain / frameBottom
+************************************************************************************************/
+
+/************************************************************************************************
+ * application 변수 선언 영역
+************************************************************************************************/
+this.gvVFrameSet	= "";
+this.gvLoginFrame	= "";
+this.gvHFrame      = "";
+this.gvLeftFrame   = "";
+this.gvVFrameSet1  = "";
+this.gvTopFrame    = "";
+this.gvWorkFrame   = "";
+this.gvMainFrame   = "";
+this.gvMdiFrame    = "";
+this.gvExtCommonPath  = "";
+this.gvIsComBtnUse = false;	//공통 버튼 사용유무
+
+this.gvMenuColumns = {
+	menuId : "menuId",
+	menuNm : "menuNm",
+	pageUrl : "menuUrl",
+	pageId : "pageId",
+	winId : "winId",
+	title : "title",
+	menuUrl : "menuUrl",
+	groupId : "groupId",
+	menuArgs : "menuArgs",
+	menuLevel : "level"
+};
+
+this.gvMax        = 8;     //열린 메뉴 최대 갯수
+this.gvWorkWinkey = "";
+this.gvWorkMenuNm = "";
+this.gvWorkMenuId = "";
+this.gvWorkTitle  = "";
+this.gvRealTrace = trace;
+
+/***********************************************************************************************
+* Application EVENT 영역(onload, onbeforeclose)
+***********************************************************************************************/
+this.Application_onload = function(obj:nexacro.Application,e:nexacro.LoadEventInfo)
+{
+	var objApp = nexacro.getApplication();
+
+	// Frame 변수 저장
+	this.gvVFrameSet	= objApp.mainframe.VFrameSet;
+	this.gvLoginFrame	= objApp.mainframe.VFrameSet.frameLogin;
+	this.gvHFrame       = objApp.mainframe.VFrameSet.HFrameSet;
+	this.gvLeftFrame    = objApp.mainframe.VFrameSet.HFrameSet.frameLeft;
+	this.gvVFrameSet1   = objApp.mainframe.VFrameSet.HFrameSet.VFrameSet1;
+	this.gvTopFrame     = objApp.mainframe.VFrameSet.frameTop;
+	this.gvWorkFrame    = objApp.mainframe.VFrameSet.HFrameSet.VFrameSet1.framesetWork;
+	this.gvMainFrame    = objApp.mainframe.VFrameSet.HFrameSet.VFrameSet1.frameMain;
+	this.gvMdiFrame     = objApp.mainframe.VFrameSet.HFrameSet.VFrameSet1.frameNavi;
+
+	trace("===== 접속경로 : " + nexacro.getProjectPath());
+	var nRunMode = 0;
+
+	if (system.navigatorname == "nexacro")
+	{
+		nRunMode = "0";
+		objApp.mainframe.set_titletext("로컬(파일) - " + objApp.mainframe.titletext);
+	}
+	else {
+		var urlPath = window.location.protocol + "//" + window.location.host;
+		var objEnv = nexacro.getEnvironment();
+		var objSrv = objEnv.services["svcurl"];
+
+		if (objSrv.url.indexOf("localhost") > -1 || objSrv.url.indexOf("127.0.0.1") > -1 ) {
+			nRunMode = "1";
+			objApp.mainframe.set_titletext("로컬(웹)  - " + objApp.mainframe.titletext);
+		}
+		else {
+			nRunMode = "2";
+			this.afnSetTraceMode(false);
+		}
+	}
+	nexacro.setEnvironmentVariable("gvRunMode", nRunMode);
+
+	// 로그인 화면 open
+	this.gvLoginFrame.set_formurl("frame::frameLogin.xfdl");
+	this.gvVFrameSet.set_separatesize("0,*,0,0");
+};
+
+this.afnSetTraceMode = function(bTrace)
+{
+	trace("★★ 운영접속시에는 trace 로그를 남기지 않도록 설정되었습니다.");
+
+	nexacro.setEnvironmentVariable("gvTraceMode", bTrace);
+	if (bTrace)
+	{
+		trace = this.gvRealTrace;
+	}
+	else {
+		trace = function trace(){};
+	}
+}
+
+this.Application_onerror = function(obj:nexacro.Application,e:nexacro.ErrorEventInfo)
+{
+	trace("!!!!!!!!!!!!!! Application_onerror !!!!!!!!!!!!!!");
+	trace("e.statuscode : " + e.statuscode);
+	trace("e.errormsg : " + e.errormsg);
+
+	if (e.errorcode == -2147418039) {
+		return true;
+	}
+};]]></Script>
+</ADL>
