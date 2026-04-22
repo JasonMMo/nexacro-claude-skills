@@ -93,13 +93,16 @@ nexacro-claude-skills/
   - Format-selection guide (throughput vs debuggability trade-offs)
 
 #### nexacro-project-maker
-- **Description**: Scaffolds a Nexacro N v24 flat-layout project into an empty directory with `.xprj` / `.xadl` / `typedefinition.xml` / `environment.xml` / `appvariables.xml` / `bootstrap.xml` / `Base/main.xfdl`
-- **Triggers**: nexacro 프로젝트 만들어, nexacro 프로젝트 생성, xprj 만들어, nexacro 스캐폴드, nexacro project maker, nexacro project scaffold
+- **Description**: Scaffolds a Nexacro N v24 flat-layout project into an empty directory. Choose between **minimal** (single ChildFrame, 7 files) or **packageN** (MDI/FrameSet layout, 15 files) frame style.
+- **Triggers**: nexacro 프로젝트 만들어, nexacro 프로젝트 생성, xprj 만들어, nexacro 스캐폴드, nexacro project maker, nexacro project scaffold, packageN 스타일, MDI 프레임
 - **Features**:
-  - 7-file parameterized skeleton (`{{PROJECT_NAME}}`, `{{APPLICATION_ID}}`, `{{FORM_PREFIX}}`, `{{THEME_ID}}`)
-  - Core 13-component pre-registered in `typedefinition.xml`
+  - Parameterized skeleton (`{{PROJECT_NAME}}`, `{{APPLICATION_ID}}`, `{{FORM_PREFIX}}`, `{{THEME_ID}}`, `{{PROJECT_TITLE}}`)
+  - **Frame style option** (`FRAME_STYLE`):
+    - `minimal` — simple single-form scaffold (default)
+    - `packageN` — production MDI layout: `VFrameSet[44,0,*,0]` + `HFrameSet[240,*]` with login overlay, left menu, MDI tab bar, main/bottom frames (based on `nexacron/uiadapter-jakarta/packageN` official sample)
+  - Core 13-component pre-registered in `typedefinition.xml` (minimal) / 31-component + `frame::` service (packageN)
   - `bootstrap.xml` carried over verbatim from official sample
-  - Service prefix reference: `Base::`, `imagerc::`, `theme::`, `xcssrc::`, `font::`, user-module prefix
+  - Service prefix reference: `Base::`, `frame::`, `imagerc::`, `theme::`, `xcssrc::`, `font::`, user-module prefix
   - Explicitly excludes license / theme assets / `nexacrolib` (user responsibility)
 
 #### nexacro-form-maker
