@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="FORM_ID" width="1280" height="720" titletext="Form Title">
+    <Layouts>
+      <Layout width="1280" height="720">
+        <!-- 컴포넌트 블록을 이 영역에 삽입 -->
+      </Layout>
+    </Layouts>
+    <Objects>
+      <!-- Dataset 등 비가시 객체를 이 영역에 선언 -->
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.Form_onload = function(obj, e)
+{
+    // 폼 진입 시 실행될 초기화 코드
+};
+]]></Script>
+  </Form>
+</FDL>
