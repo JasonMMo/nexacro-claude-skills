@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-04-22
+
+### Changed
+- **BREAKING (repo layout)**: 저장소를 Claude Code 공식 플러그인 마켓플레이스 포맷으로 재구성
+  - 루트에 `.claude-plugin/marketplace.json` 카탈로그 추가 (2개 플러그인 게시)
+  - `skills/*` → `plugins/<plugin-name>/skills/*` 로 이동 (git history 보존)
+  - 비표준 `.claude/plugin.json` 제거
+- 플러그인 분리 구조:
+  - `nexacro-claude-skills` — 범용 유틸리티 번들 (현재 `nexacro-build` 포함, `nexacro-data-format` / `nexacro-xfdl-author` 예정)
+  - `nexacro-webflux-port` — WebFlux 포팅 전용 독립 플러그인 (SKILL.md + 8 references)
+- 설치 명령 변경:
+  - (이전) 수동 clone / 비공식 manifest
+  - (신규) `/plugin marketplace add JasonMMo/nexacro-claude-skills` 후
+    - `/plugin install nexacro-claude-skills@nexacro-claude-skills`
+    - `/plugin install nexacro-webflux-port@nexacro-claude-skills`
+- README.md / README-ko.md 전면 재작성 (2-플러그인 마켓플레이스 프레젠테이션)
+- `.gitignore` 정리 (`.claude/plugin.json` 예외 규칙 제거, `.obsidian/` / `.tmp.*` 추가)
+
+### Added
+- `plugins/nexacro-claude-skills/.claude-plugin/plugin.json` 생성
+- `plugins/nexacro-webflux-port/.claude-plugin/plugin.json` 생성
+
+### Removed
+- `.claude/plugin.json` (비공식 포맷)
+
 ## [1.1.0] - 2026-04-22
 
 ### Added
