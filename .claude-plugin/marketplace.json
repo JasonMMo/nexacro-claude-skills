@@ -8,7 +8,7 @@
     {
       "name": "nexacro-claude-skills",
       "source": "./plugins/nexacro-claude-skills",
-      "description": "Nexacro utility skill bundle — xfdl build/deploy, data format references (XML/SSV/JSON), and xfdl authoring helpers."
+      "description": "Nexacro utility skill bundle — xfdl build/deploy, data format references (XML/SSV/JSON), project scaffolding, and xfdl form authoring."
     },
     {
       "name": "nexacro-webflux-port",
