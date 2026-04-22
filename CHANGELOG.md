@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-04-22
+
+### Added
+- `nexacro-xfdl-author` skill 확장 (v1 코어 13 → v2 총 43종 컴포넌트)
+  - **모던 입력 + 선택 확장** (6): `textfield`, `multilinetextfield`, `spin`, `listbox`, `checkboxset`, `multicombo`
+  - **날짜 확장 + 내비게이션** (8): `daterangepicker`, `popupdaterangepicker`, `tab`, `groupbox`, `menu`, `popupmenu`, `popupdiv`, `panel`
+  - **디스플레이 + 파일 I/O** (9): `imageviewer`, `progressbar`, `listview`, `virtualfile`, `filedialog`, `filedownload`, `fileupload`, `filedowntransfer`, `fileuptransfer`
+  - **미디어 / 플러그인 / 데이터** (7): `plugin`, `webbrowser`, `sketch`, `googlemap`, `videoplayer`, `graphics`, `dataobject`
+- `nexacro-xfdl-author/SKILL.md` 외부 공식 참고자료 섹션 추가 (공개 샘플 / 온라인 도움말 / 워크북)
+
+### Changed
+- `nexacro-xfdl-author/SKILL.md` 컴포넌트 카탈로그 재구조 (코어 13 / 확장 30 2-섹션 분리)
+- 일부 확장 컴포넌트(`Sketch` / `Graphics` / `Plugin` 등)는 공식 샘플 부재로 최소 레퍼런스만 제공하며 공식 문서 링크로 대체
+
 ## [1.4.0] - 2026-04-22
 
 ### Added
