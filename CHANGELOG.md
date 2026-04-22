@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-04-22
+
+### Changed
+- **BREAKING (skill rename)**: Nexacro 도메인 용어(Form = 화면 단위)에 맞춰 2개 skill 이름 변경
+  - `nexacro-xfdl-author` → `nexacro-form-maker`
+  - `nexacro-project-init` → `nexacro-project-maker`
+- `SKILL.md` frontmatter 의 `name` / 트리거 문구 업데이트
+- 디렉터리 `git mv` 로 rename (히스토리 보존)
+- 교차 참조 업데이트: `typedefinition-spec.md`, `nexacro-webflux-port/SKILL.md`, README / README-ko
+
+### Migration
+- 사용자는 `/plugin install nexacro-claude-skills@nexacro-claude-skills` 재설치 후 새 이름으로 호출
+- 기존 이름(`nexacro-xfdl-author` / `nexacro-project-init`) 은 더 이상 존재하지 않음
+
 ## [1.5.0] - 2026-04-22
 
 ### Added
