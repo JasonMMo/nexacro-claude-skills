@@ -103,14 +103,15 @@ nexacro-claude-skills/
   - Explicitly excludes license / theme assets / `nexacrolib` (user responsibility)
 
 #### nexacro-xfdl-author
-- **Description**: Block-assembly helper for authoring Nexacro N v24 `.xfdl` forms with Form skeleton + 13 core components + Dataset/BindItem binding patterns
+- **Description**: Block-assembly helper for authoring Nexacro N v24 `.xfdl` forms with Form skeleton + 43 components + Dataset/BindItem binding patterns
 - **Triggers**: xfdl 만들어, nexacro 폼 작성, Grid 블록 만들어줘, Dataset 바인딩, nexacro component, xfdl form authoring
 - **Features**:
   - Reusable `assets/form-skeleton.xfdl`
-  - 13 component reference docs (`button`, `edit`, `maskedit`, `textarea`, `combo`, `radio`, `checkbox`, `calendar`, `datefield`, `static`, `div`, `grid`, `dataset`)
+  - **43 component reference docs** split into core 13 (frequently used) and extended 30 (niche/specialty)
   - Binding patterns: `BindItem` / `innerdataset` / `binddataset` (single-field / list / multi-row)
   - Multi-resolution `<Layouts>` with `screenid` routing
   - xscript5.1 event handler conventions
+  - External refs: [public sample repo](https://github.com/TOBESOFT-DOCS/sample_Nexacro_N_V24), online help, developer workbook
 
 ### Plugin ② — `nexacro-webflux-port`
 
