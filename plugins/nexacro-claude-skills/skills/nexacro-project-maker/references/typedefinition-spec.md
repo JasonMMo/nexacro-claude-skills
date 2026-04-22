@@ -59,7 +59,7 @@
 | `Grid` | `nexacro.Grid` | 데이터 그리드 |
 | `Dataset` | `nexacro.NormalDataset` | 비가시 Dataset (데이터 바인딩 소스) |
 
-→ 엘리먼트별 속성/이벤트는 `nexacro-xfdl-author` skill 의 `references/components/*.md` 참조
+→ 엘리먼트별 속성/이벤트는 `nexacro-form-maker` skill 의 `references/components/*.md` 참조
 
 ## `<Services>` — URL prefix 매핑
 

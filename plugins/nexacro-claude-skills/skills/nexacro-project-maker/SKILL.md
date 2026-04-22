@@ -1,9 +1,9 @@
 ---
-name: nexacro-project-init
-description: Nexacro N v24 프로젝트 스캐폴드 생성기. 빈 디렉터리에 .xprj / .xadl / typedefinition / environment / appvariables / bootstrap / Base/main.xfdl 을 플레이스홀더 치환으로 생성합니다. 사용 트리거 — "nexacro 프로젝트 생성", "xprj 만들어", "nexacro 스캐폴드", "nexacro init", "nexacro project scaffold"
+name: nexacro-project-maker
+description: Nexacro N v24 프로젝트 스캐폴드 생성기. 빈 디렉터리에 .xprj / .xadl / typedefinition / environment / appvariables / bootstrap / Base/main.xfdl 을 플레이스홀더 치환으로 생성합니다. 사용 트리거 — "nexacro 프로젝트 만들어", "nexacro 프로젝트 생성", "xprj 만들어", "nexacro 스캐폴드", "nexacro project maker", "nexacro project scaffold"
 ---
 
-# Nexacro Project Init
+# Nexacro Project Maker
 
 빈 디렉터리에 Nexacro N v24 **flat-layout** 프로젝트를 스캐폴드합니다.
 (참고: Nexacro 24 공식 샘플 `sample_Nexacro_N_V24` 구조를 베이스로 단순화)
@@ -74,7 +74,7 @@ description: Nexacro N v24 프로젝트 스캐폴드 생성기. 빈 디렉터리
 다음 단계:
   1. Nexacro Studio 에서 <PROJECT_NAME>.xprj 열기
   2. 테마 자산 (_resource_/_theme_/<THEME_ID>/) 복사 또는 Studio 에서 import
-  3. 폼 추가는 `nexacro-xfdl-author` skill 사용
+  3. 폼 추가는 `nexacro-form-maker` skill 사용
 ```
 
 ## Step 4 — 안 하는 것 (의도적 제외)
@@ -86,7 +86,7 @@ description: Nexacro N v24 프로젝트 스캐폴드 생성기. 빈 디렉터리
 | `NexacroN_client_license.xml` | 고객사별 라이선스 파일. 배치는 사용자 책임 |
 | `nexacrolib/` 프레임워크 JS | v24 flat 레이아웃은 SDK 가 런타임에 주입 |
 | `*.xfont` 사용자 폰트 | 프로젝트별 결정 |
-| `macros.xml` | 초기엔 불필요. 매크로 추가 시 `nexacro-xfdl-author` 참조 |
+| `macros.xml` | 초기엔 불필요. 매크로 추가 시 `nexacro-form-maker` 참조 |
 | 다국어 Screen (`Screen_ja` / `Screen_zh`) | 단일 desktop 로케일만 셋업. 다국어는 environment.xml 수동 추가 |
 
 ### 공식 공개 샘플 프로젝트 (테마/리소스 소스)
@@ -106,7 +106,7 @@ description: Nexacro N v24 프로젝트 스캐폴드 생성기. 빈 디렉터리
 
 | 하고 싶은 것 | 참조 |
 |---|---|
-| 폼 파일 추가 | `nexacro-xfdl-author` skill |
+| 폼 파일 추가 | `nexacro-form-maker` skill |
 | xfdl → xjs 빌드/배포 | `nexacro-build` skill |
 | 서버 통신 포맷 (XML/SSV/JSON) | `nexacro-data-format` skill |
 | Spring WebFlux 백엔드 포팅 | `nexacro-webflux-port` plugin |
