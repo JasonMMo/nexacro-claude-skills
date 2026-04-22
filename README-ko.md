@@ -93,13 +93,16 @@ nexacro-claude-skills/
   - 포맷 선택 가이드 (전송 효율 vs 디버깅 편의 트레이드오프)
 
 #### nexacro-project-maker
-- **설명**: 빈 디렉터리에 Nexacro N v24 flat-layout 프로젝트를 스캐폴드 (`.xprj` / `.xadl` / `typedefinition.xml` / `environment.xml` / `appvariables.xml` / `bootstrap.xml` / `Base/main.xfdl`)
-- **트리거**: nexacro 프로젝트 만들어, nexacro 프로젝트 생성, xprj 만들어, nexacro 스캐폴드, nexacro project maker, nexacro project scaffold
+- **설명**: 빈 디렉터리에 Nexacro N v24 flat-layout 프로젝트를 스캐폴드. **minimal** (단일 ChildFrame, 7 파일) / **packageN** (MDI·프레임셋 풀레이아웃, 15 파일) 두 프레임 스타일 지원.
+- **트리거**: nexacro 프로젝트 만들어, nexacro 프로젝트 생성, xprj 만들어, nexacro 스캐폴드, nexacro project maker, nexacro project scaffold, packageN 스타일, MDI 프레임
 - **기능**:
-  - 7개 파일 파라미터화 스켈레톤 (`{{PROJECT_NAME}}`, `{{APPLICATION_ID}}`, `{{FORM_PREFIX}}`, `{{THEME_ID}}`)
-  - 핵심 13 컴포넌트가 `typedefinition.xml` 에 선등록
+  - 파라미터화 스켈레톤 (`{{PROJECT_NAME}}`, `{{APPLICATION_ID}}`, `{{FORM_PREFIX}}`, `{{THEME_ID}}`, `{{PROJECT_TITLE}}`)
+  - **프레임 스타일 옵션** (`FRAME_STYLE`):
+    - `minimal` — 단순 단일 폼 스캐폴드 (기본값)
+    - `packageN` — 운영 MDI 레이아웃: `VFrameSet[44,0,*,0]` + `HFrameSet[240,*]` / 로그인 오버레이 · 좌측 메뉴 · MDI 탭 바 · 메인/바텀 프레임 (`nexacron/uiadapter-jakarta/packageN` 공식 샘플 기반)
+  - `typedefinition.xml` 에 minimal 은 코어 13 컴포넌트, packageN 은 31 컴포넌트 + `frame::` 서비스 선등록
   - `bootstrap.xml` 은 공식 샘플 원본 그대로 복사
-  - 서비스 prefix 레퍼런스 (`Base::`, `imagerc::`, `theme::`, `xcssrc::`, `font::`, 업무 prefix)
+  - 서비스 prefix 레퍼런스 (`Base::`, `frame::`, `imagerc::`, `theme::`, `xcssrc::`, `font::`, 업무 prefix)
   - 라이선스 / 테마 자산 / `nexacrolib` 은 **의도적 제외** (사용자 배치 책임)
 
 #### nexacro-form-maker
