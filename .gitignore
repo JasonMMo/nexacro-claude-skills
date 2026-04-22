@@ -82,10 +82,10 @@ jspm_packages/
 ehthumbs.db
 Thumbs.db
 
-# Claude Code specific
-# Ignore everything under .claude/ EXCEPT plugin.json (marketplace manifest must be committed)
-.claude/*
-!.claude/plugin.json
+# Claude Code local state (not the marketplace manifest)
+# .claude-plugin/ (repo-root) and plugins/*/.claude-plugin/ (per-plugin) ARE tracked —
+# this rule only covers per-user local Claude Code state at the repo root.
+.claude/
 memory/
 
 # Obsidian vault / transient editor files
