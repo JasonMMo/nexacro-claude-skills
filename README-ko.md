@@ -103,14 +103,15 @@ nexacro-claude-skills/
   - 라이선스 / 테마 자산 / `nexacrolib` 은 **의도적 제외** (사용자 배치 책임)
 
 #### nexacro-xfdl-author
-- **설명**: Nexacro N v24 `.xfdl` 폼을 블록 조립 방식으로 작성 (Form 골격 + 13 코어 컴포넌트 + Dataset/BindItem 바인딩 패턴)
+- **설명**: Nexacro N v24 `.xfdl` 폼을 블록 조립 방식으로 작성 (Form 골격 + 43종 컴포넌트 + Dataset/BindItem 바인딩 패턴)
 - **트리거**: xfdl 만들어, nexacro 폼 작성, Grid 블록 만들어줘, Dataset 바인딩, nexacro component, xfdl form authoring
 - **기능**:
   - 재사용 가능한 `assets/form-skeleton.xfdl`
-  - 13개 컴포넌트 레퍼런스 (`button`, `edit`, `maskedit`, `textarea`, `combo`, `radio`, `checkbox`, `calendar`, `datefield`, `static`, `div`, `grid`, `dataset`)
+  - **43개 컴포넌트 레퍼런스** — 코어 13 (자주 쓰임) + 확장 30 (틈새/특수)
   - 바인딩 3-패턴: `BindItem` / `innerdataset` / `binddataset` (단일필드 / 리스트 / 다중행)
   - `screenid` 라우팅 기반 다중 해상도 `<Layouts>`
   - xscript5.1 이벤트 핸들러 관례
+  - 외부 참조 링크: [공개 샘플 저장소](https://github.com/TOBESOFT-DOCS/sample_Nexacro_N_V24), 온라인 도움말, 개발자 워크북
 
 ### 플러그인 ② — `nexacro-webflux-port`
 
