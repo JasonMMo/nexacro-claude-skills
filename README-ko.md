@@ -56,7 +56,7 @@ nexacro-claude-skills/
 │   │   │   └── plugin.json
 │   │   └── skills/
 │   │       ├── nexacro-build/        # xfdl 빌드/배포 자동화
-│   │       ├── nexacro-data-format/  # XML / SSV / JSON 레퍼런스 (예정)
+│   │       ├── nexacro-data-format/  # XML / SSV / JSON 레퍼런스
 │   │       └── nexacro-xfdl-author/  # xfdl 작성 헬퍼              (예정)
 │   └── nexacro-webflux-port/         # 플러그인 ② WebFlux 포팅 플레이북
 │       ├── .claude-plugin/
@@ -82,7 +82,16 @@ nexacro-claude-skills/
   - 한국어 / 영어 명령어 지원
   - `build-config.json` 에 설정 영속화 — 재실행 시 재입력 불필요
 
-> `nexacro-data-format`, `nexacro-xfdl-author` 스킬은 추후 같은 플러그인에 별도 커밋으로 추가됩니다.
+#### nexacro-data-format
+- **설명**: Nexacro 클라이언트 ↔ 서버 통신 데이터 포맷(XML / SSV / JSON)의 공식 샘플과 `_RowType_` 의미 참조
+- **트리거**: nexacro 포맷, SSV 포맷, Dataset XML, nexacro JSON, `_RowType_`, ConstColumn, nexacro 응답 파싱
+- **기능**:
+  - 세 포맷(XML / SSV / JSON) 의 공식 전체 샘플 제공
+  - `_RowType_` (`N` / `I` / `U` / `D` / `O`) 상태 플래그 용어집과 서버 INSERT/UPDATE/DELETE 분기 규칙
+  - SSV 구분자 레퍼런스 (`▼` 레코드 · `•` 필드 · `:` 메타 · `,` 나열)
+  - 포맷 선택 가이드 (전송 효율 vs 디버깅 편의 트레이드오프)
+
+> `nexacro-xfdl-author` 스킬은 추후 같은 플러그인에 별도 커밋으로 추가됩니다.
 
 ### 플러그인 ② — `nexacro-webflux-port`
 
