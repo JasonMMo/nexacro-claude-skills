@@ -1,0 +1,19 @@
+{
+  "name": "nexacro-claude-skills",
+  "owner": {
+    "name": "JasonMMo",
+    "url": "https://github.com/JasonMMo"
+  },
+  "plugins": [
+    {
+      "name": "nexacro-claude-skills",
+      "source": "./plugins/nexacro-claude-skills",
+      "description": "Nexacro utility skill bundle — xfdl build/deploy, data format references (XML/SSV/JSON), and xfdl authoring helpers."
+    },
+    {
+      "name": "nexacro-webflux-port",
+      "source": "./plugins/nexacro-webflux-port",
+      "description": "Playbook for porting Spring Boot/MVC Nexacro modules (xapi/xeni/uiadapter) to Spring WebFlux. Classpath shim, ServletProvider, multipart dispatch, paramOf equivalence, WebFilter bypass, ResultHandler ordering, base-path and static resource mapping."
+    }
+  ]
+}
