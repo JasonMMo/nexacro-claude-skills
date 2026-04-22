@@ -1,9 +1,9 @@
 ---
-name: nexacro-xfdl-author
-description: Nexacro N v24 xfdl 폼 작성 헬퍼. Form 골격 + 43종 컴포넌트 블록 + Dataset/BindItem 바인딩 패턴을 레퍼런스로 제공합니다. 사용 트리거 — "xfdl 만들어", "nexacro 폼 작성", "Grid 블록 만들어줘", "Dataset 바인딩", "nexacro component", "xfdl form authoring"
+name: nexacro-form-maker
+description: Nexacro N v24 Form (.xfdl) 작성 헬퍼. Form 골격 + 43종 컴포넌트 블록 + Dataset/BindItem 바인딩 패턴을 레퍼런스로 제공합니다. 사용 트리거 — "nexacro 폼 만들어", "xfdl 만들어", "nexacro form maker", "Grid 블록 만들어줘", "Dataset 바인딩", "nexacro component", "xfdl form authoring"
 ---
 
-# Nexacro XFDL Author
+# Nexacro Form Maker
 
 Nexacro N v24 `.xfdl` (Form 정의 XML) 파일을 **블록 조립 방식** 으로 작성합니다.
 
@@ -157,7 +157,7 @@ Dataset + Edit/Combo/Grid 바인딩은 전용 문서로 통합:
 
 | 하고 싶은 것 | 참조 |
 |---|---|
-| 빈 프로젝트 스캐폴드 | `nexacro-project-init` |
+| 빈 프로젝트 스캐폴드 | `nexacro-project-maker` |
 | xfdl → xjs 빌드 / 배포 | `nexacro-build` |
 | 서버 통신 XML / SSV / JSON | `nexacro-data-format` |
 | Spring WebFlux 백엔드 포팅 | `nexacro-webflux-port` (별도 플러그인) |
