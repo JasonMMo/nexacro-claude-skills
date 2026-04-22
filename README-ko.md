@@ -73,6 +73,15 @@ nexacro-claude-skills/
   - 한국어 및 영어 명령어 지원
   - 자동화된 빌드 및 배포 워크플로우
 
+### nexacro-webflux-port
+- **설명**: Spring Boot / Spring MVC 기반 넥사크로 모듈(xapi / xeni / uiadapter)을 Spring WebFlux 로 포팅하는 전체 플레이북
+- **트리거**: webflux 전환, reactive 로 바꿔, 서블릿 제거, nexacro webflux, xapi 포팅, xeni 포팅, uiadapter 포팅, HttpServletRequest 제거
+- **기능**:
+  - Phase 별 체크리스트 (모듈 골격 → xapi → uiadapter → xeni → 샘플 앱)
+  - 8개 레퍼런스 문서: classpath shim, ServletProvider, 타입 기반 multipart 분기, paramOf 동치, WebFilter content-type bypass, ResultHandler 순서, stub shim + LIMITATION, base-path + 정적 리소스
+  - `jdeps | grep jakarta.servlet` = 0 CI 게이트 패턴
+  - 자주 발생하는 회귀 및 원인 표 (multipart 500 에러, ReadOnlyHttpHeaders.set, filenamelist null, POI NoClassDefFoundError, base-path 404)
+
 ## 🔧 설정
 
 플러그인이 환경을 자동으로 감지합니다:
