@@ -1,0 +1,21 @@
+{
+  "name": "nexacro-claude-skills",
+  "version": "1.0.0",
+  "description": "Nexacro utility skill bundle — xfdl build/deploy automation, data format references (XML/SSV/JSON), and xfdl authoring helpers.",
+  "author": {
+    "name": "JasonMMo",
+    "url": "https://github.com/JasonMMo"
+  },
+  "homepage": "https://github.com/JasonMMo/nexacro-claude-skills",
+  "repository": "https://github.com/JasonMMo/nexacro-claude-skills",
+  "license": "MIT",
+  "keywords": [
+    "nexacro",
+    "xfdl",
+    "build",
+    "deploy",
+    "data-format",
+    "ssv",
+    "korean-support"
+  ]
+}
