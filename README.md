@@ -56,7 +56,7 @@ nexacro-claude-skills/
 │   │   │   └── plugin.json
 │   │   └── skills/
 │   │       ├── nexacro-build/        # xfdl build/deploy automation
-│   │       ├── nexacro-data-format/  # XML / SSV / JSON reference  (planned)
+│   │       ├── nexacro-data-format/  # XML / SSV / JSON reference
 │   │       └── nexacro-xfdl-author/  # xfdl authoring helper       (planned)
 │   └── nexacro-webflux-port/         # plugin ②: WebFlux porting playbook
 │       ├── .claude-plugin/
@@ -82,7 +82,16 @@ nexacro-claude-skills/
   - Handles Korean and English commands
   - Persists `build-config.json` across sessions for zero-friction rebuilds
 
-> `nexacro-data-format` and `nexacro-xfdl-author` skills are planned and will be added to this plugin as separate commits.
+#### nexacro-data-format
+- **Description**: Reference for Nexacro client-server data formats (XML / SSV / JSON) with official samples and `_RowType_` semantics
+- **Triggers**: nexacro 포맷, SSV 포맷, Dataset XML, nexacro JSON, `_RowType_`, ConstColumn, nexacro 응답 파싱
+- **Features**:
+  - Full official samples for all 3 formats (XML / SSV / JSON)
+  - `_RowType_` (`N` / `I` / `U` / `D` / `O`) state-flag glossary with server-side INSERT/UPDATE/DELETE dispatch rules
+  - SSV delimiter reference (`▼` record, `•` field, `:` meta, `,` list)
+  - Format-selection guide (throughput vs debuggability trade-offs)
+
+> `nexacro-xfdl-author` skill is planned and will be added to this plugin as a separate commit.
 
 ### Plugin ② — `nexacro-webflux-port`
 
