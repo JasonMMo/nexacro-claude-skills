@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ADL version="2.0">
+  <Application id="{{APPLICATION_ID}}" screenid="Screen_D" licenseurl="NexacroN_client_license.xml">
+    <Layout>
+      <MainFrame id="mainframe" showtitlebar="true" showstatusbar="false" width="1280" height="720" resizable="true" showtitleicon="false">
+        <ChildFrame id="ChildFrame00" formurl="Base::main.xfdl" showcascadetitletext="false" showtitlebar="false" showtitleicon="false"/>
+      </MainFrame>
+    </Layout>
+  </Application>
+</ADL>

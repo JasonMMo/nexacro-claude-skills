@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ENV version="2.1">
+  <Environment themeid="theme::{{THEME_ID}}" filesecurelevel="all" datatyperule="2.0">
+    <ScreenDefinition>
+      <Screen id="Screen_D" type="desktop" userzoom="true" themeid="theme::{{THEME_ID}}"/>
+    </ScreenDefinition>
+    <Variables/>
+    <Cookies/>
+    <httpheader/>
+  </Environment>
+</ENV>

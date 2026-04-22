@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AppVariables version="2.0">
+  <Datasets/>
+  <Variables>
+    <Variable id="appVersion" initval="1.0.0"/>
+  </Variables>
+  <DataObjects/>
+</AppVariables>

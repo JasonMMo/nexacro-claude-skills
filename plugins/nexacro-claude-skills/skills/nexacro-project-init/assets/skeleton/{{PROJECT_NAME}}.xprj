@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project version="2.1" nexacrosdk="Latest Version" sdkversion="24.0.0">
+  <EnvironmentDefinition url="environment.xml"/>
+  <TypeDefinition url="typedefinition.xml"/>
+  <AppVariables url="appvariables.xml"/>
+  <AppInfos>
+    <AppInfo url="{{PROJECT_NAME}}.xadl"/>
+  </AppInfos>
+  <BootstrapCustomize url="bootstrap.xml"/>
+</Project>

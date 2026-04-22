@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="main" width="1280" height="720" titletext="{{PROJECT_NAME}}">
+    <Layouts>
+      <Layout width="1280" height="720">
+        <Static id="stTitle" taborder="0" text="{{PROJECT_NAME}}" left="40" top="40" width="600" height="48" cssclass="sta_TitText"/>
+        <Static id="stHello" taborder="1" text="Hello, Nexacro!" left="40" top="100" width="600" height="32"/>
+        <Button id="btnStart" taborder="2" text="Start" left="40" top="160" width="120" height="36" onclick="btnStart_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[
+this.btnStart_onclick = function(obj, e)
+{
+    this.alert("프로젝트가 정상 기동했습니다.");
+};
+]]></Script>
+  </Form>
+</FDL>
