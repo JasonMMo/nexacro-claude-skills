@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-04-22
+
+### Added
+- `nexacro-project-maker` skill 에 **프레임 스타일 옵션** 도입 (`FRAME_STYLE` 파라미터)
+  - `minimal` (기본값) — 기존 단일 `ChildFrame` 스캐폴드 (7 파일)
+  - `packageN` — MDI / 프레임셋 풀레이아웃 스캐폴드 (15 파일)
+    - `VFrameSet[44,0,*,0]` → `HFrameSet[240,*]` → `VFrameSet1[32,*,0]` 트리
+    - 프레임 xfdl 8종: `frameTop` / `frameLogin` / `frameLeft` / `frameMDI` / `frameMain` / `frameBottom` / `frameWork` / `frameWorkTitle`
+    - `nexacron/uiadapter-jakarta/packageN` 공식 샘플 기반
+- `assets/skeleton-frames/packageN/` 신규 번들 (11 파일)
+  - `{{PROJECT_NAME}}.xadl` — VFrameSet + HFrameSet MDI 레이아웃 (tokenized)
+  - `typedefinition.xml` — `frame::` 서비스 prefix + extPrototype/ListView/traceLog 모듈 포함
+  - `appvariables.xml` — packageN 공식 전역변수 세트 (메뉴/세션)
+  - `frame/*.xfdl` 8 파일 (as-is 복사)
+- `references/xadl-frame-patterns.md` 신규 레퍼런스 — Frame Tree 개념 / minimal vs packageN 비교 / 커스터마이징 팁
+
+### Changed
+- `nexacro-project-maker/SKILL.md`
+  - Step 1 파라미터 #6 (`FRAME_STYLE`) 추가
+  - Step 2 치환 로직 분기 (minimal / packageN)
+  - Step 3 검증 출력 스타일별 분리
+- `references/service-prefixes.md` 에 `frame::` 엔트리 추가
+
 ## [1.6.0] - 2026-04-22
 
 ### Changed
