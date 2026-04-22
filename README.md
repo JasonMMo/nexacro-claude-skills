@@ -55,9 +55,10 @@ nexacro-claude-skills/
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
 │   │   └── skills/
-│   │       ├── nexacro-build/        # xfdl build/deploy automation
-│   │       ├── nexacro-data-format/  # XML / SSV / JSON reference
-│   │       └── nexacro-xfdl-author/  # xfdl authoring helper       (planned)
+│   │       ├── nexacro-build/          # xfdl build/deploy automation
+│   │       ├── nexacro-data-format/    # XML / SSV / JSON reference
+│   │       ├── nexacro-project-init/   # project scaffold generator
+│   │       └── nexacro-xfdl-author/    # xfdl form authoring helper
 │   └── nexacro-webflux-port/         # plugin ②: WebFlux porting playbook
 │       ├── .claude-plugin/
 │       │   └── plugin.json
@@ -91,7 +92,25 @@ nexacro-claude-skills/
   - SSV delimiter reference (`▼` record, `•` field, `:` meta, `,` list)
   - Format-selection guide (throughput vs debuggability trade-offs)
 
-> `nexacro-xfdl-author` skill is planned and will be added to this plugin as a separate commit.
+#### nexacro-project-init
+- **Description**: Scaffolds a Nexacro N v24 flat-layout project into an empty directory with `.xprj` / `.xadl` / `typedefinition.xml` / `environment.xml` / `appvariables.xml` / `bootstrap.xml` / `Base/main.xfdl`
+- **Triggers**: nexacro 프로젝트 생성, xprj 만들어, nexacro 스캐폴드, nexacro init, nexacro project scaffold
+- **Features**:
+  - 7-file parameterized skeleton (`{{PROJECT_NAME}}`, `{{APPLICATION_ID}}`, `{{FORM_PREFIX}}`, `{{THEME_ID}}`)
+  - Core 13-component pre-registered in `typedefinition.xml`
+  - `bootstrap.xml` carried over verbatim from official sample
+  - Service prefix reference: `Base::`, `imagerc::`, `theme::`, `xcssrc::`, `font::`, user-module prefix
+  - Explicitly excludes license / theme assets / `nexacrolib` (user responsibility)
+
+#### nexacro-xfdl-author
+- **Description**: Block-assembly helper for authoring Nexacro N v24 `.xfdl` forms with Form skeleton + 13 core components + Dataset/BindItem binding patterns
+- **Triggers**: xfdl 만들어, nexacro 폼 작성, Grid 블록 만들어줘, Dataset 바인딩, nexacro component, xfdl form authoring
+- **Features**:
+  - Reusable `assets/form-skeleton.xfdl`
+  - 13 component reference docs (`button`, `edit`, `maskedit`, `textarea`, `combo`, `radio`, `checkbox`, `calendar`, `datefield`, `static`, `div`, `grid`, `dataset`)
+  - Binding patterns: `BindItem` / `innerdataset` / `binddataset` (single-field / list / multi-row)
+  - Multi-resolution `<Layouts>` with `screenid` routing
+  - xscript5.1 event handler conventions
 
 ### Plugin ② — `nexacro-webflux-port`
 
