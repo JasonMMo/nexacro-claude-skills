@@ -2,12 +2,13 @@
 
 이 저장소는 Nexacro 개발용 스킬을 배포하는 **Claude Code 플러그인 마켓플레이스** 입니다.
 
-현재 **2개 플러그인** 을 게시합니다:
+현재 **3개 플러그인** 을 게시합니다:
 
 | 플러그인 | 용도 |
 |---|---|
 | `nexacro-claude-skills` | 범용 Nexacro 유틸리티 번들 (xfdl 빌드/배포, 데이터 포맷 레퍼런스, xfdl 작성 헬퍼) |
 | `nexacro-webflux-port` | Spring Boot/MVC 기반 Nexacro 모듈을 Spring WebFlux 로 포팅하는 독립 플레이북 |
+| `nexacro-fullstack-starter` | Nexacro N v24 풀스택 프로젝트 스캐폴드 (packageN nxui + Spring 서버, jdk × framework 매트릭스 기반) |
 
 ## 📦 설치 방법
 
@@ -23,6 +24,9 @@
 
 # Spring WebFlux 포팅 플레이북
 /plugin install nexacro-webflux-port@nexacro-claude-skills
+
+# 풀스택 스타터 (jdk × framework 매트릭스로 nxui + 서버 스캐폴드)
+/plugin install nexacro-fullstack-starter@nexacro-claude-skills
 ```
 
 > 문법은 `<plugin-name>@<marketplace-name>` 입니다. 범용 유틸리티 플러그인과 마켓플레이스의 이름이 모두 `nexacro-claude-skills` 로 동일합니다.
@@ -49,7 +53,7 @@ cp -r nexacro-claude-skills/plugins/nexacro-webflux-port ~/.claude/plugins/
 ```
 nexacro-claude-skills/
 ├── .claude-plugin/
-│   └── marketplace.json              # 마켓플레이스 카탈로그 (2개 플러그인)
+│   └── marketplace.json              # 마켓플레이스 카탈로그 (3개 플러그인)
 ├── plugins/
 │   ├── nexacro-claude-skills/        # 플러그인 ① 유틸리티 번들
 │   │   ├── .claude-plugin/
@@ -59,13 +63,22 @@ nexacro-claude-skills/
 │   │       ├── nexacro-data-format/    # XML / SSV / JSON 레퍼런스
 │   │       ├── nexacro-project-maker/  # 프로젝트 스캐폴드 생성기
 │   │       └── nexacro-form-maker/     # xfdl 폼 작성 헬퍼
-│   └── nexacro-webflux-port/         # 플러그인 ② WebFlux 포팅 플레이북
+│   ├── nexacro-webflux-port/         # 플러그인 ② WebFlux 포팅 플레이북
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   └── skills/
+│   │       └── nexacro-webflux-port/
+│   │           ├── SKILL.md
+│   │           └── references/       # 8개 상세 레퍼런스 문서
+│   └── nexacro-fullstack-starter/    # 플러그인 ③ 풀스택 스캐폴드
 │       ├── .claude-plugin/
 │       │   └── plugin.json
 │       └── skills/
-│           └── nexacro-webflux-port/
+│           └── nexacro-fullstack-starter/
 │               ├── SKILL.md
-│               └── references/       # 8개 상세 레퍼런스 문서
+│               ├── assets/
+│               │   └── matrix.json   # 8-runner jdk × framework 매트릭스
+│               └── references/       # 호환성 / 저장소 지도 / 선택 가이드 / 트러블슈팅
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
 └── README.md
@@ -126,6 +139,25 @@ nexacro-claude-skills/
   - 8개 레퍼런스 문서: classpath shim, ServletProvider, 타입 기반 multipart 분기, paramOf 동치, WebFilter content-type bypass, ResultHandler 순서, stub shim + LIMITATION, base-path + 정적 리소스
   - `jdeps | grep jakarta.servlet` = 0 CI 게이트 패턴
   - 회귀 표 (multipart 500, ReadOnlyHttpHeaders.set, filenamelist null, POI NoClassDefFoundError, base-path 404)
+
+### 플러그인 ③ — `nexacro-fullstack-starter`
+
+#### nexacro-fullstack-starter
+- **설명**: Nexacro N v24 풀스택 프로젝트를 스캐폴드 — packageN nxui + Spring 서버를 `jdk × framework` 매트릭스에서 선택하여 `nexacroN-fullstack` 모노레포에서 sparse-clone
+- **트리거**: nexacro 풀스택, 풀스택 스타터, fullstack starter, nexacro scaffold, spring boot nexacro, spring webflux nexacro, egov nexacro, packageN 프로젝트 만들어, nexacro 프로젝트 세트업
+- **기능**:
+  - **8개 runner** (`jdk × framework` 매트릭스):
+    - `boot-jdk17-jakarta` (기본), `boot-jdk8-javax`
+    - `mvc-jdk17-jakarta`, `mvc-jdk8-javax`
+    - `egov5-boot-jdk17-jakarta`, `egov4-boot-jdk8-javax`, `egov4-mvc-jdk8-javax`
+    - `webflux-jdk17-jakarta`
+  - 도출 규칙: `servletApi = jdk>=17 ? jakarta : javax`, `springMajor = jakarta ? 6 : 5`, `bootMajor = jakarta ? 3 : 2`
+  - **거부 조합** (대안 제시 후 fail-fast): `egov-mvc + jdk17`, `webflux + jdk8`
+  - [`JasonMMo/nexacroN-fullstack`](https://github.com/JasonMMo/nexacroN-fullstack) 에서 sparse-checkout — 선택한 runner + business tree + 공용 자산(api-contract, core, nxui, seed-data) 만 가져옴
+  - 토큰 치환: `{{PROJECT_NAME}}`, `{{BACKEND_URL}}`, `{{CONTEXT_PATH}}`, `{{SERVER_PORT}}`
+  - 15개 API endpoint 프리와이어 (공통 14 + webflux 전용 `exim_exchange` 스트리밍 데모 1)
+  - HSQL 인메모리 시드 데이터 (6개 테이블: USERS, SAMPLE_BOARD, DEPT, LARGE_DATA, WIDE_COLUMNS, FILE_META)
+  - 레퍼런스 문서: `compatibility-matrix.md`, `repo-map.md`, `runner-selection-guide.md`, `troubleshooting.md`
 
 ## 🔧 런타임 자동 감지
 
