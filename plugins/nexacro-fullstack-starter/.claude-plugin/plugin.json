@@ -1,0 +1,26 @@
+{
+  "name": "nexacro-fullstack-starter",
+  "version": "0.1.0",
+  "description": "Scaffolds a full-stack Nexacro N v24 project: packageN nxui + Spring server (Boot/MVC/eGov/WebFlux) picked from a jdk × framework matrix. Clones the nexacroN-fullstack monorepo and extracts the combination you select.",
+  "author": {
+    "name": "JasonMMo",
+    "url": "https://github.com/JasonMMo"
+  },
+  "homepage": "https://github.com/JasonMMo/nexacro-claude-skills",
+  "repository": "https://github.com/JasonMMo/nexacro-claude-skills",
+  "license": "MIT",
+  "keywords": [
+    "nexacro",
+    "nexacroN",
+    "fullstack",
+    "scaffold",
+    "starter",
+    "spring-boot",
+    "spring-mvc",
+    "spring-webflux",
+    "egovframework",
+    "mybatis",
+    "hsql",
+    "korean-support"
+  ]
+}
