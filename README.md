@@ -2,12 +2,13 @@
 
 This repository is a **Claude Code plugin marketplace** that distributes skills for Nexacro platform development.
 
-It currently publishes **two plugins**:
+It currently publishes **three plugins**:
 
 | Plugin | Purpose |
 |---|---|
 | `nexacro-claude-skills` | General-purpose Nexacro utility bundle (xfdl build/deploy, data format reference, xfdl authoring) |
 | `nexacro-webflux-port` | Standalone playbook for porting Spring Boot/MVC Nexacro modules to Spring WebFlux |
+| `nexacro-fullstack-starter` | Scaffolds a full-stack Nexacro N v24 project (packageN nxui + Spring server) from a jdk × framework matrix |
 
 ## 📦 Installation
 
@@ -23,6 +24,9 @@ It currently publishes **two plugins**:
 
 # Spring WebFlux porting playbook
 /plugin install nexacro-webflux-port@nexacro-claude-skills
+
+# Full-stack starter (nxui + server scaffold from a jdk × framework matrix)
+/plugin install nexacro-fullstack-starter@nexacro-claude-skills
 ```
 
 > The syntax is `<plugin-name>@<marketplace-name>`. Both the marketplace and its general-purpose plugin share the name `nexacro-claude-skills`.
@@ -59,13 +63,22 @@ nexacro-claude-skills/
 │   │       ├── nexacro-data-format/    # XML / SSV / JSON reference
 │   │       ├── nexacro-project-maker/  # project scaffold generator
 │   │       └── nexacro-form-maker/     # xfdl form authoring helper
-│   └── nexacro-webflux-port/         # plugin ②: WebFlux porting playbook
+│   ├── nexacro-webflux-port/         # plugin ②: WebFlux porting playbook
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   └── skills/
+│   │       └── nexacro-webflux-port/
+│   │           ├── SKILL.md
+│   │           └── references/       # 8 detailed reference docs
+│   └── nexacro-fullstack-starter/    # plugin ③: full-stack scaffold
 │       ├── .claude-plugin/
 │       │   └── plugin.json
 │       └── skills/
-│           └── nexacro-webflux-port/
+│           └── nexacro-fullstack-starter/
 │               ├── SKILL.md
-│               └── references/       # 8 detailed reference docs
+│               ├── assets/
+│               │   └── matrix.json   # 8-runner jdk × framework matrix
+│               └── references/       # compatibility / repo-map / selection / troubleshooting
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
 └── README.md
@@ -126,6 +139,25 @@ nexacro-claude-skills/
   - 8 reference docs: classpath shim, ServletProvider, multipart by type, paramOf equivalence, WebFilter content-type bypass, ResultHandler ordering, stub shim with LIMITATION, base-path and static resources
   - `jdeps | grep jakarta.servlet` = 0 CI gate pattern
   - Traps and regressions table (multipart 500, ReadOnlyHttpHeaders.set, filenamelist null, POI NoClassDefFoundError, base-path 404)
+
+### Plugin ③ — `nexacro-fullstack-starter`
+
+#### nexacro-fullstack-starter
+- **Description**: Scaffolds a complete full-stack Nexacro N v24 project — packageN nxui + Spring server — picked from a jdk × framework matrix and sparse-cloned from the `nexacroN-fullstack` monorepo
+- **Triggers**: nexacro 풀스택, 풀스택 스타터, fullstack starter, nexacro scaffold, spring boot nexacro, spring webflux nexacro, egov nexacro, packageN 프로젝트 만들어, nexacro 프로젝트 세트업
+- **Features**:
+  - **8 runners** from a `jdk × framework` matrix:
+    - `boot-jdk17-jakarta` (default), `boot-jdk8-javax`
+    - `mvc-jdk17-jakarta`, `mvc-jdk8-javax`
+    - `egov5-boot-jdk17-jakarta`, `egov4-boot-jdk8-javax`, `egov4-mvc-jdk8-javax`
+    - `webflux-jdk17-jakarta`
+  - Derivation rules: `servletApi = jdk>=17 ? jakarta : javax`, `springMajor = jakarta ? 6 : 5`, `bootMajor = jakarta ? 3 : 2`
+  - **Rejected combinations** (fail fast with suggested alternative): `egov-mvc + jdk17`, `webflux + jdk8`
+  - Sparse-checkout from [`JasonMMo/nexacroN-fullstack`](https://github.com/JasonMMo/nexacroN-fullstack) — pulls only the runner + business tree + shared assets (api-contract, core, nxui, seed-data)
+  - Token substitution: `{{PROJECT_NAME}}`, `{{BACKEND_URL}}`, `{{CONTEXT_PATH}}`, `{{SERVER_PORT}}`
+  - 15 API endpoints pre-wired (14 common + 1 webflux-only `exim_exchange` streaming demo)
+  - HSQL in-memory seed data (6 tables: USERS, SAMPLE_BOARD, DEPT, LARGE_DATA, WIDE_COLUMNS, FILE_META)
+  - References: `compatibility-matrix.md`, `repo-map.md`, `runner-selection-guide.md`, `troubleshooting.md`
 
 ## 🔧 Runtime Detection
 
