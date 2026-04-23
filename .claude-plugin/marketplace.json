@@ -14,6 +14,11 @@
       "name": "nexacro-webflux-port",
       "source": "./plugins/nexacro-webflux-port",
       "description": "Playbook for porting Spring Boot/MVC Nexacro modules (xapi/xeni/uiadapter) to Spring WebFlux. Classpath shim, ServletProvider, multipart dispatch, paramOf equivalence, WebFilter bypass, ResultHandler ordering, base-path and static resource mapping."
+    },
+    {
+      "name": "nexacro-fullstack-starter",
+      "source": "./plugins/nexacro-fullstack-starter",
+      "description": "Scaffolds a full-stack Nexacro N v24 project: packageN nxui + Spring server (Boot/MVC/eGov/WebFlux) picked from a jdk × framework matrix."
     }
   ]
 }
