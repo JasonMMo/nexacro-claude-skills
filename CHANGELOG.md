@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-04-23
+
+### Added
+- **신규 플러그인 `nexacro-fullstack-starter`** (v0.1.0) — Nexacro N v24 풀스택 프로젝트 스캐폴드
+  - `jdk × framework` 매트릭스에서 8개 runner 중 하나를 선택하여 `nexacroN-fullstack` 모노레포로부터 sparse-clone
+  - 8 runners: `boot-jdk17-jakarta` (기본) / `boot-jdk8-javax` / `mvc-jdk17-jakarta` / `mvc-jdk8-javax` / `egov5-boot-jdk17-jakarta` / `egov4-boot-jdk8-javax` / `egov4-mvc-jdk8-javax` / `webflux-jdk17-jakarta`
+  - 도출 규칙: `servletApi = jdk>=17 ? jakarta : javax`, `springMajor = jakarta ? 6 : 5`, `bootMajor = jakarta ? 3 : 2`
+  - 거부 조합 (fail-fast + 대안 제시): `egov-mvc + jdk17`, `webflux + jdk8`
+  - 토큰 치환: `{{PROJECT_NAME}}` / `{{BACKEND_URL}}` / `{{CONTEXT_PATH}}` / `{{SERVER_PORT}}`
+  - 5 business tree (`shared-business/{jdk8-javax,jdk17-jakarta}`, `shared-business-egov4/jdk8-javax`, `shared-business-egov5/jdk17-jakarta`, `shared-business-reactive/jdk17-mybatis`)
+  - 15개 API endpoint (공통 14 + webflux 전용 `exim_exchange` 스트리밍 데모 1)
+  - HSQL 인메모리 seed data (USERS / SAMPLE_BOARD / DEPT / LARGE_DATA / WIDE_COLUMNS / FILE_META)
+- `plugins/nexacro-fullstack-starter/.claude-plugin/plugin.json` (v0.1.0)
+- `plugins/nexacro-fullstack-starter/skills/nexacro-fullstack-starter/SKILL.md` — 6-step 플로우 (파라미터 → 호환성 검사 → sparse clone → 토큰 치환 → 후처리 → 사용자 가이드)
+- `assets/matrix.json` — 143 라인 매트릭스 정의 (8 runners + rejected combinations + derivation rules + tokens)
+- 레퍼런스 4종: `compatibility-matrix.md`, `repo-map.md`, `runner-selection-guide.md`, `troubleshooting.md`
+- 신규 GitHub 저장소 [`JasonMMo/nexacroN-fullstack`](https://github.com/JasonMMo/nexacroN-fullstack) — 플러그인이 sparse-clone 하는 모노레포 (MIT)
+
+### Changed
+- `.claude-plugin/marketplace.json`: 2개 → 3개 플러그인 등록
+- `README.md` / `README-ko.md`: `three plugins` / `3개 플러그인` 으로 업데이트, 설치 명령 + 플러그인 ③ 섹션 + 프로젝트 구조 트리 확장
+
 ## [1.7.0] - 2026-04-22
 
 ### Added
