@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.3] - 2026-04-24
+
+### Changed
+- **`nexacroN-fullstack` monorepo — `core/` now resolves from tobesoft Nexus** — tag `v0.6.0-core-from-nexus`
+  - Parent `pom.xml` (`nexacroN-fullstack/pom.xml`):
+    - `<repositories>` block added — `id=tobesoft-snapshots` pointing to `https://mangosteen.tobesoft.co.kr/nexus/repository/tobesoft-snapshots/`
+    - 10 version properties (5 jakarta + 5 javax) for nexacro first-party modules
+    - `<dependencyManagement>` — 10 entries so runners reference only `groupId` + `artifactId`
+  - `samples/runners/boot-jdk17-jakarta/pom.xml` — 5 bare jakarta deps (`nexacroN-xapi-jakarta`, `nexacroN-xeni-jakarta`, `uiadapter-jakarta-{core,dataaccess,excel}`); v1.8.2's `<systemPath>` + `<optional>true</optional>` stanzas removed
+  - `samples/runners/boot-jdk8-javax/pom.xml` — 5 bare javax deps (`nexacroN-xapi`, `nexacroN-xeni`, `uiadapter-spring-{core,dataaccess,excel}`); v1.8.2의 REFERENCE-SOURCE-ONLY doc block 제거
+  - Build-verified: 두 러너 모두 `mvn compile` → BUILD SUCCESS (실제 Nexus resolution)
+- **`docs/releases/v1.8.3.md`** — 릴리스 노트, v1.8.2 supersession 논리 포함
+
+### Removed
+- **`core/libs/jakarta/`** — 2개 vendored jakarta SNAPSHOT jars 삭제 (staleness: Nexus에서 매일 갱신되는 정본 아티팩트와 분리되던 문제)
+  - `nexacroN-xapi-jakarta-1.2.4-20260312.005603-1.jar`
+  - `nexacroN-xeni-jakarta-1.5.21-20260312.012638-1.jar`
+- **`core/uiadapter-javax/`** — 102개 Java 파일, 3-모듈 Spring 5 uiadapter 소스 트리 삭제 (asymmetry: javax 전용이었고 단독 빌드 불가)
+
+### Deprecated
+- v1.8.2의 systemPath + local-jar 방식은 superseded. v1.8.2 소비자는 v1.8.3으로 re-scaffold 후 local `core/libs/`, `core/uiadapter-javax/` 삭제 권장.
+
+### Consumer requirement
+- `~/.m2/settings.xml`에 `<server id="tobesoft-snapshots">` 추가 (tobesoft-issued credentials) — jar download에 필요. 자세한 내용은 monorepo `core/README.md` 참고.
+
 ## [1.8.2] - 2026-04-24
 
 ### Added
