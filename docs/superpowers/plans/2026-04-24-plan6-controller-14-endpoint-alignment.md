@@ -14,13 +14,47 @@
 
 ---
 
+## Implementation directive — legacy source reference + Nexus-resolved module consumption (2026-04-24 user)
+
+> User directive: "endpoint 맞추면서 service 및 serviceImpl 구현할때 gitlab에 있는 소스 참조해서 pom.xml설정에 따라 가져온 xapi, xeni, uiadapter 모듈을 사용하도록 지침을 주고 구현하도록 하고 검증도 진행해."
+
+**Source-of-truth rules for every endpoint implementation:**
+
+1. **Business logic (Controller → Service → ServiceImpl → Mapper) reference source = legacy GitLab repos.**
+   Port the logic from the matching legacy repo (see mapping below). Do NOT fabricate service behavior. If a legacy repo lacks the endpoint, ESCALATE to user — do not improvise.
+2. **Framework plumbing (NexacroDataSet, NexacroResult, view resolvers, argument resolvers, excel servlet) consumed via Maven-resolved artifacts from tobesoft Nexus** — already declared in v1.8.3 runner pom.xml. DO NOT vendor `xapi` / `xeni` / `uiadapter` source into the monorepo; DO NOT copy framework classes. The runner must resolve them as jar dependencies.
+3. **Service / ServiceImpl land in `samples/shared-business/<variant>/` — NOT in the runner module.** The runner's controller is a thin HTTP shim that delegates to `shared-business` services. This matches the existing 5-endpoint structure.
+4. **Per-variant sourcing:**
+
+   | Runner | Legacy GitLab reference (service/mapper source) | shared-business tree | Nexus deps |
+   |---|---|---|---|
+   | `boot-jdk17-jakarta` | `gitlab.com/nexacron/spring-boot/jakarta/uiadapter-jakarta.git` (+ `nexacro-jakarta-example.git` for MVC-layer patterns if needed) | `samples/shared-business/jdk17-jakarta/` | `nexacroN-xapi-jakarta`, `nexacroN-xeni-jakarta`, `uiadapter-jakarta-{core,dataaccess,excel}` |
+   | `boot-jdk8-javax` | `gitlab.com/nexacron/spring-boot/javax/uiadapter-spring-boot.git` (+ `nexacro-example.git`) | `samples/shared-business/jdk8-javax/` | `nexacroN-xapi`, `nexacroN-xeni`, `uiadapter-spring-{core,dataaccess,excel}` |
+
+5. **Forbidden patterns:**
+   - `<systemPath>` / local jar references in pom.xml (v1.8.2 pattern, superseded)
+   - `import com.nexacro.xapi.*` or `com.nexacro.uiadapter.*` classes added as source files under `samples/` (these MUST come from jars)
+   - Copy-pasting entire classes from legacy repos without attribution comment citing the source URL + commit SHA
+6. **Porting protocol (per endpoint):**
+   - Read the legacy controller method + service interface + impl + mapper XML.
+   - Copy the **domain logic** (DTOs, SQL, business rules). Attribution header: `// Ported from <legacy-repo>/<path>@<sha> on 2026-04-24`.
+   - Adapt framework imports: `javax.*` ↔ `jakarta.*` as needed. Spring MVC 5 ↔ 6 signatures.
+   - Register the service bean in the runner's Spring context if the legacy one relied on component-scan paths that differ.
+   - Exercise: the endpoint compiles and a smoke curl against the runner returns non-5xx.
+
+**Gate implication:** spec-compliance review (Gate 1 per task) must verify NO framework source was vendored, NO placeholder service methods remain, and every new service method has an attribution comment pointing to the legacy source.
+
+---
+
 ## Prerequisite
 
 - [ ] **P.1** Dispatch Explore subagent to extract the exact 14 endpoint signatures from spec §5.1 and any openapi.yaml if present at `api-contract/openapi.yaml` in the monorepo. Produce `tasks/api-contract-14-endpoints.md` listing for each endpoint: HTTP verb, path, request dataset name/columns, response dataset name/columns, error cases. This document is the single source of truth for alignment.
 
-- [ ] **P.2** Dispatch Explore subagent to audit the CURRENT implemented endpoints in the two proven runners (`samples/runners/boot-jdk17-jakarta` + `samples/runners/boot-jdk8-javax`). Produce `tasks/api-contract-current-state.md` showing which of the 14 are implemented and which are missing. Expected gap: ~9 missing per runner (survey said 5 present).
+- [ ] **P.2** Dispatch Explore subagent to audit the CURRENT implemented endpoints in the two proven runners (`samples/runners/boot-jdk17-jakarta` + `samples/runners/boot-jdk8-javax`). Produce `tasks/api-contract-current-state.md` showing which of the 14 are implemented and which are missing. Also enumerate existing services in `samples/shared-business/jdk17-jakarta/` and `samples/shared-business/jdk8-javax/` so porting targets are known. Expected gap: ~9 missing per runner (survey said 5 present).
 
-Gate 2 (intent-check) between P.1/P.2 and Task 6.1: independent reviewer confirms the 14-endpoint list matches spec §5.1 verbatim. If openapi.yaml disagrees with spec, ESCALATE — do not silently pick one.
+- [ ] **P.3** Dispatch Explore subagent to clone the 4 relevant legacy repos (boot-jakarta, boot-javax, mvc-jakarta example, mvc-javax example) into a temp workspace `C:\tmp\legacy-refs\` and catalog per-repo: (a) service interfaces + impls matching the 14 endpoint domains (board, dept, login, file, large-data, + the missing 9), (b) mapper XMLs, (c) DTOs. Produce `tasks/legacy-source-catalog.md` with per-endpoint mapping: `endpoint → legacy-repo/path/ClassName.java@SHA`. If `glab` or `git clone` fails, ESCALATE — do not proceed to 6.2/6.3 without this catalog.
+
+Gate 2 (intent-check) between P.1/P.2/P.3 and Task 6.1: independent reviewer confirms (a) the 14-endpoint list matches spec §5.1 verbatim, (b) the legacy source catalog covers all 14 endpoints across both jakarta and javax lanes, (c) no framework-class vendoring is being proposed. If openapi.yaml disagrees with spec, ESCALATE. If a legacy repo lacks any of the 14 endpoints, ESCALATE with the specific missing list.
 
 ---
 
@@ -44,20 +78,24 @@ Gate 2 (intent-check) between P.1/P.2 and Task 6.1: independent reviewer confirm
 **Files:**
 - Modify: `samples/runners/boot-jdk17-jakarta/src/main/java/com/nexacro/fullstack/runner/boot17/controller/*.java`
   - Likely new files: expand from 5 to 14 endpoints. Group by business domain (login, board, dept, large-data, file, plus the missing 9).
+- Modify: `samples/shared-business/jdk17-jakarta/src/main/java/.../service/**` + `.../mapper/**` + `src/main/resources/mapper/**/*.xml`
+  - Port service interfaces, ServiceImpls, DTOs, mapper XMLs from legacy GitLab repos (per the catalog from P.3). **SHARED-BUSINESS AUTHORING IS IN SCOPE** for this task (scope change 2026-04-24 per user directive). When an endpoint's service does not yet exist in `shared-business/jdk17-jakarta/`, port it from the legacy repo. Only escalate if the legacy repo ALSO lacks it.
 
 **Steps (canonical, repeats per runner):**
 
 - [ ] **Step 1**: Sonnet subagent dispatch. Prompt must include:
   - Full `tasks/api-contract-14-endpoints.md`
-  - Current controller file list
-  - Shared-business service/mapper catalog for `shared-business/jdk17-jakarta`
-  - Instruction: for each missing endpoint, locate the corresponding shared-business service method. If the service does not exist yet, HALT and escalate (shared-business authoring is out of scope for this plan — belongs in a follow-up plan7 or equivalent).
+  - Full `tasks/api-contract-current-state.md`
+  - Full `tasks/legacy-source-catalog.md`
+  - Current runner controller file list + current `shared-business/jdk17-jakarta` service list
+  - The "Implementation directive" section (legacy-source-ref + Nexus-module-consumption + forbidden patterns)
+  - Explicit instruction: (a) for each missing endpoint port the legacy service/impl/mapper per the catalog, (b) add attribution comments `// Ported from <legacy-repo>/<path>@<sha> on 2026-04-24`, (c) adapt javax↔jakarta as needed, (d) NEVER add `com.nexacro.xapi.*` or `com.nexacro.uiadapter.*` classes under `samples/` — those must resolve from jars.
 
-- [ ] **Step 2**: `mvn -pl samples/runners/boot-jdk17-jakarta -am compile` → BUILD SUCCESS.
+- [ ] **Step 2**: `mvn -pl samples/runners/boot-jdk17-jakarta -am compile` → BUILD SUCCESS. If a compile error references a missing jar class, STOP: the Nexus dep is probably mis-declared; re-check pom.xml vs v1.8.3 baseline. Do NOT add the missing class as source under `samples/`.
 
-- [ ] **Step 3**: Unit smoke: Haiku subagent runs `mvn -pl samples/runners/boot-jdk17-jakarta spring-boot:run` in background, curls each of the 14 endpoints with fixture payloads, asserts non-5xx. Produce `tasks/controller-smoke-boot-jdk17-jakarta.log`.
+- [ ] **Step 3**: Unit smoke: Haiku subagent runs `mvn -pl samples/runners/boot-jdk17-jakarta spring-boot:run` in background, curls each of the 14 endpoints with fixture payloads (payloads captured from legacy-repo integration tests where possible), asserts non-5xx. Produce `tasks/controller-smoke-boot-jdk17-jakarta.log`.
 
-- [ ] **Step 4**: Spec-compliance review against §5.1.
+- [ ] **Step 4**: Spec-compliance review against §5.1. Reviewer MUST also verify: (a) every new service method has a legacy attribution comment, (b) no `com.nexacro.xapi` or `com.nexacro.uiadapter` source files appeared under `samples/`, (c) pom.xml still uses bare `groupId:artifactId` (v1.8.3 Nexus pattern), no `<systemPath>`.
 
 - [ ] **Step 5**: Code-quality review.
 
@@ -71,6 +109,9 @@ Same shape as 6.2 with:
 - `shared-business/jdk8-javax` as backing tree
 - javax-flavoured imports (`javax.servlet.*`)
 - Spring Boot 2.7 / MVC 5 signatures
+- Legacy reference: `gitlab.com/nexacron/spring-boot/javax/uiadapter-spring-boot.git` (+ `nexacro-example.git` for example-layer patterns)
+- Nexus artifacts: `nexacroN-xapi`, `nexacroN-xeni`, `uiadapter-spring-{core,dataaccess,excel}` (bare, no `-jakarta` suffix)
+- Same "Implementation directive" rules apply: NO framework-class vendoring; attribution comments mandatory; service/impl/mapper ported from legacy under `samples/shared-business/jdk8-javax/`.
 
 ---
 
