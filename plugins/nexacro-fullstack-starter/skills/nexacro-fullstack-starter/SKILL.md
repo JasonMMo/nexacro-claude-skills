@@ -183,7 +183,61 @@ git commit -m "chore: scaffolded from nexacro-fullstack-starter"
 
 사용자에게 물어보고 진행 (기본값: yes).
 
-## Step 6 — 사용자 안내 / Final guidance
+## Step 6 — nexacro 빌드 / Nexacro build (xfdl → xjs)
+
+scaffold 가 끝난 직후 `nxui/packageN` 의 xfdl 소스를 **xjs 로 1회 빌드**해야 Spring 정적 경로에서 로드할 수 있습니다. 이 단계는 `nexacrodeploy.exe` (Nexacro Studio 설치 시 동봉) 가 필요하므로 Claude 가 자동 실행하기보다는 사용자의 로컬 `/nexacro-build` skill 로 **핸드오프** 합니다.
+
+### 6-1. 빌드 경로 결정 (runner 별)
+
+| Runner family | Build output path |
+|---|---|
+| `boot-*`, `webflux-*` | `./src/main/resources/static/packageN/` |
+| `mvc-*`, `egov*-mvc-*` | `./src/main/webapp/packageN/` |
+
+runner key 의 prefix 로 자동 매핑:
+
+```
+case "${RUNNER_KEY}" in
+  boot-*|webflux-*)    BUILD_OUT="./samples/runners/${RUNNER_KEY}/src/main/resources/static/packageN/" ;;
+  mvc-*|egov*-mvc-*)   BUILD_OUT="./samples/runners/${RUNNER_KEY}/src/main/webapp/packageN/" ;;
+esac
+```
+
+### 6-2. `/nexacro-build` skill 안내 메시지
+
+사용자에게 아래 문구를 그대로 출력 (자동 실행하지 않음):
+
+```
+📦 nexacro xfdl → xjs 1회 빌드가 필요합니다.
+   로컬에 Nexacro Studio 가 설치되어 있으면 user skill `/nexacro-build` 로 실행하세요.
+
+   권장 파라미터:
+     project_xprj     = ./nxui/packageN/packageN.xprj
+     output_path      = {{BUILD_OUT}}
+     baselib_path     = ./nxui/packageN/nexacrolib
+     generaterule_path= <SDK>/generate
+
+   또는 CLI 로 직접:
+     nexacrodeploy.exe \
+       -P ./nxui/packageN/packageN.xprj \
+       -O {{BUILD_OUT}} \
+       -B ./nxui/packageN/nexacrolib \
+       -GENERATERULE <SDK>/generate
+```
+
+### 6-3. `/nexacro-build` 가 설치되어 있는 경우 자동 연계
+
+Claude 환경에서 `/nexacro-build` skill 이 사용 가능하면 Skill 도구로 직접 호출:
+
+```
+Skill(skill: "nexacro-build", args: "project=./nxui/packageN/packageN.xprj output={{BUILD_OUT}}")
+```
+
+skill 이 없으면 6-2 의 안내 문구만 출력하고 다음 Step 으로 넘어갑니다 (실패 아님).
+
+> ⚠️ nexacro Studio / `nexacrodeploy.exe` 는 Windows 전용입니다. macOS / Linux 사용자는 Windows 워크스테이션에서 빌드 후 산출물만 커밋하는 워크플로우를 사용하세요 (references/troubleshooting.md 참고).
+
+## Step 7 — 사용자 안내 / Final guidance
 
 실행 요약 출력:
 
@@ -192,14 +246,16 @@ git commit -m "chore: scaffolded from nexacro-fullstack-starter"
 ─────────────────────────────────────
 경로:     ./{{PROJECT_NAME}}
 runner:   {{RUNNER_KEY}}
+빌드 경로: {{BUILD_OUT}}
 ─────────────────────────────────────
 
 다음 단계 / Next steps:
-  1. DB 초기화:   (seed-data 는 서버 첫 실행 시 자동 로드)
-  2. 서버 실행:   cd samples/runners/{{RUNNER_KEY}}
+  1. xfdl 빌드:   Step 6 참고 (`/nexacro-build` 또는 nexacrodeploy.exe)
+  2. DB 초기화:   (seed-data 는 서버 첫 실행 시 자동 로드)
+  3. 서버 실행:   cd samples/runners/{{RUNNER_KEY}}
                  {{RUN_CMD}}
-  3. nexacro IDE: nxui/packageN.xprj 열기
-  4. 브라우저:    http://localhost:8080/uiadapter/
+  4. nexacro IDE: nxui/packageN.xprj 열기
+  5. 브라우저:    http://localhost:8080/uiadapter/
 
 문제 발생 시 references/troubleshooting.md 참고.
 ```
