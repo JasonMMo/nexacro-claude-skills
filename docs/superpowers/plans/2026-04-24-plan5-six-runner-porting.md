@@ -1,4 +1,6 @@
-# Six Non-Proven Runner Porting Implementation Plan
+# Runner Porting Implementation Plan (Scoped: 2 MVC runners)
+
+> **Scope update 2026-04-24 (user decision):** Option (b) — Task 1 restricted to the 2 `mvc-*` runners. eGov and WebFlux variants **deferred until explicit user request** (egov environment에서 reactive 기능은 요청 시 추가). Original plan text below is preserved; ignore tasks 5.3–5.6 unless/until re-opened.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development`. Bound by `orchestration-discipline` 4 gates. Each runner is ONE task — dispatch a fresh Sonnet subagent per runner, with two-stage review.
 
@@ -148,18 +150,14 @@ Run `scripts/drift-check.sh` (from plan4 Task 4.3). Expected: this runner flips 
 
 ---
 
-## Execution Order
+## Execution Order (ACTIVE — scope-narrowed)
 
-Dependency-driven ordering (easiest first to validate the template transform):
+1. **Task 5.1** ✅ active: `mvc-jdk17-jakarta` — war transform of boot-jakarta. Backed by `samples/shared-business/jdk17-jakarta` (exists).
+2. **Task 5.2** ✅ active: `mvc-jdk8-javax` — war transform of boot-javax. Backed by `samples/shared-business/jdk8-javax` (exists).
 
-1. **Task 5.1**: `mvc-jdk17-jakarta` — war transform of boot-jakarta. Validates the war template.
-2. **Task 5.2**: `mvc-jdk8-javax` — war transform of boot-javax. Parallelizable with 5.1 if desired.
-3. **Task 5.3**: `webflux-jdk17-jakarta` — webflux swap of boot-jakarta. Validates reactive path.
-4. **Task 5.4**: `egov5-boot-jdk17-jakarta` — egov layering on boot-jakarta.
-5. **Task 5.5**: `egov4-boot-jdk8-javax` — egov4 layering on boot-javax.
-6. **Task 5.6**: `egov4-mvc-jdk8-javax` — combines war transform (from 5.2) + egov4 layering (from 5.5).
+Tasks 5.3–5.6 (webflux + egov4/5) **DEFERRED** per user decision 2026-04-24. Shared-business-egov4/egov5/reactive trees are empty; re-open only on explicit user request, then author a follow-up plan (plan7) for the missing shared-business trees first.
 
-Do NOT parallelise Sonnet subagents across tasks — keep serial to avoid parent-pom contention and to make each spec-review focused.
+Do NOT parallelise Sonnet subagents across Task 5.1 and 5.2 — keep serial to avoid parent-pom contention and to make each spec-review focused.
 
 ---
 
