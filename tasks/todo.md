@@ -4,7 +4,7 @@ Session handoff status. Live document — update after each session.
 
 ---
 
-## Current status (2026-04-24, end of afternoon session)
+## Current status (2026-04-24, end of evening session)
 
 **User directive in effect:** "3번 - 1번 - 2번 순서로 진행하자" (proceed Task 3 → Task 1 → Task 2).
 
@@ -51,10 +51,43 @@ Session handoff status. Live document — update after each session.
 
 ---
 
-## Scheduled — GitLab archival (plan4 Task 3.2)
+## Phase 3 — PARALLEL MAINTENANCE (revised 2026-04-24)
 
-Blocking: plan4 Task 3.1 must complete first (migration-notice README patch on 8 legacy repos).
-Earliest archival execution: 2 sprints after Task 3.1 completion.
+**User directive:** "starter가 효과적이라고 검증될때까지 유지할 저장소이다. 관리해야 할거야."
+
+Legacy repos are NOT archived. Plan4 Phase 3 pivoted from migration+archival to:
+- Task 3.1: advisory MR (non-destructive) on 7 public legacy repos
+- Task 3.2: maintenance-parity governance (`legacy-gitlab-registry.md` + `maintenance-parity-playbook.md`)
+- Task 3.3: sunset-criteria framework (PENDING user approval of N / M / L thresholds)
+- Task 3.4: deferred archival (future plan8, user-triggered only)
+
+### Legacy repo registry (7 public + 1 pending)
+
+| # | runner-id | GitLab clone URL | public |
+|---|---|---|---|
+| 1 | boot-jdk17-jakarta | gitlab.com/nexacron/spring-boot/jakarta/uiadapter-jakarta.git | ✅ |
+| 2 | boot-jdk8-javax | gitlab.com/nexacron/spring-boot/javax/uiadapter-spring-boot.git | ✅ |
+| 3 | mvc-jdk17-jakarta | gitlab.com/nexacron/spring-framework/jakarta/nexacro-jakarta-example.git | ✅ |
+| 4 | mvc-jdk8-javax | gitlab.com/nexacron/spring-framework/javax/nexacro-example.git | ✅ |
+| 5 | egov5-boot-jdk17-jakarta | gitlab.com/nexacron/egov5-spring-boot/jakarta/egov5-boot-nexan.git | ✅ |
+| 6 | egov4-boot-jdk8-javax | gitlab.com/nexacron/egov-spring-boot/javax/eGov43-boot-nexaN.git | ✅ |
+| 7 | egov4-mvc-jdk8-javax | gitlab.com/nexacron/egov-spring-framework/egov43x/egov43-nexacron.git | ✅ |
+| 8 | webflux-jdk17-jakarta | _(공개 전)_ | ⏳ |
+
+### Sunset thresholds — PENDING USER APPROVAL
+
+Coordinator suggestion (to be confirmed or overridden by user):
+- **N** = 3 independent installs of the starter for a given runner variant
+- **M** = 4 consecutive weeks of the N-install window
+- **L** = 8 consecutive weeks with no legacy-unique bug reports
+
+### Sunset approvals
+
+_(None yet. Add one line per runner when approved: `<runner-id> sunset APPROVED on YYYY-MM-DD — <reason>`)_
+
+### Deferred — legacy sunset (per-runner)
+
+plan8 is NOT written yet. It is authored per-runner only when Task 3.3 criteria are fully met AND user signs off under `### Sunset approvals`.
 
 ---
 
@@ -76,10 +109,13 @@ Pre-requisites before tagging:
 
 ## Still open
 
-3. **GitLab legacy repo existence + slugs** (plan4 Task 3.1). User asked for clarification:
-   - "slug" = `<namespace>/<repo-name>` on GitLab, e.g. `tobesoft/nexacroN-boot-jdk17-jakarta`
-   - Need to confirm: do the 8 legacy repos actually exist on a GitLab instance? Under which group/user? What is the naming pattern?
-   - If **no legacy repos exist on GitLab**, Phase 3 collapses to a no-op and plan4 Task 3.1/3.2 should be removed.
+3. ~~GitLab legacy repo existence + slugs~~ — **RESOLVED 2026-04-24**. User provided 7 public clone URLs (see Phase 3 registry table above); 8th webflux pending publication. Phase 3 pivoted to parallel-maintenance model per user directive.
+
+4. **Sunset thresholds N / M / L** (plan4 Task 3.3 Step 2) — coordinator suggests N=3, M=4 wks, L=8 wks. Awaiting explicit user confirmation or override. Until set, `docs/governance/legacy-sunset-criteria.md` carries a PENDING USER APPROVAL banner.
+
+5. **Task 1 execution** — user-chosen option (b) 2-runner scope. Next-session dispatch: plan5 Task 5.1 (`mvc-jdk17-jakarta`) → Task 5.2 (`mvc-jdk8-javax`).
+
+6. **Task 2 execution** — blocks on Task 1 runners compiling. Then plan6 P.1 + P.2 → 6.1 → 6.2/6.3 (+ 6.4/6.5 for the two mvc runners from plan5).
 
 ---
 
