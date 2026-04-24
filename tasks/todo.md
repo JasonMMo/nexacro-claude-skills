@@ -16,7 +16,7 @@ Session handoff status. Live document — update after each session.
 - Gate 2 intent-check: Explore-subagent fallback (codex-rescue unavailable) — GO
 - Gate 3 pre-commit verification: Explore — GO with 3 non-blocking observations
 
-### Task 1 — Six runner porting ⏸ PLAN READY, EXECUTION BLOCKED (partial)
+### Task 1 — Runner porting (scoped to 2 MVC runners per user decision) ⏸ PLAN READY, EXECUTION PENDING
 
 - Plan artifact committed: `docs/superpowers/plans/2026-04-24-plan5-six-runner-porting.md` (`7674c75`)
 - Prerequisite P.1 scan result:
@@ -69,11 +69,17 @@ Pre-requisites before tagging:
 
 ---
 
-## Open questions for user
+## Resolved decisions (2026-04-24, user)
 
-1. Task 1 blocker decision (a / b / c above).
-2. Task 2's plan6 Task 6.1 optional path (shared `NexacroApi` Java interface module vs. markdown-only contract doc) — default is markdown unless user prefers compile-time contract enforcement.
-3. GitLab legacy repo namespace confirmation (plan4 Task 3.1 Step 1) — glab query will list candidates but user should validate the slug pattern.
+1. **Task 1 scope** = option (b): restrict to 2 `mvc-*` runners (`mvc-jdk17-jakarta`, `mvc-jdk8-javax`). egov4/egov5/webflux variants DEFERRED until explicit re-request ("egov 환경에서 reactive 기능은 요청 시 추가"). plan5 updated with scope banner; Tasks 5.3–5.6 parked.
+2. **plan6 Task 6.1** = default (markdown-only contract doc at `api-contract/14-endpoints.md`). No `NexacroApi` Java interface module. plan6 updated.
+
+## Still open
+
+3. **GitLab legacy repo existence + slugs** (plan4 Task 3.1). User asked for clarification:
+   - "slug" = `<namespace>/<repo-name>` on GitLab, e.g. `tobesoft/nexacroN-boot-jdk17-jakarta`
+   - Need to confirm: do the 8 legacy repos actually exist on a GitLab instance? Under which group/user? What is the naming pattern?
+   - If **no legacy repos exist on GitLab**, Phase 3 collapses to a no-op and plan4 Task 3.1/3.2 should be removed.
 
 ---
 
