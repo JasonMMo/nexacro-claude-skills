@@ -9,13 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Plans for Phase 3 + Phase 4 closure + Tasks 1 and 2** (plan4/5/6):
-  - `docs/superpowers/plans/2026-04-24-plan4-phase3-phase4-closure.md` — GitLab 8-repo migration notice + archival checklist, plugin install dry-run harness, monorepo↔plugin drift-check, deferred v1.9.0 closure tag
-  - `docs/superpowers/plans/2026-04-24-plan5-six-runner-porting.md` — 6 non-proven runner scaffolds (`mvc-jdk17-jakarta`, `mvc-jdk8-javax`, `egov5-boot-jdk17-jakarta`, `egov4-boot-jdk8-javax`, `egov4-mvc-jdk8-javax`, `webflux-jdk17-jakarta`) with per-runner variable matrix and Sonnet dispatch templates
-  - `docs/superpowers/plans/2026-04-24-plan6-controller-14-endpoint-alignment.md` — 14-endpoint common contract alignment (currently 5 of 14 implemented per runner) plus WebFlux §5.2 variant
-- **`tasks/todo.md`** — live session handoff document tracking Task 3 completion, Task 1/2 blocker analysis, scheduled GitLab archival, deferred v1.9.0 tag, and orchestration-discipline gate log
+  - `docs/superpowers/plans/2026-04-24-plan4-phase3-phase4-closure.md` — Phase 3 parallel-maintenance governance (advisory MRs, parity playbook, sunset criteria), plugin install dry-run harness, monorepo↔plugin drift-check, deferred v1.9.0 closure tag
+  - `docs/superpowers/plans/2026-04-24-plan5-six-runner-porting.md` — 6 non-proven runner scaffolds with scope narrowed to 2 `mvc-*` runners (option (b)); `egov*` and `webflux-*` deferred until user re-request
+  - `docs/superpowers/plans/2026-04-24-plan6-controller-14-endpoint-alignment.md` — 14-endpoint common contract alignment, markdown-only contract doc path (per user default), WebFlux §5.2 variant
+- **`tasks/todo.md`** — live session handoff document tracking Task 3 completion, Task 1/2 blocker analysis, legacy repo registry (7 public + 1 pending), sunset-threshold placeholder awaiting user approval
+
+### Changed
+- **Phase 3 pivot (2026-04-24, per user directive "starter가 효과적이라고 검증될때까지 유지할 저장소이다. 관리해야 할거야.")** — plan4 Phase 3 rewritten from "migration + archival" to **parallel-maintenance governance**:
+  - Task 3.1: advisory MR workflow (non-destructive) across 7 public legacy GitLab repos (webflux 공개 전 제외)
+  - Task 3.2: `docs/governance/legacy-gitlab-registry.md` + `docs/governance/maintenance-parity-playbook.md`
+  - Task 3.3: `docs/governance/legacy-sunset-criteria.md` with measurable gates (functional parity + adoption N + bug-flow M weeks + contract stability L weeks + explicit user sign-off). N/M/L thresholds PENDING USER APPROVAL
+  - Task 3.4: actual archival DEFERRED to future plan8, authored per-runner only on user trigger
+  - Rationale: legacy repos serve real users; parallel maintenance until starter effectiveness is independently validated
 
 ### Notes
-- Task 1 execution partially blocked: `samples/shared-business-egov4/jdk8-javax`, `samples/shared-business-egov5/jdk17-jakarta`, `samples/shared-business-reactive/jdk17-mybatis` are empty directories in the monorepo. 2 of 6 runner ports (`mvc-jdk17-jakarta`, `mvc-jdk8-javax`) are unblocked; 4 of 6 await shared-business authoring (potential plan7) or a scope/spec decision from the user.
+- Task 1 execution partially blocked on shared-business scaffolding: `samples/shared-business-egov4/jdk8-javax`, `samples/shared-business-egov5/jdk17-jakarta`, `samples/shared-business-reactive/jdk17-mybatis` are empty directories. User chose option (b) — scope restricted to 2 `mvc-*` runners; egov/webflux variants deferred until explicit re-request.
+- Open item: sunset thresholds N / M / L in plan4 Task 3.3 Step 2 require user confirmation before `legacy-sunset-criteria.md` becomes authoritative.
 
 ## [1.8.3] - 2026-04-24
 
