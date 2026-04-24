@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.2] - 2026-04-24
+
+### Added
+- **모노레포 `core/` 모듈 (partial, honest)** — `nexacroN-fullstack` tag `v0.5.0-core`
+  - `core/libs/jakarta/` — 2개 SNAPSHOT jar 선적
+    - `nexacroN-xapi-jakarta-1.2.4-20260312.005603-1.jar` (520 KB)
+    - `nexacroN-xeni-jakarta-1.5.21-20260312.012638-1.jar` (202 KB)
+    - 출처: `asis/jakarta-example` 빌드 트리 (tobesoft-internal Nexus timestamp `20260312`), production jakarta 샘플이 구동 중인 동일 바이너리
+  - `core/uiadapter-javax/` — `uiadapter-spring` 3-모듈 소스 트리 verbatim 복사 (102 .java)
+    - `uiadapter-spring-core` (65 .java) — MVC surface, annotations, view resolvers
+    - `uiadapter-spring-dataaccess` (25 .java) — DAO 헬퍼 (ibatis, jdbc, mybatis)
+    - `uiadapter-spring-excel` (2 .java) — Excel servlet
+    - IDE 메타데이터 (`.idea/`, `*.iml`) 및 생성 javadoc (`doc/`) 제거, 빌드 가능한 Maven 구조만 유지
+  - `core/README.md` — 실제 선적 인벤토리, 출처, 빠진 것 + 복구 경로 (tobesoft Nexus), runner 별 소비 방식 문서화
+- **`docs/releases/v1.8.2.md`** — 릴리스 노트
+
+### Changed
+- **`samples/runners/boot-jdk17-jakarta/pom.xml`** — `core/libs/jakarta/` 의 xapi + xeni 에 대한 **optional systemPath** 의존성 추가
+  - `<optional>true</optional>` + `<scope>system</scope>` 로 기본 빌드에 영향 없음 — 러너는 여전히 inline `com.nexacro.fullstack.business.xapi.*` 클래스로 컴파일
+  - 소비자는 `<scope>compile</scope>` 로 플립 후 inline 클래스 삭제 시 first-party 바이너리로 스왑
+  - 빌드 검증: `mvn compile` → BUILD SUCCESS
+- **`samples/runners/boot-jdk8-javax/pom.xml`** — `core/uiadapter-javax/` 참조 + xapi/xeni (javax) 갭 문서화 블록 추가 (의존성 변경 없음)
+  - 빌드 검증: `mvn compile` → BUILD SUCCESS
+
+### Deferred to v1.8.3+
+- **14-endpoint 컨트롤러 계약 정렬** — 백킹 service/DAO/MyBatis XML/HSQL seed 확장이 v1.8.2 패치 범위 초과
+- **6개 non-proven runner** (`mvc-*`, `egov*`, `webflux-*`) — 비즈니스 트리 포팅 계속 보류
+- **javax 라인 xapi/xeni 바이너리** — 워크스페이스에 없음, tobesoft Nexus (`mangosteen.tobesoft.co.kr`) 자격증명 필요
+- **jakarta 라인 uiadapter 소스** — 현 jakarta 러너는 바이너리로 tobesoft Nexus 에서 로드, 소스 포팅은 `javax.servlet.*` → `jakarta.servlet.*` + Spring 5 → 6 SPI 소량 전환으로 기계적 수행 가능 (별도 minor)
+
 ## [1.8.1] - 2026-04-24
 
 ### Added
