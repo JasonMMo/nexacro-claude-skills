@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Plans for Phase 3 + Phase 4 closure + Tasks 1 and 2** (plan4/5/6):
+  - `docs/superpowers/plans/2026-04-24-plan4-phase3-phase4-closure.md` — GitLab 8-repo migration notice + archival checklist, plugin install dry-run harness, monorepo↔plugin drift-check, deferred v1.9.0 closure tag
+  - `docs/superpowers/plans/2026-04-24-plan5-six-runner-porting.md` — 6 non-proven runner scaffolds (`mvc-jdk17-jakarta`, `mvc-jdk8-javax`, `egov5-boot-jdk17-jakarta`, `egov4-boot-jdk8-javax`, `egov4-mvc-jdk8-javax`, `webflux-jdk17-jakarta`) with per-runner variable matrix and Sonnet dispatch templates
+  - `docs/superpowers/plans/2026-04-24-plan6-controller-14-endpoint-alignment.md` — 14-endpoint common contract alignment (currently 5 of 14 implemented per runner) plus WebFlux §5.2 variant
+- **`tasks/todo.md`** — live session handoff document tracking Task 3 completion, Task 1/2 blocker analysis, scheduled GitLab archival, deferred v1.9.0 tag, and orchestration-discipline gate log
+
+### Notes
+- Task 1 execution partially blocked: `samples/shared-business-egov4/jdk8-javax`, `samples/shared-business-egov5/jdk17-jakarta`, `samples/shared-business-reactive/jdk17-mybatis` are empty directories in the monorepo. 2 of 6 runner ports (`mvc-jdk17-jakarta`, `mvc-jdk8-javax`) are unblocked; 4 of 6 await shared-business authoring (potential plan7) or a scope/spec decision from the user.
+
 ## [1.8.3] - 2026-04-24
 
 ### Changed
