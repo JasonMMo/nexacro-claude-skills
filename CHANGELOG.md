@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.1] - 2026-04-24
+
+### Added
+- **`nxui/packageN` 프로젝트 본체** (`nexacroN-fullstack` 모노레포, tag `v0.4.0-nxui-packageN`)
+  - `asis/jakarta-example/src/main/nxui/packageN` 기반 (1531 파일 / 56 MB)
+  - `packageN.xprj`, `packageN.xadl`, `appvariables.xml`, `environment.xml`
+  - `_resource_/` (theme, initvalue, images, font, xcss) + `nexacrolib/` (1379 파일 / 55 MB) 런타임
+  - `frame/` 8종 (frameBottom/Left/Login/Main/MDI/Top/Work/WorkTitle)
+  - `pattern/` 4종 (transaction, excel, FileUpTransfer, largeData)
+  - `sample/` 13종 (Calendar, Grid, Message, Popup, Script, FileUpDownloadTrans, streaming video, bulk columns, …)
+  - `cmm/cmmAlert.xfdl`, `cmm/cmmConfirm.xfdl`, `lib/cmmInclude.xjs`, `debugging/`, `images/`
+- **`typedefinition.xml` Services 블록 2-tier 재구성**
+  - Core 9 (nexacroN v24 표준 고정 레이아웃): `theme` / `initvalue` / `imagerc` / `font` / `extPrototype` / `lib` / `frame` / `xcssrc` / `images`
+  - Scaffold 보조 4: `svcurl` → `{{BACKEND_URL}}` (플러그인 토큰 치환), `cmm` / `sample` / `pattern` (form 폴더 마운트)
+- **`nxui/README.md`** — services contract 표, runner family 별 build output 경로, nexacrolib 동봉 근거 문서화
+- **`docs/releases/v1.8.1.md`** — 릴리스 노트
+
+### Changed
+- **`plugins/nexacro-fullstack-starter/.../SKILL.md`** — `Step 6 — nexacro 빌드 / Nexacro build` 신규 단계 삽입
+  - Runner family 별 build output 경로 자동 매핑 (`boot-*` / `webflux-*` → `src/main/resources/static/packageN/`; `mvc-*` / `egov*-mvc-*` → `src/main/webapp/packageN/`)
+  - `/nexacro-build` user skill 자동 연계 (`Skill(skill: "nexacro-build", args: ...)`)
+  - `/nexacro-build` 미설치 시 `nexacrodeploy.exe` CLI 복붙 안내로 우아하게 폴백
+  - Windows 전용 주의사항 문서화
+  - 기존 Step 6 (Final guidance) → **Step 7** 로 승격, 새 build path 를 next-steps 리스트에 노출
+- **`.gitignore` (monorepo)** — `$Geninfo$.geninfo`, `*.geninfo` (nexacro IDE 캐시) 추가
+
+### Deferred to v1.8.2
+- `core/` 모듈 import (xapi/xeni/uiadapter × {jakarta, javax}) — 조사 결과 현재 러너가 `shared-business-*` 트리 안에 nexacro envelope / uiadapter surface 를 inline 으로 이미 보유 (`com.nexacro.fullstack.business.xapi.*`, `com.nexacro.fullstack.business.uiadapter.*`). 외부 jar 로 전환하는 작업은 소스 교체 성격이므로 별도 minor 로 분리.
+- 14-endpoint 컨트롤러 계약 정렬 — 백킹 서비스/DAO/MyBatis XML/HSQL seed 확장이 필요하여 패치 릴리스 범위 초과.
+
 ## [1.8.0] - 2026-04-23
 
 ### Added
