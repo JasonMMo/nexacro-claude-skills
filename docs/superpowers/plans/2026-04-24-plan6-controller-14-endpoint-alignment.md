@@ -1,5 +1,9 @@
 # Controller 14-Endpoint Contract Alignment Implementation Plan
 
+> **Scope decision 2026-04-24 (user):**
+> - Task 6.1 path = default (markdown-only contract doc, no `NexacroApi` Java interface module).
+> - Runner coverage scope-narrowed to match plan5: Tasks 6.2 (boot-jdk17-jakarta), 6.3 (boot-jdk8-javax), plus Tasks 6.4 (mvc-jdk17-jakarta), 6.5 (mvc-jdk8-javax). Tasks for egov4/egov5/webflux are DEFERRED until those runners are re-opened.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: `superpowers:subagent-driven-development`. Bound by `orchestration-discipline` 4 gates.
 
 **Goal:** Align every runner's controllers to the spec §5.1 common 14-endpoint contract (currently only 5 controllers exist across proven runners). Ensure identical API surface so the same `packageN` nxui works against any runner.
@@ -27,11 +31,7 @@ Gate 2 (intent-check) between P.1/P.2 and Task 6.1: independent reviewer confirm
 **Files:**
 - Create (optional, if user approves API-contract module): `api-contract/src/main/java/com/nexacro/fullstack/contract/NexacroApi.java` — 14 abstract methods with full `@RequestMapping` / `@PostMapping` annotations, request/response types.
 
-- [ ] **Step 1**: Dispatch Sonnet subagent to either:
-  - (a) author the `NexacroApi` interface as a new module `api-contract/` in the monorepo, OR
-  - (b) document the 14 signatures as a markdown reference only (no Java module)
-
-  Default to (b) unless the user has previously requested a shared interface module. A Java interface forces compile-time contract alignment but adds a new monorepo module — intent-check with user before doing (a).
+- [ ] **Step 1**: Dispatch Sonnet subagent with path (b) per user decision 2026-04-24 — document the 14 signatures as a markdown reference at `api-contract/14-endpoints.md` (monorepo). No Java interface module. The markdown is authoritative; runners implement against it without compile-time binding.
 
 - [ ] **Step 2**: Spec-compliance review against `tasks/api-contract-14-endpoints.md`.
 
