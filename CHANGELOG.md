@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - v1.8.2의 systemPath + local-jar 방식은 superseded. v1.8.2 소비자는 v1.8.3으로 re-scaffold 후 local `core/libs/`, `core/uiadapter-javax/` 삭제 권장.
 
 ### Consumer requirement
-- `~/.m2/settings.xml`에 `<server id="tobesoft-snapshots">` 추가 (tobesoft-issued credentials) — jar download에 필요. 자세한 내용은 monorepo `core/README.md` 참고.
+- 없음. `mangosteen.tobesoft.co.kr/nexus/repository/tobesoft-snapshots/`는 public repo — `~/.m2/settings.xml` 수정 불필요, anonymous access로 jar download까지 가능.
 
 ## [1.8.2] - 2026-04-24
 
