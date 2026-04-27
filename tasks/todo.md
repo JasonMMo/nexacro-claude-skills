@@ -4,7 +4,43 @@ Session handoff status. Live document — update after each session.
 
 ---
 
-## Current status (2026-04-27, plan9 closure)
+## Current status (2026-04-27, plan10 closure)
+
+**User directive:** "메이저 버전 핀은 변경하지 않고 마이너 버전 변경만 업데이트 할 수 있어?" → "좋아. 이대로 진행하자."
+
+### Plan10 — Minor/patch-only auto-bump tooling ✅ DONE
+
+Need: pick up tobesoft Nexus minor/patch updates without risking major-version API breaks (e.g. 1.2.x → 1.3.x OK, 1.x → 2.x blocked). Manual property edits don't scale; Maven version range syntax `[1.0,2.0)` is incompatible with all-SNAPSHOT environment.
+
+**Solution applied:** registered `versions-maven-plugin:2.16.2` in root `pom.xml` `<build><pluginManagement>` with safe defaults.
+
+| File | Change | Commit |
+|---|---|---|
+| `pom.xml` | `<build><pluginManagement>` block + usage comment | `56cface` |
+
+**Configured defaults (safe):**
+- `allowMajorUpdates=false` — blocks 1.x → 2.x
+- `allowSnapshots=true` — required (Nexus is SNAPSHOT-only)
+- `generateBackupPoms=false` — no `pom.xml.versionsBackup` clutter
+- (defaults left at) `allowMinorUpdates=true`, `allowIncrementalUpdates=true`
+
+**Canonical one-liner:**
+```
+mvn versions:update-properties -DallowSnapshots=true -DallowMajorUpdates=false
+```
+
+**Recommended cadence:** nightly CI auto-PR. Diff `pom.xml`, run `mvn -DskipTests compile -q` both lanes, open PR if BUILD SUCCESS.
+
+**Per-property excludes (if a property must stay pinned):**
+```
+mvn versions:update-properties -Dexcludes=com.nexacro.platform:* -DallowSnapshots=true -DallowMajorUpdates=false
+```
+
+**Major bump still deferred:** jakarta lane `1.2.4-SNAPSHOT` → `2.0.03d-SNAPSHOT` requires separate compatibility-verification plan (API break risk). Tooling is now in place; the decision to invoke it for majors is gated on that plan.
+
+---
+
+## Previous status (2026-04-27, plan9 closure)
 
 **User directive:** "후속 작업 진행하자" — close out remaining last-week P0/P1 gaps.
 
