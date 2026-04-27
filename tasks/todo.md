@@ -4,7 +4,54 @@ Session handoff status. Live document — update after each session.
 
 ---
 
-## Current status (2026-04-24, end of evening session)
+## Current status (2026-04-27, plan6 closure)
+
+**User directive in effect:** "퇴근한다. 묻지말고 알아서 끝내줘" — autonomous plan6 execution to completion.
+
+### Plan6 — Controller 14-endpoint alignment ✅ DONE
+
+All 8 sub-tasks completed across both lanes. **17/17 endpoints non-5xx** in smoke verification.
+
+| Task | Status | Artifact / commit |
+|---|---|---|
+| 6.1 — `api-contract/14-endpoints.md` | ✅ | 604 lines, Appendix A/B/C — `ac4a35a` |
+| 6.1 spec+quality review | ✅ PASS | — |
+| 6.2 — Jakarta lane (5 endpoints) | ✅ | 7 commits: `7226ea8`, `32d0e57`, `8352393`, `ade86af`, `aae3af9`, `488a627`, `b771277` |
+| 6.2 review + `mvn compile` | ✅ PASS / BUILD SUCCESS | — |
+| 6.3 — Javax lane (5 endpoints) | ✅ | 5 commits: `58064f6`, `439d03f`, `bdc1d4c`, `4556cff`, `f8c382c` |
+| 6.3 review + `mvn compile` | ✅ PASS / BUILD SUCCESS | — |
+| Final smoke verification | ✅ PASS | 17/17 non-5xx, both runners (jakarta @ 8080, javax @ 8082) |
+
+**Total commits applied:** 13. Working tree clean.
+
+#### 5 new endpoints (both lanes)
+
+| # | Path | Method | Notes |
+|---|---|---|---|
+| 7 | `/uiadapter/multiDownloadFiles.do` | GET | ZIP stream, `Content-Disposition: attachment` |
+| 9 | `/uiadapter/streamingVideo.do` | GET | Range support, canonical-path traversal guard |
+| 10 | `/uiadapter/select_testDataTypeList.do` | POST | 12-column dataset over HSQLDB seed |
+| 11 | `/uiadapter/check_testDataTypeList.do` | POST | echoes input dataset as `output1` |
+| 14 | `/uiadapter/search_manyColumn_data.do` | POST | 50-column dataset, optional `KEY_ID` filter |
+
+#### Smoke-verification caveats (all non-blocking, captured for follow-up)
+
+1. **`boot-jdk17-jakarta/pom.xml`** — `spring-boot-maven-plugin` not pinned and missing `<execution><goals><goal>repackage</goal></goals></execution>`. Verification worked around with explicit `:3.3.4:repackage` goal. Fix recommended in next maintenance pass.
+2. **`boot-jdk8-javax`** — parent BOM pins `hsqldb 2.7.3` (requires JDK 11+). Runner cannot actually boot on JDK 8. Verified booting on JDK 11. **Decision needed:** pin `hsqldb.version=2.5.2` for the javax lane, OR rename the runner to reflect a JDK 11 floor.
+3. Stale `java` PID 8636 holding port 8081 (couldn't kill — access denied). Javax was redirected to 8082 for verification. Cosmetic.
+4. **Path-scheme divergence** between runners (jakarta uses `/sample/board/*.do`, javax uses `/board/*` no-suffix; `/login.do` vs `/login`; etc.) — already deferred to plan7 per `api-contract/14-endpoints.md` Appendix C.
+
+#### Follow-up plans (deferred, see "Plan6 follow-ups" section below)
+
+- **plan7** — path-scheme unification across runners
+- **plan8 candidate** — vendored shim (`com.nexacro.fullstack.business.xapi.*`) → Nexus raw `xapi`/`xeni`/`uiadapter` direct consumption
+- **plan9 candidate** — hsqldb javax-lane downgrade OR runner rename to `boot-jdk11-javax`
+- **plan10 candidate** — `boot-jdk17-jakarta/pom.xml` Spring Boot Maven plugin pin + repackage execution
+- **OpenAPI reconciliation** — `/excel/export.do` divergence between `openapi.yaml` and design spec
+
+---
+
+## Prior status (2026-04-24, end of evening session) — ARCHIVED FOR REFERENCE
 
 **User directive in effect:** "3번 - 1번 - 2번 순서로 진행하자" (proceed Task 3 → Task 1 → Task 2).
 
@@ -116,6 +163,20 @@ Pre-requisites before tagging:
 5. **Task 1 execution** — user-chosen option (b) 2-runner scope. Next-session dispatch: plan5 Task 5.1 (`mvc-jdk17-jakarta`) → Task 5.2 (`mvc-jdk8-javax`).
 
 6. **Task 2 execution** — blocks on Task 1 runners compiling. Then plan6 P.1 + P.2 → 6.1 → 6.2/6.3 (+ 6.4/6.5 for the two mvc runners from plan5).
+
+---
+
+## Plan6 follow-ups (2026-04-27)
+
+Captured during plan6 execution + smoke verification. Each becomes its own plan when prioritized.
+
+| ID | Title | Trigger | Scope |
+|---|---|---|---|
+| plan7 | Runner path-scheme unification | After plan6 stabilizes | Pick canonical scheme (`/<domain>/<action>.do`) and migrate divergent runners. Update controllers + clients. |
+| plan8 (candidate) | Replace vendored xapi shim with Nexus raw modules | When `com.nexacro:nexacroN-xapi-*` API stable | Migrate `com.nexacro.fullstack.business.xapi.*` → raw `com.nexacro.xapi.*`. Affects all runners + shared-business. |
+| plan9 (candidate) | hsqldb javax-lane JDK floor decision | Before re-asserting "JDK 8 supported" | Either downgrade `hsqldb` to 2.5.2 in javax lane (parent BOM property override) OR rename runner to `boot-jdk11-javax`. |
+| plan10 (candidate) | `boot-jdk17-jakarta/pom.xml` Spring Boot plugin hardening | Next maintenance pass | Pin `spring-boot-maven-plugin:3.3.5` + add `<execution><goals><goal>repackage</goal></goals></execution>`. |
+| openapi-fix | OpenAPI `/excel/export.do` reconciliation | Before next contract bump | Resolve divergence between `api-contract/openapi.yaml` and design spec (see 14-endpoints.md Appendix A). |
 
 ---
 
