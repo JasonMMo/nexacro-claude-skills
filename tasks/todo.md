@@ -4,7 +4,29 @@ Session handoff status. Live document — update after each session.
 
 ---
 
-## Current status (2026-04-27, plan8 closure)
+## Current status (2026-04-27, plan9 closure)
+
+**User directive:** "후속 작업 진행하자" — close out remaining last-week P0/P1 gaps.
+
+### Plan9 — Last-week P0/P1 gap closeout ✅ DONE
+
+| ID | Gap | Status | Evidence |
+|---|---|---|---|
+| P0-2 | `core/` 모듈 xapi/xeni/uiadapter | ✅ ALREADY-MET (design clarification) | `core/` = README + Nexus pull design (`v0.6.0-core-from-nexus`). Live HTTP probe 2026-04-27 confirmed Nexus tobesoft-snapshots is **anonymous read-all** (jar HEAD/GET → HTTP 200, 355 KB, `application/java-archive`). `pom.xml` comment corrected (had stale "credentials required" note). rules §1 wording clarified (모노레포 통합 = 의존성 통합, not source vendor). nexacrolib lives in `nxui/packageN/nexacrolib/`. |
+| P0-3 | `nxui/` 템플릿 (`_resource_/`, `images/`, `nexacrolib/`) | ✅ ALREADY-MET | All 3 dirs present at `nxui/packageN/`. `_resource_/` has `_font_`, `_images_`, `_initvalue_`, `_theme_`, `_xcss_`. |
+| P0-4 | `typedefinition.xml` `<Services>` block | ✅ ALREADY-MET | `nxui/packageN/typedefinition.xml` lines 45–61. 13 service entries (Core 9 + scaffold 4). |
+| P1-5 | SKILL.md Step 6 nexacro-build call | ✅ ALREADY-MET | `plugins/nexacro-fullstack-starter/skills/nexacro-fullstack-starter/SKILL.md` line 186 = "Step 6 — nexacro 빌드". `/nexacro-build` skill referenced at lines 206, 228, 230, 253. |
+
+**Commits applied (nexacroN-fullstack):**
+- `<pom-sha>` `docs(pom): correct anonymous-access note for tobesoft Nexus (jar GET verified anon 200)`
+- `ed296cb` `docs(rules §1): clarify GitHub 통합 = Nexus dep, not source vendor`
+
+**Open items (separate plans, NOT in scope):**
+- Version bump audit: current jakarta-lane pin `1.2.4-SNAPSHOT` is several majors behind latest `2.0.03d-SNAPSHOT` (lastUpdated 2025-05-22). Major bump → API break risk → defer to a dedicated compatibility-verification plan. Do NOT auto-bump.
+
+---
+
+## Previous status (2026-04-27, plan8 closure)
 
 **User directive in effect:** "퇴근한다. 묻지말고 알아서 끝내줘" — autonomous Plan8 execution to completion.
 
