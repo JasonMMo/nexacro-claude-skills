@@ -4,7 +4,47 @@ Session handoff status. Live document — update after each session.
 
 ---
 
-## Current status (2026-04-27, plan6 closure)
+## Current status (2026-04-27, plan8 closure)
+
+**User directive in effect:** "퇴근한다. 묻지말고 알아서 끝내줘" — autonomous Plan8 execution to completion.
+
+### Plan8 — Controller endpoint recovery to authoritative 14-endpoint spec ✅ DONE
+
+Plan6 outcome was invalidated last week: the user's authoritative 14-endpoint spec under `/uiadapter/<action>.do` was not honored (5/14 match). Plan7 then proposed a wrong canonical scheme and was superseded. Plan8 recovers both lanes to the rules-§2 contract.
+
+**Authority chain enforced:** `.claude/rules/nexacro-fullstack-purpose.md` §2 > openapi.yaml > implementation. Verification anchored on rules §2 — no echo-chamber self-validation.
+
+| Phase | Scope | Delegate | Result |
+|---|---|---|---|
+| A | Audit current vs authoritative | Haiku | `api-contract/AUDIT-2026-04-27.md` |
+| B | Rewrite `14-endpoints.md` | Haiku | 39 lines, rules-§2-anchored |
+| C | Reconcile `openapi.yaml` | Haiku | 14 paths exact, orphans removed |
+| D | Jakarta lane renames (9 controllers) | Sonnet | 9 per-file commits, BUILD SUCCESS |
+| E | Javax lane mirror (9 controllers) | Sonnet | 9 per-file commits, BUILD SUCCESS — `5d048b5`, `2716d5d`, `22fe001`, `dbc1938`, `2fe8056`, `5a2ede0`, `cb8571d`, `f2ad631`, `ca9a2e6` |
+| F | RelayController stub #14 (both lanes) | Sonnet | `26c131f`, `204bc46` |
+| G | Final spec compliance verification | Opus direct | `api-contract/VERIFICATION-2026-04-27.md` — 14/14 × 2 lanes PASS |
+| H | mvn compile both lanes | (folded into D/E/F) | BUILD SUCCESS both lanes |
+| I | Per-file commits + plan8 closure | Opus direct | this entry |
+
+**User decisions applied (2026-04-27):**
+- Q1 → #8/#9/#11 are GET (web download / Range semantics). Spec §2 + openapi.yaml updated.
+- Q2 → `/uiadapter/check_testDataTypeList.do` retained as runner extra (rules §8). Used for exception-case tests.
+
+**Orchestration model (rules §5):** Coding=Sonnet, verification=Opus direct, other=Haiku. (Codex OAuth was expired; verification kept in Opus to preserve authoritative spec context.)
+
+**Plan7 status:** SUPERSEDED by Plan8. Header marker added in `docs/superpowers/plans/2026-04-27-plan7-path-scheme-unification.md`.
+
+### Remaining last-week P0/P1 gaps (separate plans)
+
+Plan8 fixes endpoint contract only. Still open:
+- P0-2 — `core/` empty (xapi/xeni/uiadapter dependencies missing) → Plan9
+- P0-3 — `nxui/` template incomplete (`_resource_/`, `images/`, `nexacrolib/`) → Plan10
+- P0-4 — `typedefinition.xml` Services block → Plan11
+- P1-5 — `SKILL.md` Step 6 nexacro-build skill call → Plan12
+
+---
+
+## Previous status (2026-04-27, plan6 closure)
 
 **User directive in effect:** "퇴근한다. 묻지말고 알아서 끝내줘" — autonomous plan6 execution to completion.
 
