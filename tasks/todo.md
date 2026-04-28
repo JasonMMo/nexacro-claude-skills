@@ -4,7 +4,59 @@ Session handoff status. Live document — update after each session.
 
 ---
 
-## Current status (2026-04-27, plan10 closure)
+## Current status (2026-04-28, plan11 closure)
+
+**User directive:** "P2부터 시작하자. 이것도 계획부터 세우고 계획 창에서 확인할 수 있게 해줘." → plan approved → "퇴근한다. 묻지말고 알아서 끝내줘" (autonomous completion).
+
+### Plan11 — RelayController(#14) real implementation, dual-lane ✅ DONE
+
+Need: contract endpoint #14 `POST /uiadapter/relay/exim_exchange.do` was a stub returning `"RELAY_STUB_OK"`. P2 calls for the real "외부 시스템 릴레이" passthrough. Both lanes (`boot-jdk17-jakarta`, `boot-jdk8-javax`) are Spring MVC servlet stack — WebFlux is rules §7 out-of-scope (separate repo).
+
+**Design (user-approved):**
+- Configurable HTTP passthrough (URL externalized via `nexacro.relay.exim.url`)
+- Multipart inbound forwarded as-is via `RestTemplate` to upstream EXIM
+- Upstream `Content-Type` and `Content-Disposition` propagated to caller
+- Empty/missing URL → HTTP 503 + nexacro-envelope JSON (`ErrorCode=-1`)
+- Body delivered via direct `HttpServletResponse.getOutputStream().write(byte[])` to bypass Spring's HttpMessageConverter selection — avoids Jackson byte[] base64-wrap on `application/json` responses (Spring Boot 2.7 quirk)
+
+**Files added/changed (per-lane mirrored):**
+
+| Lane | File | Status |
+|---|---|---|
+| jakarta | `config/RelayProperties.java` | new |
+| jakarta | `config/RelayHttpConfig.java` | new |
+| jakarta | `service/RelayService.java` | new + refactored to direct stream write |
+| jakarta | `controller/RelayController.java` | stub replaced + signature returns void |
+| jakarta | `application.yml` | `nexacro.relay.exim` block |
+| javax | `config/RelayProperties.java` | new |
+| javax | `config/RelayHttpConfig.java` | new |
+| javax | `service/RelayService.java` | new + direct stream write fix |
+| javax | `controller/RelayController.java` | stub replaced + signature returns void |
+| javax | `application.yml` | `nexacro.relay.exim` block |
+
+**Smoke test results (4/4 PASS):**
+
+| # | Lane | URL | Expected | Actual |
+|---|------|-----|----------|--------|
+| A | jakarta | empty | 503 + raw JSON envelope `ErrorCode=-1` | ✅ raw JSON, HTTP 503 |
+| B | jakarta | `https://httpbin.org/post` | 200 + raw upstream body | ✅ raw httpbin echo, HTTP 200 |
+| C | javax | empty | 503 + raw JSON envelope `ErrorCode=-1` | ✅ raw JSON, HTTP 503 |
+| D | javax | `https://httpbin.org/post` | 200 + raw upstream body | ✅ raw httpbin echo, HTTP 200 |
+
+**Build:** both lanes `mvn -DskipTests compile` BUILD SUCCESS.
+
+**Defect found + fixed (in-flight):** Initial javax run produced base64-wrapped quoted-string body for the 503 fallback (and httpbin passthrough) because Spring Boot 2.7 selects `MappingJackson2HttpMessageConverter` for `byte[]` when response Content-Type is `application/json` (preset Content-Type wins in `AbstractMessageConverterMethodProcessor`). Jackson serializes `byte[]` as base64 string. Fix: switched both controllers/services to direct `HttpServletResponse.getOutputStream()` write — bypasses converter selection, body fidelity is guaranteed regardless of declared content type. Jakarta mirrored for consistency even though Spring Boot 3.3 happened to choose `ByteArrayHttpMessageConverter` correctly.
+
+**Out of scope (explicit):**
+- Auth beyond static header injection (mTLS / OAuth refresh)
+- Retry / circuit-breaker (Resilience4j)
+- Streaming for >10MB payloads (`StreamingResponseBody`)
+- `core/` shared extraction
+- WebFlux variant (separate repo)
+
+---
+
+## Previous status (2026-04-27, plan10 closure)
 
 **User directive:** "메이저 버전 핀은 변경하지 않고 마이너 버전 변경만 업데이트 할 수 있어?" → "좋아. 이대로 진행하자."
 
@@ -40,7 +92,7 @@ mvn versions:update-properties -Dexcludes=com.nexacro.platform:* -DallowSnapshot
 
 ---
 
-## Previous status (2026-04-27, plan9 closure)
+## Older status (2026-04-27, plan9 closure)
 
 **User directive:** "후속 작업 진행하자" — close out remaining last-week P0/P1 gaps.
 
