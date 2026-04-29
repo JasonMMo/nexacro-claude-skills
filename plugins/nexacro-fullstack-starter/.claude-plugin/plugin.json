@@ -22,5 +22,6 @@
     "mybatis",
     "hsql",
     "korean-support"
-  ]
+  ],
+  "skills": ["nexacro-fullstack-starter"]
 }

@@ -53,7 +53,7 @@ cp -r nexacro-claude-skills/plugins/nexacro-webflux-port ~/.claude/plugins/
 ```
 nexacro-claude-skills/
 ├── .claude-plugin/
-│   └── marketplace.json              # marketplace catalog (2 plugins)
+│   └── marketplace.json              # marketplace catalog (3 plugins)
 ├── plugins/
 │   ├── nexacro-claude-skills/        # plugin ①: utility bundle
 │   │   ├── .claude-plugin/
