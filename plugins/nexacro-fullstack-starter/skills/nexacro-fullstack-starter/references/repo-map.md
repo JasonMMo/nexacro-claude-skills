@@ -2,6 +2,8 @@
 
 Layout of the monorepo that the skill clones. Shows which pieces each runner consumes.
 
+> **🚧 진행 중인 변경 (2026-04-29):** 업스트림 `JasonMMo/nexacroN-fullstack` 를 **per-runner self-contained** 구조로 리팩터링 중입니다. 리팩터 완료 후 각 `samples/runners/<KEY>/` 디렉터리는 parent BOM / shared-business 모듈에 의존하지 않고 단독으로 `mvn package` 가 가능합니다. 본 문서는 리팩터 **이전** monorepo 의 모습을 기록하며, 리팩터 머지 후 sparse-checkout 절차도 단순화됩니다 (`nxui` + `samples/runners/<KEY>` 만 받음). plan: `C:\\Users\\mo\\.claude\\plans\\github-nexacro-claude-skills-lovely-salamander.md` Part A.
+
 ## Top-level tree
 
 ```
