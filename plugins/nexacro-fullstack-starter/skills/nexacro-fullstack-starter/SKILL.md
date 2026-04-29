@@ -17,21 +17,34 @@ Scaffold a ready-to-run Nexacro N v24 project in one step. You pick (JDK, framew
 
 ## Step 1 — 파라미터 수집 / Collect parameters
 
-### 1-1. 필수 4개 입력
+### 1-1. 필수 입력 — 빈 입력 처리 규칙
+
+**[CRITICAL] 빈 입력(엔터만 입력)은 해당 단계의 기본값을 채택한 것으로 간주하고 즉시 다음 단계로 진행한다. 재질문하거나 멈추지 않는다.**
 
 아래 순서로 한 번에 하나씩 질문합니다. CLI 아규먼트(`--jdk`, `--framework` 등)로 전달된 값은 이미 받은 것으로 간주하고 건너뜁니다.
 
+각 단계 질문 형식:
+```
+[N/5] <항목명>
+기본값: <값> (있는 경우)
+> (사용자 입력 대기)
+```
+사용자가 빈 문자열을 제출하면 → 기본값 채택, 즉시 다음 단계 질문으로 이동.
+기본값이 없는 단계([2/5][3/5][4/5])에서 빈 입력 → 재질문.
+
 ```
 [1/5] nexacro 버전 / nexacro version
-      기본값: nexacroN
+      기본값: nexacroN  ← 빈 입력 시 자동 채택
       선택지: nexacroN (현재는 nexacroN 만 지원)
 
 [2/5] JDK 버전 / JDK version
+      기본값: 없음 (필수 선택)
       선택지: 8 | 17
       - 8  → Spring 5 / javax / Boot 2 / eGov4
       - 17 → Spring 6 / jakarta / Boot 3 / eGov5
 
 [3/5] 프레임워크 / Framework
+      기본값: 없음 (필수 선택)
       선택지:
       - spring-boot  (Spring Boot 기본 - embedded Tomcat)
       - spring-mvc   (전통 MVC - war 배포)
@@ -40,13 +53,13 @@ Scaffold a ready-to-run Nexacro N v24 project in one step. You pick (JDK, framew
       - webflux      (Spring WebFlux - jdk17만 지원)
 
 [4/5] 프로젝트 이름 / Project name
+      기본값: 없음 (필수 입력)
       예: my-nexacro-app
       제약: 영숫자 + 하이픈만, 공백 불가
 
 [5/5] 타겟 디렉터리 / Target directory
-      기본값: ./<PROJECT_NAME 값>   ← [4/5]에서 입력받은 프로젝트명을 대입해 표시
-      예) 프로젝트명이 my-app 이면 기본값은 ./my-app
-      빈 입력(엔터): [4/5] 프로젝트명을 그대로 사용해 TARGET_DIR = ./<PROJECT_NAME> 으로 확정
+      기본값: ./<[4/5]에서 받은 PROJECT_NAME>  ← 빈 입력 시 자동 채택
+      예) 프로젝트명이 my-app → 기본값 ./my-app 으로 확정
       경고: 이미 존재하면 중단 (덮어쓰기 안 함)
 ```
 
