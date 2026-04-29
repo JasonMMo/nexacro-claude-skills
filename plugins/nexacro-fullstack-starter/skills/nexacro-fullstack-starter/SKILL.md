@@ -98,6 +98,16 @@ egovMajor:  (none)
 
 ## Step 3 — Sparse clone
 
+### 3-0. 실행 환경 가드 (필수)
+
+본 Step 의 모든 셸 명령은 **단일 native shell 세션** 에서 실행해야 합니다. `$TMP_DIR` 변수가 호출 간에 공유되어야 하기 때문입니다.
+
+- ✅ Bash 도구로 `&&` chained command 한 번에 실행
+- ✅ 또는 각 단계 직전에 `export TMP_DIR=...` 재선언
+- ❌ `ctx_batch_execute` 처럼 호출별 컨테이너 격리가 일어나는 도구 사용 금지 (각 호출마다 새 `/tmp` 가 생성되어 이전 단계 산출물을 못 찾음)
+
+> 향후 self-contained 업스트림 (`JasonMMo/nexacroN-fullstack` 리팩터) 가 머지되면 Step 3-1/3-2 가 단순화될 예정입니다. 현재 monorepo 는 runner pom 이 parent BOM 과 shared-business 모듈에 의존하므로 단순 평탄화 시 mvn 빌드가 실패합니다 — 현재 그대로 사용 시 사용자가 직접 pom 을 self-contained 로 수정해야 합니다.
+
 ### 3-1. 임시 디렉터리로 전체 clone (sparse)
 
 ```bash
