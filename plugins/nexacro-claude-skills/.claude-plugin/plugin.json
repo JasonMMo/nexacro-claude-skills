@@ -20,6 +20,5 @@
     "scaffold",
     "form-authoring",
     "korean-support"
-  ],
-  "skills": ["nexacro-build", "nexacro-data-format", "nexacro-project-maker", "nexacro-form-maker"]
+  ]
 }
