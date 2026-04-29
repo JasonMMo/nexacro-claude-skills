@@ -91,3 +91,8 @@ memory/
 # Obsidian vault / transient editor files
 .obsidian/
 .tmp.*
+
+# Local-only working notes (per-developer scratch — not shared)
+tasks/api-contract-14-endpoints.md
+tasks/api-contract-current-state.md
+tasks/legacy-source-catalog.md
