@@ -17,6 +17,5 @@
     "migration",
     "jakarta-servlet",
     "porting"
-  ],
-  "skills": ["nexacro-webflux-port"]
+  ]
 }
