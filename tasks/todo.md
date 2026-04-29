@@ -6,7 +6,7 @@ Session handoff status. Live document — update after each session.
 
 ## Current status (2026-04-28, plan11 closure)
 
-**User directive:** "P2부터 시작하자. 이것도 계획부터 세우고 계획 창에서 확인할 수 있게 해줘." → plan approved → "퇴근한다. 묻지말고 알아서 끝내줘" (autonomous completion).
+**User directive:** "P2부터 시작하자. 이것도 계획부터 세우고 계획 창에서 확인할 수 있게 해줘." → plan approved → autonomous completion.
 
 ### Plan11 — RelayController(#14) real implementation, dual-lane ✅ DONE
 
@@ -116,7 +116,7 @@ mvn versions:update-properties -Dexcludes=com.nexacro.platform:* -DallowSnapshot
 
 ## Previous status (2026-04-27, plan8 closure)
 
-**User directive in effect:** "퇴근한다. 묻지말고 알아서 끝내줘" — autonomous Plan8 execution to completion.
+**User directive in effect:** autonomous Plan8 execution to completion.
 
 ### Plan8 — Controller endpoint recovery to authoritative 14-endpoint spec ✅ DONE
 
@@ -156,7 +156,7 @@ Plan8 fixes endpoint contract only. Still open:
 
 ## Previous status (2026-04-27, plan6 closure)
 
-**User directive in effect:** "퇴근한다. 묻지말고 알아서 끝내줘" — autonomous plan6 execution to completion.
+**User directive in effect:** autonomous plan6 execution to completion.
 
 ### Plan6 — Controller 14-endpoint alignment ✅ DONE
 
