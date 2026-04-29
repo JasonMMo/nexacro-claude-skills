@@ -44,7 +44,9 @@ Scaffold a ready-to-run Nexacro N v24 project in one step. You pick (JDK, framew
       제약: 영숫자 + 하이픈만, 공백 불가
 
 [5/5] 타겟 디렉터리 / Target directory
-      기본값: ./{{PROJECT_NAME}}
+      기본값: ./<PROJECT_NAME 값>   ← [4/5]에서 입력받은 프로젝트명을 대입해 표시
+      예) 프로젝트명이 my-app 이면 기본값은 ./my-app
+      빈 입력(엔터): [4/5] 프로젝트명을 그대로 사용해 TARGET_DIR = ./<PROJECT_NAME> 으로 확정
       경고: 이미 존재하면 중단 (덮어쓰기 안 함)
 ```
 
