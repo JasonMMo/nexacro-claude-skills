@@ -9,18 +9,11 @@
       "repo": "https://github.com/JasonMMo/nexacroN-fullstack.git",
       "branch": "main",
       "alwaysInclude": [
-        "api-contract",
-        "core",
-        "nxui",
-        "pom.xml",
-        "README.md",
-        "LICENSE",
-        ".gitignore",
-        "samples/seed-data"
+        "nxui"
       ],
       "runners": {
         "boot-jdk17-jakarta": {
-          "businessTree": "samples/shared-business/jdk17-jakarta",
+          "status": "implemented",
           "runnerPath": "samples/runners/boot-jdk17-jakarta",
           "jdk": 17,
           "servletApi": "jakarta",
@@ -32,7 +25,7 @@
           "runCmd": "mvn spring-boot:run"
         },
         "boot-jdk8-javax": {
-          "businessTree": "samples/shared-business/jdk8-javax",
+          "status": "implemented",
           "runnerPath": "samples/runners/boot-jdk8-javax",
           "jdk": 8,
           "servletApi": "javax",
@@ -44,6 +37,7 @@
           "runCmd": "mvn spring-boot:run"
         },
         "mvc-jdk17-jakarta": {
+          "status": "placeholder",
           "businessTree": "samples/shared-business/jdk17-jakarta",
           "runnerPath": "samples/runners/mvc-jdk17-jakarta",
           "jdk": 17,
@@ -56,6 +50,7 @@
           "runCmd": "mvn jetty:run"
         },
         "mvc-jdk8-javax": {
+          "status": "placeholder",
           "businessTree": "samples/shared-business/jdk8-javax",
           "runnerPath": "samples/runners/mvc-jdk8-javax",
           "jdk": 8,
@@ -68,6 +63,7 @@
           "runCmd": "mvn jetty:run"
         },
         "egov5-boot-jdk17-jakarta": {
+          "status": "placeholder",
           "businessTree": "samples/shared-business-egov5/jdk17-jakarta",
           "runnerPath": "samples/runners/egov5-boot-jdk17-jakarta",
           "jdk": 17,
@@ -80,6 +76,7 @@
           "runCmd": "mvn spring-boot:run"
         },
         "egov4-boot-jdk8-javax": {
+          "status": "placeholder",
           "businessTree": "samples/shared-business-egov4/jdk8-javax",
           "runnerPath": "samples/runners/egov4-boot-jdk8-javax",
           "jdk": 8,
@@ -92,6 +89,7 @@
           "runCmd": "mvn spring-boot:run"
         },
         "egov4-mvc-jdk8-javax": {
+          "status": "placeholder",
           "businessTree": "samples/shared-business-egov4/jdk8-javax",
           "runnerPath": "samples/runners/egov4-mvc-jdk8-javax",
           "jdk": 8,
@@ -104,6 +102,7 @@
           "runCmd": "mvn jetty:run"
         },
         "webflux-jdk17-jakarta": {
+          "status": "placeholder",
           "businessTree": "samples/shared-business-reactive/jdk17-mybatis",
           "runnerPath": "samples/runners/webflux-jdk17-jakarta",
           "jdk": 17,
@@ -124,6 +123,10 @@
         {
           "match": { "framework": "webflux", "jdk": 8 },
           "reason": "WebFlux requires jdk17+ jakarta. Use boot-jdk8-javax for jdk8."
+        },
+        {
+          "match": { "status": "placeholder" },
+          "reason": "Selected runner is an upstream placeholder (README-only stub). Only spring-boot is implemented today (boot-jdk17-jakarta, boot-jdk8-javax). Other frameworks (spring-mvc, egov-boot, egov-mvc, webflux) land in upstream Plan 2."
         }
       ],
       "derivationRules": {
