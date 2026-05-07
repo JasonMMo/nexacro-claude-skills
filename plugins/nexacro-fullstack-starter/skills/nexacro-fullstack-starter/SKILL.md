@@ -312,7 +312,69 @@ skill 이 없으면 6-2 의 안내 문구만 출력하고 다음 Step 으로 넘
 
 > ⚠️ nexacro Studio / `nexacrodeploy.exe` 는 Windows 전용입니다. macOS / Linux 사용자는 Windows 워크스테이션에서 빌드 후 산출물만 커밋하는 워크플로우를 사용하세요 (references/troubleshooting.md 참고).
 
-## Step 7 — 사용자 안내 / Final guidance
+## Step 7 — License 파일 복사 / Server license copy
+
+scaffold 직후 Nexacro N **서버 license 파일** (`NexacroN_server_license.xml`) 을 프로젝트 resources 디렉터리로 복사할지 사용자에게 확인합니다. license 가 없으면 service 호출 시점 (`xapi HttpPlatformResponse.sendData()` 직렬화) 에서 `com.nexacro.uiadapter.*.exception.InvalidLicenseException` 으로 500 이 발생합니다.
+
+### 7-1. 기본 탐색 위치
+
+scaffold 된 프로젝트의 **부모 폴더** 를 default 로 검색합니다 (사용자가 license 를 workspace 루트에 두는 관례 반영):
+
+```bash
+LICENSE_FILE="NexacroN_server_license.xml"
+LICENSE_DEFAULT="$(dirname "$(realpath "$TARGET_DIR")")/${LICENSE_FILE}"
+LICENSE_TARGET="${TARGET_DIR}/src/main/resources/${LICENSE_FILE}"
+```
+
+예: `TARGET_DIR=./nexa-boot-jdk17` 이면 `../NexacroN_server_license.xml` 검색.
+
+### 7-2. 사용자 확인 분기
+
+#### Case A — default 위치에 파일 존재
+
+```
+📋 server license 파일을 발견했습니다
+   source: <LICENSE_DEFAULT 의 절대 경로>
+   target: ${TARGET_DIR}/src/main/resources/NexacroN_server_license.xml
+
+이 파일을 프로젝트 resources 폴더로 복사할까요? (y/n) [y]:
+```
+
+- `y` (또는 빈 입력): 복사 후 `✅ license 복사 완료` 출력
+- `n`: 건너뜀, 7-3 의 미설치 안내 출력
+
+#### Case B — default 위치에 파일 없음
+
+```
+📋 default 위치에 NexacroN_server_license.xml 이 없습니다
+   (검색: <LICENSE_DEFAULT 의 절대 경로>)
+
+다른 경로에서 가져오시겠습니까? (y/n) [n]:
+```
+
+- `n` (또는 빈 입력): 건너뜀, 7-3 의 미설치 안내 출력
+- `y`: 사용자에게 license 파일 절대경로 입력받음 → 존재/확장자 검증 후 복사
+
+### 7-3. 복사 실행 / 미설치 안내
+
+복사:
+```bash
+mkdir -p "${TARGET_DIR}/src/main/resources"
+cp "$LICENSE_PATH" "$LICENSE_TARGET"
+echo "✅ license 복사 완료: ${LICENSE_TARGET}"
+```
+
+미설치 (skip 한 경우) 출력:
+```
+⚠️  license 미설치: 서버는 정상 기동하지만 service 엔드포인트 호출 시
+    InvalidLicenseException (500) 이 발생합니다.
+    license 파일을 확보한 후 ${TARGET_DIR}/src/main/resources/ 에 직접
+    복사하세요.
+```
+
+> license 발급 / 갱신은 운영자 영역입니다. skill 은 파일 복사만 담당합니다.
+
+## Step 8 — 사용자 안내 / Final guidance
 
 실행 요약 출력:
 
@@ -327,6 +389,7 @@ skill 이 없으면 6-2 의 안내 문구만 출력하고 다음 Step 으로 넘
 경로:     ./{{PROJECT_NAME}}
 runner:   {{RUNNER_KEY}}
 빌드 경로: {{BUILD_OUT}}
+license:  {{LICENSE_STATUS}}    ← "복사 완료" | "미설치 (skipped)"
 ─────────────────────────────────────
 
 다음 단계 / Next steps:
