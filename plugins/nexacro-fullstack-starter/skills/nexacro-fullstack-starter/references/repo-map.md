@@ -97,6 +97,21 @@ cp -r "$TMP_DIR/nexacroN-fullstack/samples/runners/${RUNNER_KEY}/." "${TARGET_DI
 
 `api-contract/`, `core/`, `samples/` 디렉터리는 결과물에 **포함되지 않습니다**. skill Step 3-3 가드가 이를 강제 검증합니다.
 
+## skill Step 3-3 / 3-4 가드 (4.2 layout)
+
+scaffold 직후 SKILL.md Step 3-3 (평탄화 검증) 다음에 Step 3-4 가 자동 실행되어 다음 4 가지를 강제 검증합니다:
+
+1. **legacy 패키지 부재** — `src/main/java/com/nexacro/fullstack`, `src/main/java/com/nexacro/runner` 가 존재하면 실패. OLD self-implemented 패턴 (Part D 이전) 이 업스트림 main 에 머물러 있는 경우를 감지.
+2. **canonical 패키지 존재** — `src/main/java/com/nexacro/uiadapter/Application.java` 가 반드시 존재.
+3. **6 개 필수 서브패키지** — `config`, `controller`, `domain`, `mapper`, `service`, `service/impl` 모두 존재.
+4. **service / service/impl 분리 sanity** — `service/` 루트에 `*Impl.java` 가 있으면 경고 (구현체는 `service/impl/` 에 있어야 함).
+
+검증 실패 시 사용자에게 다음 안내:
+- jakarta lane (jdk17) → upstream `JasonMMo/nexacroN-fullstack` PR #2 머지 상태 확인
+- javax lane (jdk8) → upstream Phase 2 PR (canonical-uiadapter-pattern-javax) 머지 상태 확인
+
+이 가드는 skill plugin v0.4.0 (2026-05-07) 부터 적용됩니다.
+
 ## 의도적으로 제외된 항목
 
 - **Spring Security** — login 은 stub 처리 (§1.3 of design spec)
