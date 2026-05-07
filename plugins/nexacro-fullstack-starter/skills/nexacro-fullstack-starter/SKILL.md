@@ -157,6 +157,48 @@ done
 echo "✅ flatten verified: nxui/  src/  pom.xml"
 ```
 
+### 3-4. 4.2 canonical layout 검증 (필수)
+
+업스트림 runner 가 GitLab canonical uiadapter 패턴 (`com.nexacro.uiadapter.{config, controller, domain, mapper, service, service.impl}` 평면 패키지) 을 따르는지 강제 검증합니다. OLD self-implemented 패턴 (`com.nexacro.fullstack.*` / `com.nexacro.runner.*`) 이 감지되면 실패하고 사용자에게 PR 머지 상태 점검을 요청합니다.
+
+```bash
+# legacy 패키지 부재 확인
+LEGACY_PKGS=("src/main/java/com/nexacro/fullstack" "src/main/java/com/nexacro/runner")
+for legacy in "${LEGACY_PKGS[@]}"; do
+  if [ -e "$legacy" ]; then
+    echo "ERROR: legacy package '$legacy' detected." >&2
+    echo "       업스트림 main 이 OLD self-implemented 패턴입니다." >&2
+    echo "       PR #2 (jakarta) / Phase 2 (javax) 머지 상태를 확인하세요." >&2
+    exit 1
+  fi
+done
+
+# canonical 패키지 + Application.java 존재 확인
+REQUIRED_PKG="src/main/java/com/nexacro/uiadapter"
+[ ! -d "$REQUIRED_PKG" ] && { echo "ERROR: canonical package '$REQUIRED_PKG' missing" >&2; exit 1; }
+[ ! -f "$REQUIRED_PKG/Application.java" ] && { echo "ERROR: '$REQUIRED_PKG/Application.java' missing" >&2; exit 1; }
+
+# 6 개 필수 서브패키지 존재 확인
+REQUIRED_SUBDIRS=("config" "controller" "domain" "mapper" "service" "service/impl")
+for sub in "${REQUIRED_SUBDIRS[@]}"; do
+  if [ ! -d "$REQUIRED_PKG/$sub" ]; then
+    echo "ERROR: canonical subpackage '$REQUIRED_PKG/$sub' missing" >&2
+    echo "       4.2 layout: com.nexacro.uiadapter.{config, controller, domain, mapper, service, service.impl}" >&2
+    exit 1
+  fi
+done
+
+# service/ 가 interface 만 (구현체는 service/impl/ 에) 있는지 sanity check
+IMPL_OUTSIDE=$(find "$REQUIRED_PKG/service" -maxdepth 1 -name "*Impl.java" 2>/dev/null | wc -l)
+if [ "$IMPL_OUTSIDE" -gt 0 ]; then
+  echo "WARNING: '$REQUIRED_PKG/service/' contains *Impl.java — should be in service/impl/" >&2
+fi
+
+echo "✅ 4.2 layout verified"
+echo "   - legacy packages absent (com.nexacro.{fullstack,runner})"
+echo "   - canonical: com.nexacro.uiadapter.{config, controller, domain, mapper, service, service/impl}"
+```
+
 ## Step 4 — 토큰 치환 / Token substitution
 
 `matrix.json` 의 `tokens` 를 순회하며 타겟 디렉터리의 모든 텍스트 파일에서 `{{TOKEN}}` 을 실제 값으로 치환합니다.
@@ -275,6 +317,11 @@ skill 이 없으면 6-2 의 안내 문구만 출력하고 다음 Step 으로 넘
 실행 요약 출력:
 
 ```
+=== 4.2 layout 검증 통과 ===
+  ✅ flatten verified (api-contract/core/samples absent)
+  ✅ canonical layout (com.nexacro.uiadapter flat package)
+  ✅ legacy packages absent (com.nexacro.{fullstack,runner})
+
 ✅ 프로젝트 생성 완료 / Scaffold complete
 ─────────────────────────────────────
 경로:     ./{{PROJECT_NAME}}
