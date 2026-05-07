@@ -8,6 +8,8 @@
 
 > **2026-05-07 업데이트 (javax lane):** `boot-jdk8-javax` 도 동일한 캐노니컬 패턴으로 재작성되었습니다 ([PR #3](https://github.com/JasonMMo/nexacroN-fullstack/pull/3)). javax lane 에서는 `uiadapter-spring-{core,dataaccess,excel}` 모듈을 사용하고 import 경로는 `com.nexacro.uiadapter.spring.*` (jakarta lane 의 `com.nexacro.uiadapter.jakarta.*` 와 대응). JDK 8 호환을 위해 `List.of`/`Map.of`/`isBlank` 는 `Collections.emptyList()`/`Collections.singletonList()`/`Arrays.asList()`/`.trim().isEmpty()` 로 치환. mybatis plugin 은 `com.nexacro.uiadapter.spring.dao.mybatis.{NexacroMybatisMetaDataProvider,NexacroMybatisResultSetHandler}` 를 사용.
 
+> **2026-05-07 업데이트 (canonical WebMvcConfig + 런타임 dep 갭 해소):** [PR #5](https://github.com/JasonMMo/nexacroN-fullstack/pull/5) 가 머지되어 양 레인의 `UiadapterWebMvcConfig` 가 GitLab 캐노니컬 샘플 (`nexacron/spring-boot/jakarta/uiadapter-jakarta`) 과 1:1 정렬되었습니다 — `ApplicationContextProvider`, `MultipartFilter`, `GridExportImportServlet` (`/XExportImport.do`), `NexacroHandlerMethodReturnValueHandler` + `NexacroView`/`NexacroFileView`/`NexacroStreamView`, `NexacroMappingExceptionResolver`, `xeniExcelInitializer`, `dbmsProvider` (HSQL) 가 모두 등록됩니다. xeni 1st-party 의 `commons-fileupload2-jakarta:2.0.0-M1` (jakarta) / `commons-fileupload:1.5` (javax) 런타임 의존성도 함께 추가되었습니다 (xeni pom 은 transitive 0개). 또한 `NexacroN_server_license.xml` 가 `.gitignore` 에 등록되어 있고, 각 runner README 에 `src/main/resources/NexacroN_server_license.xml` 드롭 위치가 문서화되어 있습니다 — xapi 라이선스 로더는 클래스패스 루트에서 해당 정확한 파일명을 찾습니다. 라이선스 미배치 시 첫 `*.do` 호출에서 `InvalidLicenseException` 으로 500 발생.
+
 ## 구현 현황 (2026-05-07 기준)
 
 | Runner KEY | 상태 | 비고 |
