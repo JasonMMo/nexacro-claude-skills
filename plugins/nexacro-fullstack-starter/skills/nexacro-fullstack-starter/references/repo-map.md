@@ -4,12 +4,14 @@
 
 > **2026-04-29 업데이트:** 업스트림 `JasonMMo/nexacroN-fullstack` 가 **per-runner self-contained** 구조로 리팩터되었습니다 ([PR #1](https://github.com/JasonMMo/nexacroN-fullstack/pull/1)). 각 `samples/runners/<KEY>/` 디렉터리는 parent BOM / shared-business 모듈 의존 없이 단독 `mvn package` 가 가능합니다. 이에 맞춰 skill 의 sparse-checkout 도 **`nxui` + `samples/runners/<KEY>` 두 경로만** 받도록 단순화되었습니다.
 
-## 구현 현황 (2026-04-29 기준)
+> **2026-05-07 업데이트:** `boot-jdk17-jakarta` 가 GitLab 캐노니컬 패턴 (`nexacron/spring-boot/jakarta/uiadapter-jakarta`) 으로 재작성되었습니다 ([PR #2](https://github.com/JasonMMo/nexacroN-fullstack/pull/2)). 자체 구현 envelope/codec 을 걷어내고 1st-party `uiadapter-jakarta-core` 모듈의 `@ParamDataSet` / `@ParamVariable` argument resolver + `NexacroResult` return-value handler 로 대체. 컨트롤러는 `@Controller @RequestMapping("/foo.do")` (NO `/uiadapter/` prefix — `application.yml` 의 `context-path: /uiadapter` 가 prefix 담당). 패키지 레이아웃은 `com.nexacro.uiadapter.{config, controller, service, service.impl, mapper, domain}` 평면 구조.
+
+## 구현 현황 (2026-05-07 기준)
 
 | Runner KEY | 상태 | 비고 |
 |---|---|---|
-| `boot-jdk17-jakarta` | ✅ implemented | self-contained pom, mvn package 검증됨 |
-| `boot-jdk8-javax` | ✅ implemented | self-contained pom, mvn package 검증됨 |
+| `boot-jdk17-jakarta` | ✅ canonical | self-contained pom + GitLab 캐노니컬 uiadapter 패턴 |
+| `boot-jdk8-javax` | ⚠️ self-contained, OLD pattern | self-contained pom 통과; canonical 패턴 포팅은 별도 PR 대기 |
 | `mvc-jdk17-jakarta` | ⏳ placeholder | 업스트림 Plan 2 대기 (README-only 스텁) |
 | `mvc-jdk8-javax` | ⏳ placeholder | 업스트림 Plan 2 대기 |
 | `egov5-boot-jdk17-jakarta` | ⏳ placeholder | 업스트림 Plan 2 대기 |
