@@ -12,14 +12,14 @@
 
 > **2026-05-07 업데이트 (canonical WebMvcConfig + 런타임 dep 갭 해소):** [PR #5](https://github.com/JasonMMo/nexacroN-fullstack/pull/5) 가 머지되어 양 레인의 `UiadapterWebMvcConfig` 가 GitLab 캐노니컬 샘플 (`nexacron/spring-boot/jakarta/uiadapter-jakarta`) 과 1:1 정렬되었습니다 — `ApplicationContextProvider`, `MultipartFilter`, `GridExportImportServlet` (`/XExportImport.do`), `NexacroHandlerMethodReturnValueHandler` + `NexacroView`/`NexacroFileView`/`NexacroStreamView`, `NexacroMappingExceptionResolver`, `xeniExcelInitializer`, `dbmsProvider` (HSQL) 가 모두 등록됩니다. xeni 1st-party 의 `commons-fileupload2-jakarta:2.0.0-M1` (jakarta) / `commons-fileupload:1.5` (javax) 런타임 의존성도 함께 추가되었습니다 (xeni pom 은 transitive 0개). 또한 `NexacroN_server_license.xml` 가 `.gitignore` 에 등록되어 있고, 각 runner README 에 `src/main/resources/NexacroN_server_license.xml` 드롭 위치가 문서화되어 있습니다 — xapi 라이선스 로더는 클래스패스 루트에서 해당 정확한 파일명을 찾습니다. 라이선스 미배치 시 첫 `*.do` 호출에서 `InvalidLicenseException` 으로 500 발생.
 
-## 구현 현황 (2026-05-07 기준)
+## 구현 현황 (2026-05-12 기준)
 
 | Runner KEY | 상태 | 비고 |
 |---|---|---|
 | `boot-jdk17-jakarta` | ✅ canonical | self-contained pom + GitLab 캐노니컬 uiadapter 패턴 |
 | `boot-jdk8-javax` | ✅ canonical | javax lane 캐노니컬 패턴 포팅 완료 (PR #3) |
-| `mvc-jdk17-jakarta` | ⏳ placeholder | 업스트림 Plan 2 대기 (README-only 스텁) |
-| `mvc-jdk8-javax` | ⏳ placeholder | 업스트림 Plan 2 대기 |
+| `mvc-jdk17-jakarta` | ✅ canonical | XML-driven Spring MVC (web.xml + ContextLoaderListener + context-*.xml + dispatcher-servlet.xml), WAR + Tomcat 10. GitLab canonical jakarta-example 정렬 (PR #19/21/23/25). 상세는 `nexacroN-fullstack/docs/uiadapter-runner-cookbook.md §9-MVC` |
+| `mvc-jdk8-javax` | ✅ canonical | 동일 패턴 (javax lane, Spring 5.3.39), WAR + Tomcat 9. PR #20/22/24/25 |
 | `egov5-boot-jdk17-jakarta` | ⏳ placeholder | 업스트림 Plan 2 대기 |
 | `egov4-boot-jdk8-javax` | ⏳ placeholder | 업스트림 Plan 2 대기 |
 | `egov4-mvc-jdk8-javax` | ⏳ placeholder | 업스트림 Plan 2 대기 |
@@ -55,8 +55,8 @@ nexacroN-fullstack/                    [github.com/JasonMMo/nexacroN-fullstack]
 └── samples/runners/                   (각 디렉터리가 독립적으로 빌드 가능)
     ├── boot-jdk17-jakarta/            ✅ src/, pom.xml, src/main/resources/{schema,data}.sql
     ├── boot-jdk8-javax/               ✅ src/, pom.xml, src/main/resources/{schema,data}.sql
-    ├── mvc-jdk17-jakarta/             ⏳ README only
-    ├── mvc-jdk8-javax/                ⏳ README only
+    ├── mvc-jdk17-jakarta/             ✅ src/, pom.xml, src/main/webapp/WEB-INF/{web.xml,config/springmvc/dispatcher-servlet.xml}, src/main/resources/{spring/context-*.xml,message/message-common*.properties,schema.sql,data.sql}
+    ├── mvc-jdk8-javax/                ✅ 동일 (javax lane)
     ├── egov5-boot-jdk17-jakarta/      ⏳ README only
     ├── egov4-boot-jdk8-javax/         ⏳ README only
     ├── egov4-mvc-jdk8-javax/          ⏳ README only
