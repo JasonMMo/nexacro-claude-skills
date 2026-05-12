@@ -37,8 +37,7 @@
           "runCmd": "mvn spring-boot:run"
         },
         "mvc-jdk17-jakarta": {
-          "status": "placeholder",
-          "businessTree": "samples/shared-business/jdk17-jakarta",
+          "status": "implemented",
           "runnerPath": "samples/runners/mvc-jdk17-jakarta",
           "jdk": 17,
           "servletApi": "jakarta",
@@ -47,11 +46,10 @@
           "bootMajor": null,
           "egovMajor": null,
           "packaging": "war",
-          "runCmd": "mvn jetty:run"
+          "runCmd": "mvn -o clean package  # then deploy target/*.war to Tomcat 10 (see docs/uiadapter-runner-cookbook.md §9-MVC.5)"
         },
         "mvc-jdk8-javax": {
-          "status": "placeholder",
-          "businessTree": "samples/shared-business/jdk8-javax",
+          "status": "implemented",
           "runnerPath": "samples/runners/mvc-jdk8-javax",
           "jdk": 8,
           "servletApi": "javax",
@@ -60,7 +58,7 @@
           "bootMajor": null,
           "egovMajor": null,
           "packaging": "war",
-          "runCmd": "mvn jetty:run"
+          "runCmd": "mvn -o clean package  # then deploy target/*.war to Tomcat 9 (see docs/uiadapter-runner-cookbook.md §9-MVC.5)"
         },
         "egov5-boot-jdk17-jakarta": {
           "status": "placeholder",
@@ -126,7 +124,7 @@
         },
         {
           "match": { "status": "placeholder" },
-          "reason": "Selected runner is an upstream placeholder (README-only stub). Only spring-boot is implemented today (boot-jdk17-jakarta, boot-jdk8-javax). Other frameworks (spring-mvc, egov-boot, egov-mvc, webflux) land in upstream Plan 2."
+          "reason": "Selected runner is an upstream placeholder (README-only stub). Implemented today: spring-boot (boot-jdk17-jakarta, boot-jdk8-javax) and spring-mvc (mvc-jdk17-jakarta, mvc-jdk8-javax). Other frameworks (egov-boot, egov-mvc, webflux) land in upstream Plan 2."
         }
       ],
       "derivationRules": {
