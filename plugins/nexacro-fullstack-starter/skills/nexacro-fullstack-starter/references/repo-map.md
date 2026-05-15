@@ -12,7 +12,7 @@
 
 > **2026-05-07 업데이트 (canonical WebMvcConfig + 런타임 dep 갭 해소):** [PR #5](https://github.com/JasonMMo/nexacroN-fullstack/pull/5) 가 머지되어 양 레인의 `UiadapterWebMvcConfig` 가 GitLab 캐노니컬 샘플 (`nexacron/spring-boot/jakarta/uiadapter-jakarta`) 과 1:1 정렬되었습니다 — `ApplicationContextProvider`, `MultipartFilter`, `GridExportImportServlet` (`/XExportImport.do`), `NexacroHandlerMethodReturnValueHandler` + `NexacroView`/`NexacroFileView`/`NexacroStreamView`, `NexacroMappingExceptionResolver`, `xeniExcelInitializer`, `dbmsProvider` (HSQL) 가 모두 등록됩니다. xeni 1st-party 의 `commons-fileupload2-jakarta:2.0.0-M1` (jakarta) / `commons-fileupload:1.5` (javax) 런타임 의존성도 함께 추가되었습니다 (xeni pom 은 transitive 0개). 또한 `NexacroN_server_license.xml` 가 `.gitignore` 에 등록되어 있고, 각 runner README 에 `src/main/resources/NexacroN_server_license.xml` 드롭 위치가 문서화되어 있습니다 — xapi 라이선스 로더는 클래스패스 루트에서 해당 정확한 파일명을 찾습니다. 라이선스 미배치 시 첫 `*.do` 호출에서 `InvalidLicenseException` 으로 500 발생.
 
-## 구현 현황 (2026-05-14 기준)
+## 구현 현황 (2026-05-15 기준)
 
 | Runner KEY | 상태 | 비고 |
 |---|---|---|
@@ -22,7 +22,7 @@
 | `mvc-jdk8-javax` | ✅ canonical | 동일 패턴 (javax lane, Spring 5.3.39), WAR + Tomcat 9. PR #20/22/24/25 |
 | `egov5-boot-jdk17-jakarta` | ✅ canonical | eGov 5 boot starter parent (5.0.0) + minimal `egovframework.com.config` scaffold (5 EgovConfigApp* classes) + boot-jdk17-jakarta 의 8 endpoint 그대로. PR #28 |
 | `egov4-boot-jdk8-javax` | ✅ canonical | eGov 4 lineage (no boot-starter-parent published → SB 2.7 BOM 직접 사용 + legacy `egovframework.rte:egovframework.rte.fdl.property:3.10.0`, Spring 5.3 wins via exclusions). minimal scaffold + 8 endpoint. PR #29 |
-| `egov4-mvc-jdk8-javax` | ⏳ placeholder | 업스트림 Plan 2 대기 |
+| `egov4-mvc-jdk8-javax` | ✅ canonical | mvc-jdk8-javax 베이스 (WAR + 7 context XML at `src/main/resources/spring/`) + eGov 4 layering — `egovframework.com.config.EgovConfigAppProperties` (`@PropertySource("classpath:globals.properties")`), `egovframework/message/com/message-common_{ko,en}.properties`, `context-common.xml` 의 `egovframework` 패키지 component-scan + messageSource 재배선. egovframe maven repo (`https://maven.egovframe.go.kr/maven/`) 추가. RTE 컴포넌트 미사용 (minimal scaffold). PR #34 |
 | `webflux-jdk17-jakarta` | ⏳ placeholder | 업스트림 Plan 2 대기 |
 
 placeholder 상태인 runner 는 skill 의 `rejectedCombinations` 가 scaffold 단계에서 차단합니다.
@@ -59,7 +59,7 @@ nexacroN-fullstack/                    [github.com/JasonMMo/nexacroN-fullstack]
     ├── mvc-jdk8-javax/                ✅ 동일 (javax lane)
     ├── egov5-boot-jdk17-jakarta/      ✅ src/, pom.xml, egovframework/com/config/EgovConfigApp*, globals.properties (eGov 5)
     ├── egov4-boot-jdk8-javax/         ✅ src/, pom.xml, egovframework/com/config/EgovConfigApp*, globals.properties (eGov 4 / legacy 3.10.0 RTE)
-    ├── egov4-mvc-jdk8-javax/          ⏳ README only
+    ├── egov4-mvc-jdk8-javax/          ✅ src/, pom.xml (WAR), src/main/webapp/WEB-INF/{web.xml,config/springmvc/dispatcher-servlet.xml}, src/main/resources/{spring/context-*.xml,egovframework/message/com/message-common*.properties,globals.properties,schema.sql,data.sql}, egovframework/com/config/EgovConfigAppProperties
     └── webflux-jdk17-jakarta/         ⏳ README only
 ```
 
