@@ -144,19 +144,21 @@ nexacro-claude-skills/
 
 #### nexacro-fullstack-starter
 - **Description**: Scaffolds a complete full-stack Nexacro N v24 project — packageN nxui + Spring server — picked from a jdk × framework matrix and sparse-cloned from the `nexacroN-fullstack` monorepo
+- **🏆 Milestone (v0.8.2)**: **하나의 nxui 화면 (55 xfdl) → 7개의 검증된 백엔드 tech spec**. 자세히는 [plugin README](./plugins/nexacro-fullstack-starter/README.md) 참조
 - **Triggers**: nexacro 풀스택, 풀스택 스타터, fullstack starter, nexacro scaffold, spring boot nexacro, spring webflux nexacro, egov nexacro, packageN 프로젝트 만들어, nexacro 프로젝트 세트업
 - **Features**:
-  - **8 runners** from a `jdk × framework` matrix:
-    - `boot-jdk17-jakarta` (default), `boot-jdk8-javax`
-    - `mvc-jdk17-jakarta`, `mvc-jdk8-javax`
-    - `egov5-boot-jdk17-jakarta`, `egov4-boot-jdk8-javax`, `egov4-mvc-jdk8-javax`
-    - `webflux-jdk17-jakarta`
+  - **7 implemented runners** + 1 placeholder (`webflux-jdk17-jakarta`):
+    - ✅ `boot-jdk17-jakarta` (default), `boot-jdk8-javax`
+    - ✅ `mvc-jdk17-jakarta`, `mvc-jdk8-javax`
+    - ✅ `egov5-boot-jdk17-jakarta`, `egov4-boot-jdk8-javax`, `egov4-mvc-jdk8-javax`
+    - ⏳ `webflux-jdk17-jakarta` (차기 버전)
   - Derivation rules: `servletApi = jdk>=17 ? jakarta : javax`, `springMajor = jakarta ? 6 : 5`, `bootMajor = jakarta ? 3 : 2`
-  - **Rejected combinations** (fail fast with suggested alternative): `egov-mvc + jdk17`, `webflux + jdk8`
-  - Sparse-checkout from [`JasonMMo/nexacroN-fullstack`](https://github.com/JasonMMo/nexacroN-fullstack) — pulls only the runner + business tree + shared assets (api-contract, core, nxui, seed-data)
+  - **Rejected combinations** (fail fast with suggested alternative): `egov-mvc + jdk17`, `webflux + jdk8`, `webflux + jdk17` (placeholder)
+  - Canonical uiadapter 패턴 — `com.nexacro.uiadapter.{config, controller, domain, mapper, service, service.impl}` + 1st-party uiadapter-core / xapi / xeni
+  - Sparse-checkout from [`JasonMMo/nexacroN-fullstack`](https://github.com/JasonMMo/nexacroN-fullstack) — pulls only the runner + nxui, flattens to a self-contained project root
   - Token substitution: `{{PROJECT_NAME}}`, `{{BACKEND_URL}}`, `{{CONTEXT_PATH}}`, `{{SERVER_PORT}}`
-  - 15 API endpoints pre-wired (14 common + 1 webflux-only `exim_exchange` streaming demo)
-  - HSQL in-memory seed data (6 tables: USERS, SAMPLE_BOARD, DEPT, LARGE_DATA, WIDE_COLUMNS, FILE_META)
+  - Packaging-aware 4.2 layout 검증 (JAR runner = Application.java 필수, WAR runner = Tomcat 부트스트랩)
+  - HSQL in-memory seed data (`schema.sql` + `data.sql`, `^^` separator) + MyBatis mappers
   - References: `compatibility-matrix.md`, `repo-map.md`, `runner-selection-guide.md`, `troubleshooting.md`
 
 ## 🔧 Runtime Detection
