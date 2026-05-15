@@ -174,10 +174,20 @@ for legacy in "${LEGACY_PKGS[@]}"; do
   fi
 done
 
-# canonical 패키지 + Application.java 존재 확인
+# canonical 패키지 존재 확인
 REQUIRED_PKG="src/main/java/com/nexacro/uiadapter"
 [ ! -d "$REQUIRED_PKG" ] && { echo "ERROR: canonical package '$REQUIRED_PKG' missing" >&2; exit 1; }
-[ ! -f "$REQUIRED_PKG/Application.java" ] && { echo "ERROR: '$REQUIRED_PKG/Application.java' missing" >&2; exit 1; }
+
+# packaging 판별 — WAR runner 는 SpringApplication 진입점 없음 (Tomcat 가 부트스트랩)
+IS_WAR=0
+if grep -q '<packaging>war</packaging>' pom.xml 2>/dev/null; then
+  IS_WAR=1
+fi
+
+# Application.java 는 Boot runner 전용 (jar packaging). WAR 일 때는 검증 생략.
+if [ "$IS_WAR" -eq 0 ]; then
+  [ ! -f "$REQUIRED_PKG/Application.java" ] && { echo "ERROR: '$REQUIRED_PKG/Application.java' missing (Boot runner)" >&2; exit 1; }
+fi
 
 # 6 개 필수 서브패키지 존재 확인
 REQUIRED_SUBDIRS=("config" "controller" "domain" "mapper" "service" "service/impl")
@@ -198,6 +208,11 @@ fi
 echo "✅ 4.2 layout verified"
 echo "   - legacy packages absent (com.nexacro.{fullstack,runner})"
 echo "   - canonical: com.nexacro.uiadapter.{config, controller, domain, mapper, service, service/impl}"
+if [ "$IS_WAR" -eq 1 ]; then
+  echo "   - packaging: WAR (Application.java 검증 생략 — Tomcat 가 부트스트랩)"
+else
+  echo "   - packaging: JAR (Application.java 검증 완료)"
+fi
 ```
 
 ## Step 4 — 토큰 치환 / Token substitution
