@@ -12,6 +12,8 @@
 
 > **2026-05-07 업데이트 (canonical WebMvcConfig + 런타임 dep 갭 해소):** [PR #5](https://github.com/JasonMMo/nexacroN-fullstack/pull/5) 가 머지되어 양 레인의 `UiadapterWebMvcConfig` 가 GitLab 캐노니컬 샘플 (`nexacron/spring-boot/jakarta/uiadapter-jakarta`) 과 1:1 정렬되었습니다 — `ApplicationContextProvider`, `MultipartFilter`, `GridExportImportServlet` (`/XExportImport.do`), `NexacroHandlerMethodReturnValueHandler` + `NexacroView`/`NexacroFileView`/`NexacroStreamView`, `NexacroMappingExceptionResolver`, `xeniExcelInitializer`, `dbmsProvider` (HSQL) 가 모두 등록됩니다. xeni 1st-party 의 `commons-fileupload2-jakarta:2.0.0-M1` (jakarta) / `commons-fileupload:1.5` (javax) 런타임 의존성도 함께 추가되었습니다 (xeni pom 은 transitive 0개). 또한 `NexacroN_server_license.xml` 가 `.gitignore` 에 등록되어 있고, 각 runner README 에 `src/main/resources/NexacroN_server_license.xml` 드롭 위치가 문서화되어 있습니다 — xapi 라이선스 로더는 클래스패스 루트에서 해당 정확한 파일명을 찾습니다. 라이선스 미배치 시 첫 `*.do` 호출에서 `InvalidLicenseException` 으로 500 발생.
 
+> **2026-05-18 업데이트 (sync 자동화 — Tier 1+2):** [PR #35](https://github.com/JasonMMo/nexacroN-fullstack/pull/35) 가 머지 대기 중. canonical SoT (`boot-jdk17-jakarta`) → 6 sibling runner 자동 전파 스크립트 (`scripts/sync-from-canonical.sh` + `scripts/lane-transform.sh` + per-target `.exclude` 파일 6 개) 와 GitHub Actions 7-runner matrix (`.github/workflows/runner-matrix.yml`) 도입. lane 변환은 sed 기반 (jakarta↔javax: `servlet`/`validation`/`uiadapter.jakarta→uiadapter.spring`). javax lane 은 `uiadapter-spring-core 1.4.x` 갭으로 인해 `UiadapterWebMvcConfig`/`StreamController`/`domain/Board` (와 `@ExcludeField`) 가 sync 대상에서 제외됩니다 — 해당 클래스 업그레이드는 별도 후속 작업. 운영자 가이드는 upstream `docs/sync-automation.md` 참조.
+
 ## 구현 현황 (2026-05-15 기준)
 
 | Runner KEY | 상태 | 비고 |
