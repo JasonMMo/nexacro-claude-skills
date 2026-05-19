@@ -20,12 +20,12 @@
 
 ### 트랙 B — 웹 사용자 다운로드 서비스
 
-- **상태**: M2 통과 (2026-05-19) — PR-A 머지 완료, M3 nightly cron 대기 중
+- **상태**: M3 통과 (2026-05-19) — manual publish 경로로 7 자산 게시 확인. M4 PR-B 적용 대기
 - **이정표 (M0–M6)**:
   - ✅ M0 설계 결정 (D1–D5)
   - ✅ M1 셀렉터 정적 3-파일 + 로컬 logic 검증 (7 valid + 3 거부 + 채널 토글 ALL PASS)
   - ✅ M2 PR-A — [JasonMMo/nexacroN-fullstack#38](https://github.com/JasonMMo/nexacroN-fullstack/pull/38) 머지됨 (2026-05-19, 7/7 build SUCCESS)
-  - 🟡 M3 첫 nightly cron 대기 — 다음 발화 `0 18 * * * UTC` (03:00 KST). publish 가드 `event_name == 'schedule' && ref == 'refs/heads/main'` 이므로 `workflow_dispatch` 수동 trigger는 의미 없음 → 자연 cron 대기
+  - ✅ M3 nightly release — [#39](https://github.com/JasonMMo/nexacroN-fullstack/pull/39) 으로 `workflow_dispatch.inputs.publish` 추가 → run [26078797224](https://github.com/JasonMMo/nexacroN-fullstack/actions/runs/26078797224) 으로 7 자산 정확한 파일명·정확한 개수 게시. 7개 URL `HTTP -IL` 200 최종 (302 chain 정상)
   - ⏳ M4 PR-B — upstream `gh-pages` 신설 + 셀렉터 이주
   - ⏳ M5 end-to-end smoke (브라우저 → java -jar)
   - ⏳ M6 `stable` 채널 첫 promote
@@ -34,9 +34,9 @@
   - `docs/superpowers/specs/2026-05-19-runner-download-service-design.md` — 정식 설계 spec
   - `docs/web-selector-draft/_pr-a-draft.md` — M2 patch 초안 (적용 완료, 참고용 보존)
   - `docs/web-selector-draft/_pr-b-draft.md` — M4 patch 초안 (gh-pages 신설, M3 통과 후 적용)
-- **다음 액션 (M3 검증)**: 다음 nightly cron 발화 후 `gh release view nightly --repo JasonMMo/nexacroN-fullstack --json assets --jq '.assets[].name'` → 7개 정확 일치 확인 (`boot-jdk17-jakarta.jar`, `boot-jdk8-javax.jar`, `mvc-jdk17-jakarta.war`, `mvc-jdk8-javax.war`, `egov5-boot-jdk17-jakarta.jar`, `egov4-boot-jdk8-javax.jar`, `egov4-mvc-jdk8-javax.war`). 그 다음 `curl -I https://github.com/JasonMMo/nexacroN-fullstack/releases/download/nightly/boot-jdk17-jakarta.jar` → `302` 응답. 통과 시 M4 진입 (`_pr-b-draft.md` 절차 그대로).
+- **다음 액션 (M4 실행)**: upstream 클론(`D:\AI\workspace\nexacroN-fullstack\`)에서 `_pr-b-draft.md §1` PowerShell 절차로 orphan `gh-pages` 분기 생성 → 셀렉터 3-파일 + `.nojekyll` seed → push → GitHub Settings → Pages 활성화 (Source = gh-pages / root) → Pages URL `https://jasonmmo.github.io/nexacroN-fullstack/` 200 확인. M4 DoD: §7 5개 체크.
 - **작업 초안 폴더 (이 repo)**: `docs/web-selector-draft/` — `index.html`, `selection.js`, `matrix.json` (verbatim sync), `_pr-a-draft.md`, `_pr-b-draft.md`. 완성되면 upstream `gh-pages` 로 이주 (`_*` 파일은 이주 제외)
-- **재개 첫 메시지**: `@RESUME.md 트랙 B 재개. M3 nightly 자산 검증 단계.`
+- **재개 첫 메시지**: `@RESUME.md 트랙 B 재개. M4 PR-B 작성 단계 (gh-pages seed). 참조: docs/web-selector-draft/_pr-b-draft.md`
 
 ---
 
@@ -67,3 +67,4 @@
 - **2026-05-19** — M1 V1–V8 ALL PASS (HTTP 200×3, 7 valid URL, 3 거부 사유, 채널 토글). M2 PR-A patch 초안 작성 (`docs/web-selector-draft/_pr-a-draft.md`) — upstream 워크플로 read-only 확인 후 unified diff + 정합성 4-필터 + DoD + 위험 표 포함. 이정표 M0–M6 체계 도입.
 - **2026-05-19** — M2 통과. PR-A([JasonMMo/nexacroN-fullstack#38](https://github.com/JasonMMo/nexacroN-fullstack/pull/38)) 머지 — `permissions: contents: write` + `rename artifact` + `softprops/action-gh-release@v2` publish step. 7/7 build SUCCESS. M3 = 다음 nightly cron 대기.
 - **2026-05-19** — M3 cron 대기 중 M4 PR-B 초안 사전 작성 (`docs/web-selector-draft/_pr-b-draft.md`). orphan `gh-pages` 분기 + 3-파일 + `.nojekyll` seed, Pages 수동 활성, DoD 5개·위험 6개·4-필터 통과. v1.1 sync 자동화 분리.
+- **2026-05-19** — M3 통과 (cron 대기 우회). 옵션 C 선택 — PR-A2([#39](https://github.com/JasonMMo/nexacroN-fullstack/pull/39))로 `workflow_dispatch.inputs.publish` boolean (default false) 추가. v1.1 "수동 promote" feature를 1릴리스 앞당겨 영구 채택. manual run [26078797224](https://github.com/JasonMMo/nexacroN-fullstack/actions/runs/26078797224) 7/7 SUCCESS, 7 자산 정확한 이름·개수, 302 chain 정상. M4 진입.
