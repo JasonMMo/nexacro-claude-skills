@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nexacroN-fullstack — Runner Download</title>
+<style>
+  :root {
+    --fg: #1a1a1a;
+    --muted: #555;
+    --bg: #fafafa;
+    --panel: #fff;
+    --border: #d0d0d0;
+    --accent: #1f6feb;
+    --warn-bg: #fff8e1;
+    --warn-border: #f0c000;
+    --info-bg: #eef4ff;
+    --info-border: #b3c8e6;
+    --err: #b00020;
+    --ok: #1f7a3a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.5;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  .subtitle { color: var(--muted); margin: 0 0 20px; }
+  .banner {
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 0.92rem;
+  }
+  .banner.warn { background: var(--warn-bg); border: 1px solid var(--warn-border); }
+  .banner.info { background: var(--info-bg); border: 1px solid var(--info-border); }
+  .banner code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 3px; font-size: 0.88em; }
+  fieldset {
+    margin: 16px 0 0;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--panel);
+  }
+  legend { font-weight: 600; padding: 0 6px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin: 6px 0; }
+  .row label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  select { padding: 6px 8px; font-size: 1rem; min-width: 220px; }
+  #result {
+    margin-top: 18px;
+    padding: 16px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  #result dl { margin: 0 0 14px; display: grid; grid-template-columns: 130px 1fr; gap: 4px 14px; }
+  #result dt { color: var(--muted); }
+  #result dd { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+  #download {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 10px 18px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+  }
+  #download[aria-disabled="true"] {
+    background: #999;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  #reject {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: #fff0f0;
+    border: 1px solid #f0b0b0;
+    border-radius: 5px;
+    color: var(--err);
+    display: none;
+  }
+  #reject.show { display: block; }
+  details { margin-top: 24px; }
+  details summary { cursor: pointer; font-weight: 500; padding: 8px 0; }
+  details table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+  details th, details td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  details code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background: rgba(0,0,0,0.05); padding: 1px 5px; border-radius: 3px; }
+  footer { color: var(--muted); margin-top: 28px; font-size: 0.85rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>nexacroN-fullstack — Runner Download</h1>
+  <p class="subtitle">JDK / framework 를 고르면 즉시 실행 가능한 <code>*.jar</code> / <code>*.war</code> 를 다운로드합니다.</p>
+
+  <div class="banner warn" role="note">
+    운영 라이선스 <code>NexacroN_server_license.xml</code> 은 별도 발급이 필요합니다. 다운로드 산출물에 미포함.
+  </div>
+  <div class="banner info" role="note">
+    Context-path 변경: <code>java -jar app.jar --server.servlet.context-path=/myapp</code> &nbsp;(기본 <code>/uiadapter</code>, 포트 8080)
+  </div>
+
+  <fieldset>
+    <legend>1. JDK</legend>
+    <div class="row" id="jdk-group">
+      <label><input type="radio" name="jdk" value="17" checked> JDK 17 (jakarta)</label>
+      <label><input type="radio" name="jdk" value="8"> JDK 8 (javax)</label>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>2. Framework</legend>
+    <div class="row">
+      <select id="framework">
+        <option value="spring-boot" selected>spring-boot</option>
+        <option value="spring-mvc">spring-mvc (WAR)</option>
+        <option value="egov-boot">egov-boot (전자정부 표준프레임워크)</option>
+        <option value="egov-mvc">egov-mvc (전자정부 표준프레임워크, WAR)</option>
+        <option value="webflux">webflux (예정)</option>
+      </select>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>3. Channel</legend>
+    <div class="row" id="channel-group">
+      <label><input type="radio" name="channel" value="stable" checked> stable (수동 promote)</label>
+      <label><input type="radio" name="channel" value="nightly"> nightly (매일 자동 갱신, 회귀 가능)</label>
+    </div>
+  </fieldset>
+
+  <section id="result" aria-live="polite">
+    <dl>
+      <dt>Runner</dt><dd id="r-runner">—</dd>
+      <dt>Servlet API</dt><dd id="r-servlet">—</dd>
+      <dt>Packaging</dt><dd id="r-pkg">—</dd>
+      <dt>Download URL</dt><dd id="r-url">—</dd>
+    </dl>
+    <a id="download" href="#" aria-disabled="true" download>Download</a>
+    <div id="reject" role="alert"></div>
+  </section>
+
+  <details>
+    <summary>어떤 걸 골라야 할지 모를 때 — 기본값 추천</summary>
+    <table>
+      <thead><tr><th>상황</th><th>추천</th><th>이유</th></tr></thead>
+      <tbody>
+        <tr><td>신규 프로젝트, 제약 없음</td><td><code>boot-jdk17-jakarta</code></td><td>최신 스택, 가장 간단한 실행</td></tr>
+        <tr><td>기존 JDK 8 환경 유지</td><td><code>boot-jdk8-javax</code></td><td>javax 기반 레거시 호환</td></tr>
+        <tr><td>공공기관 (eGov)</td><td><code>egov5-boot-jdk17-jakarta</code></td><td>표준프레임워크 5.x 최신</td></tr>
+        <tr><td>공공기관 + JDK 8 필수</td><td><code>egov4-boot-jdk8-javax</code></td><td>표준프레임워크 4.x</td></tr>
+        <tr><td>레거시 WAR 배포 (Tomcat)</td><td><code>mvc-jdk{8|17}-{javax|jakarta}</code></td><td>전통 servlet container</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <footer>
+    설계 출처: <a href="../superpowers/specs/2026-05-19-runner-download-service-design.md">runner-download-service-design.md</a>
+    · 의사결정 트리 전문: <a href="../../plugins/nexacro-fullstack-starter/references/runner-selection-guide.md">runner-selection-guide.md</a>
+    · 이 페이지는 <strong>이주 예정 초안</strong> — 최종 배포는 <code>JasonMMo/nexacroN-fullstack</code> <code>gh-pages</code>.
+  </footer>
+</main>
+<script src="./selection.js" defer></script>
+</body>
+</html>
