@@ -92,7 +92,7 @@ JDK / framework / 패키징 선택 → JAR (boot/egov-boot) 또는 WAR (mvc/egov
 ## 검증 플랜 (v1)
 
 1. **로컬 검증**: `gh run download <last-green-id>` 로 7개 아티팩트 받아 `java -jar` (boot 4개) / Tomcat 배포 (mvc 3개) → `/uiadapter/` 200 확인.
-2. **CI 단계 PR**: `runner-matrix.yml` 에 release publish step 추가, `if: github.ref == 'refs/heads/main' && github.event_name == 'schedule'` 가드, 7개 자산 첨부. 머지 후 첫 nightly에서 `gh release view nightly` 검증.
+2. **CI 단계 PR (PR-A)**: `runner-matrix.yml` 에 release publish step 추가, `if: github.ref == 'refs/heads/main' && github.event_name == 'schedule'` 가드, 7개 자산 첨부. **명명 규약**: 자산 파일명은 정확히 `{runnerKey}.{packaging}` (예: `boot-jdk17-jakarta.jar`, `mvc-jdk8-javax.war`) — `docs/web-selector-draft/selection.js` 의 `buildUrl()` 와의 계약. 머지 후 첫 nightly에서 `gh release view nightly` 검증.
 3. **Pages 단계 PR**: `gh-pages` 브랜치 신설, 셀렉터 HTML + matrix.json sync. 거부 조합 (`egov-mvc × jdk17`, `webflux × jdk8`) UI 차단 확인. 7개 옵션 각각 클릭 → 실제 다운로드 트리거 확인.
 4. **롤백 시나리오**: 깨진 nightly 시나리오에서 `stable` 기본값이 사용자 영향 차단함을 확인.
 
