@@ -1,0 +1,141 @@
+{
+  "version": "1",
+  "repoDefaults": {
+    "host": "github.com",
+    "owner": "JasonMMo"
+  },
+  "nexacroVersions": {
+    "nexacroN": {
+      "repo": "https://github.com/JasonMMo/nexacroN-fullstack.git",
+      "branch": "main",
+      "alwaysInclude": [
+        "nxui"
+      ],
+      "runners": {
+        "boot-jdk17-jakarta": {
+          "status": "implemented",
+          "runnerPath": "samples/runners/boot-jdk17-jakarta",
+          "jdk": 17,
+          "servletApi": "jakarta",
+          "framework": "spring-boot",
+          "springMajor": 6,
+          "bootMajor": 3,
+          "egovMajor": null,
+          "packaging": "jar",
+          "runCmd": "mvn spring-boot:run"
+        },
+        "boot-jdk8-javax": {
+          "status": "implemented",
+          "runnerPath": "samples/runners/boot-jdk8-javax",
+          "jdk": 8,
+          "servletApi": "javax",
+          "framework": "spring-boot",
+          "springMajor": 5,
+          "bootMajor": 2,
+          "egovMajor": null,
+          "packaging": "jar",
+          "runCmd": "mvn spring-boot:run"
+        },
+        "mvc-jdk17-jakarta": {
+          "status": "implemented",
+          "runnerPath": "samples/runners/mvc-jdk17-jakarta",
+          "jdk": 17,
+          "servletApi": "jakarta",
+          "framework": "spring-mvc",
+          "springMajor": 6,
+          "bootMajor": null,
+          "egovMajor": null,
+          "packaging": "war",
+          "runCmd": "mvn -o clean package  # then deploy target/*.war to Tomcat 10 (see docs/uiadapter-runner-cookbook.md §9-MVC.5)"
+        },
+        "mvc-jdk8-javax": {
+          "status": "implemented",
+          "runnerPath": "samples/runners/mvc-jdk8-javax",
+          "jdk": 8,
+          "servletApi": "javax",
+          "framework": "spring-mvc",
+          "springMajor": 5,
+          "bootMajor": null,
+          "egovMajor": null,
+          "packaging": "war",
+          "runCmd": "mvn -o clean package  # then deploy target/*.war to Tomcat 9 (see docs/uiadapter-runner-cookbook.md §9-MVC.5)"
+        },
+        "egov5-boot-jdk17-jakarta": {
+          "status": "implemented",
+          "runnerPath": "samples/runners/egov5-boot-jdk17-jakarta",
+          "jdk": 17,
+          "servletApi": "jakarta",
+          "framework": "egov-boot",
+          "springMajor": 6,
+          "bootMajor": 3,
+          "egovMajor": 5,
+          "packaging": "jar",
+          "runCmd": "mvn spring-boot:run"
+        },
+        "egov4-boot-jdk8-javax": {
+          "status": "implemented",
+          "runnerPath": "samples/runners/egov4-boot-jdk8-javax",
+          "jdk": 8,
+          "servletApi": "javax",
+          "framework": "egov-boot",
+          "springMajor": 5,
+          "bootMajor": 2,
+          "egovMajor": 4,
+          "packaging": "jar",
+          "runCmd": "mvn spring-boot:run"
+        },
+        "egov4-mvc-jdk8-javax": {
+          "status": "implemented",
+          "runnerPath": "samples/runners/egov4-mvc-jdk8-javax",
+          "jdk": 8,
+          "servletApi": "javax",
+          "framework": "egov-mvc",
+          "springMajor": 5,
+          "bootMajor": null,
+          "egovMajor": 4,
+          "packaging": "war",
+          "runCmd": "mvn -o clean package  # then deploy target/uiadapter.war to Tomcat 9 (see docs/uiadapter-runner-cookbook.md §9-MVC.5)"
+        },
+        "webflux-jdk17-jakarta": {
+          "status": "placeholder",
+          "businessTree": "samples/shared-business-reactive/jdk17-mybatis",
+          "runnerPath": "samples/runners/webflux-jdk17-jakarta",
+          "jdk": 17,
+          "servletApi": "jakarta",
+          "framework": "webflux",
+          "springMajor": 6,
+          "bootMajor": 3,
+          "egovMajor": null,
+          "packaging": "jar",
+          "runCmd": "mvn spring-boot:run"
+        }
+      },
+      "rejectedCombinations": [
+        {
+          "match": { "framework": "egov-mvc", "jdk": 17 },
+          "reason": "eGov4 MVC on jdk17/jakarta is not supported — no corresponding sample project exists. Use egov5-boot-jdk17-jakarta instead."
+        },
+        {
+          "match": { "framework": "webflux", "jdk": 8 },
+          "reason": "WebFlux requires jdk17+ jakarta. Use boot-jdk8-javax for jdk8."
+        },
+        {
+          "match": { "status": "placeholder" },
+          "reason": "Selected runner is an upstream placeholder (README-only stub). Implemented today: spring-boot (boot-jdk17-jakarta, boot-jdk8-javax), spring-mvc (mvc-jdk17-jakarta, mvc-jdk8-javax), egov-boot (egov5-boot-jdk17-jakarta, egov4-boot-jdk8-javax), and egov-mvc (egov4-mvc-jdk8-javax). Remaining framework (webflux) lands in a follow-up upstream plan."
+        }
+      ],
+      "derivationRules": {
+        "servletApi": "jdk >= 17 ? 'jakarta' : 'javax'",
+        "springMajor": "servletApi == 'jakarta' ? 6 : 5",
+        "bootMajor": "framework in [spring-boot, egov-boot, webflux] ? (servletApi == 'jakarta' ? 3 : 2) : null",
+        "egovMajor": "framework == 'egov-boot' ? (servletApi == 'jakarta' ? 5 : 4) : (framework == 'egov-mvc' ? 4 : null)"
+      },
+      "tokens": {
+        "{{PROJECT_NAME}}": "user-supplied project name (alphanumeric + dash, no spaces)",
+        "{{BACKEND_URL}}": "http://localhost:8080/uiadapter/",
+        "{{CONTEXT_PATH}}": "/uiadapter",
+        "{{SERVER_PORT}}": "8080"
+      }
+    }
+  }
+}
