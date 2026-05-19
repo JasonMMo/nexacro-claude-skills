@@ -20,13 +20,15 @@
 
 ### 트랙 B — 웹 사용자 다운로드 서비스
 
-- **상태**: design-approved (2026-05-19), implementation-pending
+- **상태**: draft-in-progress (2026-05-19) — 셀렉터 3-파일 세트 작성 완료, 로컬 검증 대기
 - **단일 진실 파일**:
-  - `docs/handoffs/2026-05-19-runner-build-service.md` — 핸드오프 (결정 반영본)
+  - `docs/handoffs/2026-05-19-runner-build-service.md` — 핸드오프 (결정 반영본 + PR-A 명명 규약)
   - `docs/superpowers/specs/2026-05-19-runner-download-service-design.md` — 정식 설계 spec
-- **다음 액션**: PR-A — upstream `JasonMMo/nexacroN-fullstack` 의 `.github/workflows/runner-matrix.yml` 에 `softprops/action-gh-release@v2` step 추가
-- **작업 초안 폴더 (이 repo)**: `docs/web-selector-draft/` — 셀렉터 HTML/JS 초안. 완성되면 upstream `gh-pages` 로 이주
-- **외부 upstream 작업 필요 시 시블링 클론**: `D:\AI\workspace\nexacroN-fullstack\` (lazy — 빌드 smoke 필요해질 때 생성)
+- **다음 액션**:
+  1. 로컬 V1–V8 검증: `python -m http.server 8000 --directory docs/web-selector-draft/` 후 7 valid + 3 거부 시나리오 + 채널 토글
+  2. 검증 통과 시 PR-A 작성 (별도 세션·별도 클론) — upstream `JasonMMo/nexacroN-fullstack` 의 `.github/workflows/runner-matrix.yml` 에 release publish step 추가. 자산 파일명 = `{runnerKey}.{packaging}` (`selection.js buildUrl()` 와의 계약)
+- **작업 초안 폴더 (이 repo)**: `docs/web-selector-draft/` — `index.html`, `selection.js`, `matrix.json` (verbatim sync). 완성되면 upstream `gh-pages` 로 이주
+- **외부 upstream 작업 필요 시 시블링 클론**: `D:\AI\workspace\nexacroN-fullstack\` (lazy — PR-A 시점에 생성)
 - **재개 첫 메시지**: `@RESUME.md 트랙 B 재개`
 
 ---
@@ -54,3 +56,4 @@
 
 - **2026-05-19** — 트랙 B v1 아키텍처 = GitHub Pages 정적 셀렉터 + GitHub Releases 롤링 `nightly` 태그. Cloudflare Worker 안 기각 (아티팩트 120–180MB > Worker 100MB 응답 한계). 상세: 위 트랙 B 단일 진실 파일 2개.
 - **2026-05-19** — 작업 폴더 분리 X. 두 트랙 모두 이 repo + 이 워크트리에서 진행. 미래 망각 방지로 본 `RESUME.md` 가 라우터.
+- **2026-05-19** — 트랙 B 셀렉터 3-파일 초안 작성 완료 (`index.html`, `selection.js`, `matrix.json` verbatim). PR-A 자산 명명 규약 = `{runnerKey}.{packaging}` 핸드오프에 명시.
