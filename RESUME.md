@@ -20,16 +20,22 @@
 
 ### 트랙 B — 웹 사용자 다운로드 서비스
 
-- **상태**: draft-in-progress (2026-05-19) — 셀렉터 3-파일 세트 작성 완료, 로컬 검증 대기
+- **상태**: M1 + M2-draft 통과 (2026-05-19) — 셀렉터 3-파일 + V1–V8 검증 + PR-A patch 초안 완료
+- **이정표 (M0–M6)**:
+  - ✅ M0 설계 결정 (D1–D5)
+  - ✅ M1 셀렉터 정적 3-파일 + 로컬 logic 검증 (7 valid + 3 거부 + 채널 토글 ALL PASS)
+  - 🟡 M2 PR-A — patch 초안 작성됨 (`docs/web-selector-draft/_pr-a-draft.md`), **upstream 클론에서 PR 작성 대기**
+  - ⏳ M3 첫 nightly 자동 실행 → 7 자산 release 게시 확인
+  - ⏳ M4 PR-B — upstream `gh-pages` 신설 + 셀렉터 이주
+  - ⏳ M5 end-to-end smoke (브라우저 → java -jar)
+  - ⏳ M6 `stable` 채널 첫 promote
 - **단일 진실 파일**:
   - `docs/handoffs/2026-05-19-runner-build-service.md` — 핸드오프 (결정 반영본 + PR-A 명명 규약)
   - `docs/superpowers/specs/2026-05-19-runner-download-service-design.md` — 정식 설계 spec
-- **다음 액션**:
-  1. 로컬 V1–V8 검증: `python -m http.server 8000 --directory docs/web-selector-draft/` 후 7 valid + 3 거부 시나리오 + 채널 토글
-  2. 검증 통과 시 PR-A 작성 (별도 세션·별도 클론) — upstream `JasonMMo/nexacroN-fullstack` 의 `.github/workflows/runner-matrix.yml` 에 release publish step 추가. 자산 파일명 = `{runnerKey}.{packaging}` (`selection.js buildUrl()` 와의 계약)
-- **작업 초안 폴더 (이 repo)**: `docs/web-selector-draft/` — `index.html`, `selection.js`, `matrix.json` (verbatim sync). 완성되면 upstream `gh-pages` 로 이주
-- **외부 upstream 작업 필요 시 시블링 클론**: `D:\AI\workspace\nexacroN-fullstack\` (lazy — PR-A 시점에 생성)
-- **재개 첫 메시지**: `@RESUME.md 트랙 B 재개`
+  - `docs/web-selector-draft/_pr-a-draft.md` — M2 patch 초안 (다음 세션 입력)
+- **다음 액션 (M2 실행)**: 별도 세션·별도 클론 `D:\AI\workspace\nexacroN-fullstack\` 에서 `_pr-a-draft.md` 의 diff 적용 → PR 작성 → 머지 후 1차 nightly 자산 7개 검증
+- **작업 초안 폴더 (이 repo)**: `docs/web-selector-draft/` — `index.html`, `selection.js`, `matrix.json` (verbatim sync), `_pr-a-draft.md`. 완성되면 upstream `gh-pages` 로 이주 (`_*` 파일은 이주 제외)
+- **재개 첫 메시지**: `@RESUME.md 트랙 B 재개. M2 PR-A 작성 단계. 참조: docs/web-selector-draft/_pr-a-draft.md`
 
 ---
 
@@ -57,3 +63,4 @@
 - **2026-05-19** — 트랙 B v1 아키텍처 = GitHub Pages 정적 셀렉터 + GitHub Releases 롤링 `nightly` 태그. Cloudflare Worker 안 기각 (아티팩트 120–180MB > Worker 100MB 응답 한계). 상세: 위 트랙 B 단일 진실 파일 2개.
 - **2026-05-19** — 작업 폴더 분리 X. 두 트랙 모두 이 repo + 이 워크트리에서 진행. 미래 망각 방지로 본 `RESUME.md` 가 라우터.
 - **2026-05-19** — 트랙 B 셀렉터 3-파일 초안 작성 완료 (`index.html`, `selection.js`, `matrix.json` verbatim). PR-A 자산 명명 규약 = `{runnerKey}.{packaging}` 핸드오프에 명시.
+- **2026-05-19** — M1 V1–V8 ALL PASS (HTTP 200×3, 7 valid URL, 3 거부 사유, 채널 토글). M2 PR-A patch 초안 작성 (`docs/web-selector-draft/_pr-a-draft.md`) — upstream 워크플로 read-only 확인 후 unified diff + 정합성 4-필터 + DoD + 위험 표 포함. 이정표 M0–M6 체계 도입.
