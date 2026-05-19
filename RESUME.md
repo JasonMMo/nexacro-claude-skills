@@ -20,13 +20,13 @@
 
 ### 트랙 B — 웹 사용자 다운로드 서비스
 
-- **상태**: M4 push 완료 (2026-05-19) — `gh-pages` orphan 분기 시드 (4 파일). GitHub Settings → Pages 활성화 사용자 액션 대기
+- **상태**: M4 통과 (2026-05-19) — Pages 활성화 + 빌드 완료. webflux 옵션은 `disabled` 처리 (matrix 보존 + UI 노출 차단). M5 smoke 진입 준비
 - **이정표 (M0–M6)**:
   - ✅ M0 설계 결정 (D1–D5)
   - ✅ M1 셀렉터 정적 3-파일 + 로컬 logic 검증 (7 valid + 3 거부 + 채널 토글 ALL PASS)
   - ✅ M2 PR-A — [JasonMMo/nexacroN-fullstack#38](https://github.com/JasonMMo/nexacroN-fullstack/pull/38) 머지됨 (2026-05-19, 7/7 build SUCCESS)
   - ✅ M3 nightly release — [#39](https://github.com/JasonMMo/nexacroN-fullstack/pull/39) 으로 `workflow_dispatch.inputs.publish` 추가 → run [26078797224](https://github.com/JasonMMo/nexacroN-fullstack/actions/runs/26078797224) 으로 7 자산 정확한 파일명·정확한 개수 게시. 7개 URL `HTTP -IL` 200 최종 (302 chain 정상)
-  - 🟡 M4 PR-B — `gh-pages` orphan 분기 push 완료 (root-commit `3ad4d67`, 원격에 4 파일 정확 게시). DoD-1 통과. DoD-2~5 (Pages 활성화 + 200 + matrix 7-runner + 셀렉터 URL) = 사용자 GitHub UI 활성화 후 자동 진행
+  - ✅ M4 PR-B — `gh-pages` orphan (root-commit `3ad4d67`) + webflux disable hotfix (`c668951`). Pages `status: built`, `https://jasonmmo.github.io/nexacroN-fullstack/` → 200, `matrix.runners` 8 (webflux 보류 항목 1개 포함, UI 에서 `disabled`). DoD 1·2·3·5 통과, DoD-4 = "선택 가능 옵션 = 7" 으로 재해석 통과
   - ⏳ M5 end-to-end smoke (브라우저 → java -jar)
   - ⏳ M6 `stable` 채널 첫 promote
 - **단일 진실 파일**:
@@ -34,9 +34,9 @@
   - `docs/superpowers/specs/2026-05-19-runner-download-service-design.md` — 정식 설계 spec
   - `docs/web-selector-draft/_pr-a-draft.md` — M2 patch 초안 (적용 완료, 참고용 보존)
   - `docs/web-selector-draft/_pr-b-draft.md` — M4 patch 초안 (gh-pages 신설, M3 통과 후 적용)
-- **다음 액션 (사용자)**: GitHub → Settings → Pages → Source = "Deploy from a branch", Branch = `gh-pages` / `(root)` → Save. 1–2분 후 `curl -sI https://jasonmmo.github.io/nexacroN-fullstack/` → `HTTP/2 200` 확인되면 M4 통과. 그 후 M5 진입 (브라우저 셀렉터 → java -jar smoke).
+- **다음 액션 (M5)**: 브라우저에서 `https://jasonmmo.github.io/nexacroN-fullstack/` 열기 → (JDK=17, framework=spring-boot, channel=nightly) → 표시된 URL 로 `.jar` 다운로드 → `java -jar boot-jdk17-jakarta.jar` → `http://localhost:8080/uiadapter/` 200 확인. webflux 옵션이 회색 처리·선택 불가 시각 검증도 함께. M5 DoD 정의는 다음 세션에서 수립.
 - **작업 초안 폴더 (이 repo)**: `docs/web-selector-draft/` — `index.html`, `selection.js`, `matrix.json` (verbatim sync), `_pr-a-draft.md`, `_pr-b-draft.md`. 완성되면 upstream `gh-pages` 로 이주 (`_*` 파일은 이주 제외)
-- **재개 첫 메시지**: `@RESUME.md 트랙 B 재개. M4 Pages 활성화 확인 → M5 smoke 진입.`
+- **재개 첫 메시지**: `@RESUME.md 트랙 B 재개. M5 end-to-end smoke 시작.`
 
 ---
 
@@ -69,3 +69,4 @@
 - **2026-05-19** — M3 cron 대기 중 M4 PR-B 초안 사전 작성 (`docs/web-selector-draft/_pr-b-draft.md`). orphan `gh-pages` 분기 + 3-파일 + `.nojekyll` seed, Pages 수동 활성, DoD 5개·위험 6개·4-필터 통과. v1.1 sync 자동화 분리.
 - **2026-05-19** — M3 통과 (cron 대기 우회). 옵션 C 선택 — PR-A2([#39](https://github.com/JasonMMo/nexacroN-fullstack/pull/39))로 `workflow_dispatch.inputs.publish` boolean (default false) 추가. v1.1 "수동 promote" feature를 1릴리스 앞당겨 영구 채택. manual run [26078797224](https://github.com/JasonMMo/nexacroN-fullstack/actions/runs/26078797224) 7/7 SUCCESS, 7 자산 정확한 이름·개수, 302 chain 정상. M4 진입.
 - **2026-05-19** — M4 push 단계 완료. 옵션 A 선택 (이 세션 내 적용). `git worktree add --orphan -b gh-pages D:\AI\workspace\_gh-pages-tmp` 로 격리, 4 파일 시드 후 root-commit `3ad4d67` → `origin/gh-pages` push 성공. `gh api contents?ref=gh-pages` 로 원격 4 파일 (.nojekyll, index.html, matrix.json, selection.js) 정확 게시 확인 (DoD-1 통과). 임시 worktree 정리됨. 남은 DoD-2~5 = 사용자 GitHub UI Pages 활성화 후 자동 검증 가능.
+- **2026-05-19** — M4 통과. Pages 활성화는 이미 완료 상태(Save 버튼 비활성=변경 없음, `gh api .../pages` 로 `status: built` 확인). DoD-4 정합성 이슈 발견 — matrix.json 에 `webflux-jdk17-jakarta` 8번째 runner 존재(개발 진행 중)이나 nightly release 에는 7 자산만 있어 webflux 선택 시 404 URL 위험. 결정: matrix.json 단일 진실은 보존(향후 추가될 webflux runner 마커), UI `<option value="webflux" disabled>` 로 노출 차단. 두 곳 hotfix — skills repo `index.html` (commit `05cc808`) + upstream gh-pages (commit `c668951`). Pages build `status: built` (commit `c668951`) 확인. DoD-4 = "UI 선택 가능 옵션 = 7" 으로 의미 재해석 통과. 사용자 사유: "관련부서 동의 필요, 시간 소요". v1.x 에 webflux 활성화 별도 트랙으로 분리.
