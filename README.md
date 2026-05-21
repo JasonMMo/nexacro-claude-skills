@@ -63,6 +63,13 @@ nexacro-claude-skills/
 │   │       ├── nexacro-data-format/    # XML / SSV / JSON reference
 │   │       ├── nexacro-project-maker/  # project scaffold generator
 │   │       └── nexacro-form-maker/     # xfdl form authoring helper
+│   │           ├── SKILL.md
+│   │           ├── assets/
+│   │           └── references/
+│   │               ├── components/     # 43 component reference docs
+│   │               ├── patterns/       # 5 complex screen patterns
+│   │               ├── binding-patterns.md
+│   │               └── form-structure.md
 │   ├── nexacro-webflux-port/         # plugin ②: WebFlux porting playbook
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
@@ -119,14 +126,20 @@ nexacro-claude-skills/
   - Explicitly excludes license / theme assets / `nexacrolib` (user responsibility)
 
 #### nexacro-form-maker
-- **Description**: Block-assembly helper for authoring Nexacro N v24 `.xfdl` forms with Form skeleton + 43 components + Dataset/BindItem binding patterns
-- **Triggers**: nexacro 폼 만들어, xfdl 만들어, nexacro form maker, Grid 블록 만들어줘, Dataset 바인딩, nexacro component, xfdl form authoring
+- **Description**: Block-assembly helper for authoring Nexacro N v24 `.xfdl` forms with Form skeleton + 43 components + Dataset/BindItem binding patterns + 5 complex screen patterns
+- **Triggers**: nexacro 폼 만들어, xfdl 만들어, nexacro form maker, Grid 블록 만들어줘, Dataset 바인딩, nexacro component, xfdl form authoring, Master-Detail 화면, 상하단 Grid, FK 관계 화면
 - **Features**:
   - Reusable `assets/form-skeleton.xfdl`
   - **43 component reference docs** split into core 13 (frequently used) and extended 30 (niche/specialty)
   - Binding patterns: `BindItem` / `innerdataset` / `binddataset` (single-field / list / multi-row)
   - Multi-resolution `<Layouts>` with `screenid` routing
   - xscript5.1 event handler conventions
+  - **5 complex screen patterns** — each with complete XFDL example, `gfnTransaction` inData/outData rules, event flow diagram, DB→XFDL conversion rules, and generation checklist:
+    - `Master-Detail` — FK-detected dual Grid, `onrowposchanged` chain, 1:N and 1:1 variants
+    - `Multi-Tab` — Tab `onchanged` lazy loading, per-tab Dataset + `gfnTransaction`
+    - `Tree + Grid` — left-right Div split, flat and `levelindex` hierarchy variants
+    - `Popup Search` — two-form structure, `gfnOpenPopup` + `opener.fnReceivePopupData` pattern
+    - `Multi-Dataset Save` — header(BindItem Form) + line(Grid), `input1:A input2:A` simultaneous save
   - External refs: [public sample repo](https://github.com/TOBESOFT-DOCS/sample_Nexacro_N_V24), online help, developer workbook
 
 ### Plugin ② — `nexacro-webflux-port`
