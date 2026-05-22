@@ -30,7 +30,8 @@
   - ✅ M5 end-to-end smoke (2026-05-22). 새 아키텍처(소스/빌드 트리 분리) 검증 — nightly run [26274968141](https://github.com/JasonMMo/nexacroN-fullstack/actions/runs/26274968141) → `boot-jdk17-jakarta.jar` (177.7MB) 다운로드 → 내부 `frameLogin.xfdl.js` 새 로그인 코드 포함 확인 → `environment.xml.js` `{{BACKEND_URL}}` → `/uiadapter/` 치환 0건 placeholder 잔류 → Tomcat:8080/uiadapter 기동 (7.1s) → `POST /uiadapter/login.do` (hong/1111) → HTTP 200, `ErrorCode=0`, `dsList` 1 row 반환.
   - ✅ M6 `stable` 채널 첫 promote (2026-05-22). upstream `stable` 릴리스 생성 + 7 자산 업로드 (4 신규 빌드 + 3 stale nightly 동봉 = 셀렉터 일관성). 7 URL `releases/download/stable/{runnerKey}.{packaging}` ALL HEAD 200 (177MB/185MB/188MB/174MB/177MB/161MB/174MB). stable↔nightly size 일치 (etag는 GH storage 재할당으로 상이 — 정상). 셀렉터는 이미 `stable` 을 default로 렌더링(`index.html` 134 `checked`). 트랙 B v1 사실상 완료.
 - **단일 진실 파일**:
-  - `docs/handoffs/2026-05-19-runner-build-service.md` — 핸드오프 (결정 반영본 + PR-A 명명 규약)
+  - `docs/handoffs/2026-05-22-runner-download-service-v1-shipped.md` — **v1 완료 인계 (최신, 첫 진입점)**
+  - `docs/handoffs/2026-05-19-runner-build-service.md` — 초기 핸드오프 (설계 착수 + PR-A 명명 규약)
   - `docs/superpowers/specs/2026-05-19-runner-download-service-design.md` — 정식 설계 spec
   - `docs/web-selector-draft/_pr-a-draft.md` — M2 patch 초안 (적용 완료, 참고용 보존)
   - `docs/web-selector-draft/_pr-b-draft.md` — M4 patch 초안 (gh-pages 신설, M3 통과 후 적용)
